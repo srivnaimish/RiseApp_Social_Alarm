@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "779001313864",
+    "firebase_url": "https://riseapp-cfdda.firebaseio.com",
+    "project_id": "riseapp-cfdda",
+    "storage_bucket": "riseapp-cfdda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:779001313864:android:3c5435d1d26e9b32",
+        "android_client_info": {
+          "package_name": "com.riseapps.riseapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "779001313864-ci2fvica5pl9djn2o803o51toju1ogq2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.riseapps.riseapp",
+            "certificate_hash": "df0b9e52d722bbdf62c24e644c6a3112044bfafc"
+          }
+        },
+        {
+          "client_id": "779001313864-qenvdn12vlq4vsf8fj74am80p41vld5i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.riseapps.riseapp",
+            "certificate_hash": "6504aa4f75058273e923eb9d3c82fc24f5c55cc7"
+          }
+        },
+        {
+          "client_id": "779001313864-bd8ha4t1ss113bgps8jenljt663iat12.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4pLc-cDnJmP1q3dP6k457pMMk4MO55OY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "779001313864-bd8ha4t1ss113bgps8jenljt663iat12.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

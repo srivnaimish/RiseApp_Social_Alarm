@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:id="@+id/background"
+    tools:context="com.riseapps.riseapp.view.activity.MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            />
+        
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:layout_below="@id/tablayout"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+       <!-- <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:itemBackground="?colorPrimaryDark"
+            app:itemIconTint="@android:color/white"
+            app:itemTextColor="@android:color/white"
+            app:menu="@menu/bottommenu"
+            />-->
+
+        <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/sign_in_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            card_view:cardBackgroundColor="?colorPrimary"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="8dp"
+            android:visibility="gone">
+
+        <include layout="@layout/sign_in_dialog"/>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
