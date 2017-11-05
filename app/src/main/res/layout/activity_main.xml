@@ -54,8 +54,6 @@
             card_view:cardElevation="8dp"
             android:visibility="gone">
 
-        <include layout="@layout/sign_in_dialog"/>
-
         </android.support.v7.widget.CardView>
 
     </RelativeLayout>

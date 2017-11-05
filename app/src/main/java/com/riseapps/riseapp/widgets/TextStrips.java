@@ -20,7 +20,7 @@ public class TextStrips extends LinearLayout {
         super(context);
 
         LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(8,0,0,8);
+        layoutParams.setMargins(14,0,0,8);
         this.setLayoutParams(layoutParams);
         this.setOrientation(LinearLayout.HORIZONTAL);
         this.setBackgroundResource(R.drawable.textstrip_background);

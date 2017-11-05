@@ -42,4 +42,17 @@ public class Tasks {
         );
     }
 
+    public String getInitials(String s){
+       String T=s.charAt(0)+"";
+       for(int i=1;i<s.length();i++){
+           if(s.charAt(i)==' '){
+               if((i+1)<s.length()){
+                   T+=s.charAt(i+1);
+                   break;
+               }
+           }
+       }
+       return T;
+    }
+
 }
