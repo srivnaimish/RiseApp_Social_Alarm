@@ -1,47 +1,31 @@
 package com.riseapps.riseapp.view.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.ResultCodes;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.SectionPagerAdapter;
+import com.riseapps.riseapp.executor.Interface.FabListener;
+import com.riseapps.riseapp.executor.Interface.RingtonePicker;
 import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
 import com.riseapps.riseapp.executor.Network.RequestInterface;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
@@ -51,7 +35,6 @@ import com.riseapps.riseapp.model.User;
 import com.riseapps.riseapp.utils.ZoomOutPageTransformer;
 import com.riseapps.riseapp.view.fragment.ShareReminder;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import retrofit2.Call;
@@ -59,25 +42,28 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.riseapps.riseapp.Components.AppConstants.RC_RINGTONE;
 import static com.riseapps.riseapp.Components.AppConstants.RC_SIGN_IN;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,ToggleShareDialog {
 
     private static final String TAG = "SIGN IN";
     private ViewPager mViewPager;
-    private TabLayout tabLayout;
-
-    CardView sign_in_dialog;
+    private RingtonePicker ringtonePicker;
     private FirebaseAuth mAuth;
     public FirebaseUser currentUser;
+    public FloatingActionButton fab;
     private SharedPreferenceSingelton sharedPreferenceSingleton=new SharedPreferenceSingelton();
+    private FabListener fabListener1,fabListener2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tabLayout = findViewById(R.id.tablayout);
+        TabLayout tabLayout = findViewById(R.id.tablayout);
+        fab=findViewById(R.id.fab);
+        fab.setOnClickListener(this);
 
         SectionPagerAdapter mSectionsPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.viewpager);
@@ -85,6 +71,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mViewPager.setOffscreenPageLimit(2);
         mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position==2||position==3)
+                    fab.hide();
+                else if(position==1){
+                    fab.setImageResource(R.drawable.ic_quill);
+                    fab.show();
+                }else if(position==0){
+                    fab.setImageResource(R.drawable.ic_add);
+                    fab.show();
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         tabLayout.setupWithViewPager(mViewPager);
         tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this,R.color.colorAccent));
@@ -93,16 +104,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int iconId = -1;
             switch (i) {
                 case 0:
-                    iconId = R.drawable.ic_alarm_clock;
+                    iconId = R.drawable.menu_alarm;
                     break;
                 case 1:
-                    iconId = R.drawable.ic_sharing;
+                    iconId = R.drawable.menu_sharing;
                     break;
                 case 2:
-                    iconId = R.drawable.ic_umbrella;
+                    iconId = R.drawable.menu_weather;
                     break;
                 case 3:
-                    iconId = R.drawable.ic_settings;
+                    iconId = R.drawable.menu_settings;
                     break;
             }
             tabLayout.getTabAt(i).setIcon(iconId);
@@ -138,6 +149,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
             Log.e("Login","Unknown sign in response");
+        }else if(requestCode==RC_RINGTONE && resultCode == RESULT_OK){
+            Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+            ringtonePicker.onRingtonePicked(uri);
         }
     }
 
@@ -178,7 +192,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+            case R.id.fab:
+                int pos=mViewPager.getCurrentItem();
+                if(pos==0) {
+                    fabListener1.onFabClick();
+                }
 
+                else if(pos==1) {
+                    fabListener2.onFabClick();
+                }
+                break;
         }
     }
 
@@ -223,5 +246,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getSupportFragmentManager().popBackStackImmediate();
         else
             super.onBackPressed();
+    }
+
+    public void setRingtonePicker(RingtonePicker ringtonePicker) {
+        this.ringtonePicker = ringtonePicker;
+    }
+
+    public void setFabListener1(FabListener fabListener1) {
+        this.fabListener1 = fabListener1;
+    }
+
+    public void setFabListener2(FabListener fabListener2) {
+        this.fabListener2 = fabListener2;
     }
 }

@@ -68,7 +68,11 @@ public class Settings extends Fragment implements View.OnClickListener{
         done.setOnClickListener(this);
 
         firebaseUser=((MainActivity)getActivity()).currentUser;
-        changeNameAndInitials(sharedPreferenceSingleton.getSavedString(getContext(),"UserName"));
+        String name=sharedPreferenceSingleton.getSavedString(getContext(),"UserName");
+        if(name!=null)
+        changeNameAndInitials(name);
+        else
+            changeNameAndInitials("User");
         //name.setText(firebaseUser.getDisplayName());
         phone.setText(firebaseUser.getPhoneNumber());
 

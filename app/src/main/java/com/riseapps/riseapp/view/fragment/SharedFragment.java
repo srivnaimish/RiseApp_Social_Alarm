@@ -2,19 +2,19 @@ package com.riseapps.riseapp.view.fragment;
 
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.executor.Interface.FabListener;
 import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
+import com.riseapps.riseapp.view.activity.MainActivity;
 
 
 public class SharedFragment extends Fragment implements View.OnClickListener{
 
-    FloatingActionButton floatingActionButton;
     ToggleShareDialog toggleShareDialog;
     public SharedFragment() {
         // Required empty public constructor
@@ -27,8 +27,12 @@ public class SharedFragment extends Fragment implements View.OnClickListener{
         View view= inflater.inflate(R.layout.fragment_shared, container, false);
         toggleShareDialog= (ToggleShareDialog) getActivity();
 
-        floatingActionButton=view.findViewById(R.id.floatingActionButton);
-        floatingActionButton.setOnClickListener(this);
+        ((MainActivity)getActivity()).setFabListener2(new FabListener() {
+            @Override
+            public void onFabClick() {
+                toggleShareDialog.toggleVisibility();
+            }
+        });
         return view;
     }
 
@@ -38,10 +42,11 @@ public class SharedFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.floatingActionButton:
-                toggleShareDialog.toggleVisibility();
-            break;
-        }
+
     }
+
+   /* public void openSharedDialog(){
+
+    }*/
+
 }

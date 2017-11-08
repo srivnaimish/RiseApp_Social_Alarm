@@ -115,8 +115,10 @@ public class SimpleWake extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         tasks.savePersonalAlarms(this,personalAlarms);
-        assert ((Vibrator) getSystemService(VIBRATOR_SERVICE)) != null;
-        ((Vibrator) getSystemService(VIBRATOR_SERVICE)).cancel();
+        if(personalAlarms.get(pos).isVibrate()) {
+            assert ((Vibrator) getSystemService(VIBRATOR_SERVICE)) != null;
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).cancel();
+        }
         super.onDestroy();
     }
 
@@ -126,6 +128,25 @@ public class SimpleWake extends AppCompatActivity {
             ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(VibrationEffect.createWaveform(pattern,0));
         } else {
             ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(pattern,0);
+        }
+    }
+
+    private void ringTone(){
+        Uri alert = Uri.parse(personalAlarms.get(pos).getTone());
+        mediaPlayer = new MediaPlayer();
+        //Log.d("Tone",defRingtone);
+        try {
+            mediaPlayer.setDataSource(this, alert);
+            AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            audioManager.setStreamVolume(AudioManager.STREAM_ALARM, 15, 0);
+            if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+                mediaPlayer.setLooping(true);
+                mediaPlayer.prepare();
+                mediaPlayer.start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -147,8 +168,10 @@ public class SimpleWake extends AppCompatActivity {
         Calendar calendar=personalAlarms.get(pos).getCalendar();
         String timeString=new TimeToView().getTimeAsText(calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE));
         time.setText(timeString);
+        if(personalAlarms.get(pos).isVibrate())
         vibrate();
 
+        ringTone();
         drag_button.setOnTouchListener(new OnSwipeTouchListener(SimpleWake.this) {
             public void onSwipeRight() {
 

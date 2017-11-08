@@ -1,6 +1,9 @@
 package com.riseapps.riseapp.executor.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,13 +24,17 @@ import android.widget.Toast;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.AlarmCreator;
+import com.riseapps.riseapp.executor.Interface.RingtonePicker;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.PersonalAlarm;
+import com.riseapps.riseapp.view.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import static com.riseapps.riseapp.Components.AppConstants.RC_RINGTONE;
 
 public class PersonalAlarmAdapter extends RecyclerView.Adapter {
 
@@ -36,9 +43,11 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
     private TimeToView timeToView;
     private AlarmCreator alarmCreator;
     private Tasks task=new Tasks();
+    private LinearLayout empty_state;
 
-    public PersonalAlarmAdapter(Context context, ArrayList<PersonalAlarm> alarms, RecyclerView recyclerView) {
+    public PersonalAlarmAdapter(Context context, ArrayList<PersonalAlarm> alarms, LinearLayout empty_state) {
         this.alarms = alarms;
+        this.empty_state=empty_state;
         c = context;
         timeToView = new TimeToView();
         alarmCreator = new AlarmCreator();
@@ -62,7 +71,7 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
         Log.d("TAG", System.currentTimeMillis() + "\n" + alarm.getAlarmTimeInMillis());
         ((FolderViewHolder) holder).time.setText(timeToView.getTimeAsText(hour, minutes));
         ((FolderViewHolder) holder).day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
-        ((FolderViewHolder) holder).sound.setText(alarm.getTone());
+        //((FolderViewHolder) holder).sound.setText(alarm.getTone().toString());
         if (alarm.isVibrate()) {
             ((FolderViewHolder) holder).vibrate.setText(R.string.on);
         }else
@@ -81,6 +90,10 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
         alarmCreator.setAlarmOff(c,alarms.get(position).getId());
         alarms.remove(position);
         notifyDataSetChanged();
+        if(alarms.size()==0){
+            empty_state.setVisibility(View.VISIBLE);
+        }
+        task.savePersonalAlarms(c,alarms);
     }
 
 
@@ -138,6 +151,14 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
             delete.setOnClickListener(this);
             up.setOnClickListener(this);
 
+            ((MainActivity)c).setRingtonePicker(new RingtonePicker() {
+                @Override
+                public void onRingtonePicked(Uri uri) {
+                    alarm.setTone(uri.toString());
+                    task.savePersonalAlarms(ctx,alarms);
+                }
+            });
+
             alarmCard.setOnClickListener(this);
 
         }
@@ -176,18 +197,18 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                     break;
 
                 case R.id.sound:
-                    /*Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-                    intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select ringtone for notifications:");
+                    Uri currentTone= RingtoneManager.getActualDefaultRingtoneUri(c, RingtoneManager.TYPE_ALARM);
+                    Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                    intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Alarm Tone");
+                    intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, currentTone);
                     intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
                     intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
                     intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE,RingtoneManager.TYPE_ALARM);
-                    startActivityForResult( intent, 999);*/
-                    task.savePersonalAlarms(ctx,alarms);
+                    ((MainActivity)c).startActivityForResult( intent, RC_RINGTONE);
                     break;
 
                 case R.id.delete:
                     delete(getAdapterPosition());
-                    task.savePersonalAlarms(ctx,alarms);
                     break;
 
                 case R.id.sun:

@@ -4,6 +4,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.widget.Toast;
 
@@ -17,7 +19,7 @@ import java.util.Calendar;
 
 public class AlarmCreator {
 
-    public PersonalAlarm getPersonalAlarm(int selectedHour,int selectedMinute,boolean status,boolean repeat){
+    public PersonalAlarm getPersonalAlarm(Uri ringtone,int selectedHour, int selectedMinute, boolean status, boolean repeat){
         Calendar calendar=Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
         calendar.set(Calendar.MINUTE, selectedMinute);
@@ -27,7 +29,7 @@ public class AlarmCreator {
             alarmTimeInMillis = alarmTimeInMillis + (1000 * 60 * 60 * 24);
 
         boolean[] repeat_days={false,false,false,false,false,false,false};
-        return new PersonalAlarm(id,calendar,status,repeat,repeat_days, alarmTimeInMillis, "Silent", true);
+        return new PersonalAlarm(id,calendar,status,repeat,repeat_days, alarmTimeInMillis,ringtone.toString() , true);
     }
 
     public void setNewAlarm(Context context,long alarmTimeInMillis,int id){

@@ -13,20 +13,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".view.activity.MainActivity"/>
+        <activity android:name=".view.activity.MainActivity" />
 
         <receiver android:name=".executor.AlarmReciever" />
 
         <activity android:name=".view.activity.SimpleWake" />
-        <activity android:name=".view.activity.SplashActivity" >
+        <activity android:name=".view.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.Walkthrough"/>
+        <activity android:name=".view.activity.Walkthrough" />
+        <activity android:name=".view.activity.MathWake"/>
     </application>
 
 </manifest>

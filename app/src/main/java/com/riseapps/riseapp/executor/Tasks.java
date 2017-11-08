@@ -10,6 +10,7 @@ import com.riseapps.riseapp.model.PersonalAlarm;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by naimish on 2/11/17.
@@ -53,6 +54,11 @@ public class Tasks {
            }
        }
        return T;
+    }
+
+    public int getRandomInteger(){
+        Random random=new Random();
+        return random.nextInt(100);
     }
 
 }

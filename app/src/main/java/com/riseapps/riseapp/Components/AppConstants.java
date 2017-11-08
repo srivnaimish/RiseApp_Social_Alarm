@@ -14,10 +14,14 @@ import java.util.regex.Pattern;
 public class AppConstants {
 
     public static final int RC_SIGN_IN = 9001;
+    public static final int RC_RINGTONE = 101;
 
     public static final String[] weekdays={"Mo","Tu","We","Th","Fr","Sa","Su"};
 
     public static final int[] daysButtons={R.id.sun,R.id.mon,R.id.tue,R.id.wed,R.id.thu,R.id.fri,R.id.sat};
+
+    public static final int[] numberButtons={R.id.n0,R.id.n1,R.id.n2,R.id.n3,R.id.n4,R.id.n5,R.id.n6,R.id.n7,R.id.n8,R.id.n9,R.id.bck,R.id.clear_all};
+
     public static final String LOGIN = "login";
     public static final String UPDATE = "updateName";
 

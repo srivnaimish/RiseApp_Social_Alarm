@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.riseapps.riseapp.view.activity.MathWake">
+
+   <!-- -->
+    <LinearLayout
+        android:id="@+id/row_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/n7"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="?colorPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="7"
+            android:textSize="24sp"
+            android:layout_marginStart="1dp"/>
+
+        <Button
+            android:id="@+id/n8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="?colorPrimary"
+            android:layout_weight="0.25"
+            android:text="8"
+            android:textSize="24sp"
+            android:layout_marginStart="1dp"
+            />
+
+        <Button
+            android:id="@+id/n9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="?colorPrimary"
+            android:layout_weight="0.25"
+            android:text="9"
+            android:textSize="24sp"
+            android:layout_marginStart="1dp"
+            />
+        <Button
+            android:id="@+id/n0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="?colorPrimary"
+            android:layout_weight="0.25"
+            android:text="0"
+            android:textSize="24sp"
+            android:layout_marginStart="1dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/row_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/row_3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/n4"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:background="?colorPrimary"
+            android:text="4"
+            android:textSize="24sp"
+            android:layout_marginStart="1dp"/>
+
+        <Button
+            android:id="@+id/n5"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:background="?colorPrimary"
+            android:text="5"
+            android:textSize="24sp"
+            android:layout_marginStart="1dp"/>
+
+        <Button
+            android:id="@+id/n6"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:background="?colorPrimary"
+            android:text="6"
+            android:textSize="24sp"
+            android:layout_marginStart="1dp"/>
+
+        <Button
+            android:id="@+id/clear_all"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:background="?colorPrimary"
+            android:layout_marginStart="1dp"
+            android:text="C"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/row_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/row_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/n1"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_weight="0.25"
+            android:background="?colorPrimary"
+            android:text="1"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/n2"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_weight="0.25"
+            android:background="?colorPrimary"
+            android:text="2"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/n3"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_weight="0.25"
+            android:background="?colorPrimary"
+            android:text="3"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/bck"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_weight="0.25"
+            android:background="?colorPrimary"
+            android:fontFamily="sans-serif-light"
+            android:text="Bcksp"
+            android:textAllCaps="false"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/snooze"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ans"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ans"
+        app:srcCompat="@drawable/ic_snooze" />
+
+    <ImageView
+        android:id="@+id/stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/ans"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ans"
+        app:srcCompat="@drawable/ic_sound_off" />
+
+    <TextView
+        android:id="@+id/ans"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="60dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/email_edit"
+        android:gravity="center"
+        android:textSize="50sp"
+        app:layout_constraintBottom_toTopOf="@+id/row_1"
+        app:layout_constraintEnd_toStartOf="@id/snooze"
+        app:layout_constraintStart_toEndOf="@id/stop"
+        tools:text="28" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@id/ans"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/number1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="50sp"
+            tools:text="14" />
+
+        <TextView
+            android:id="@+id/operator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="40sp"
+            android:text="+" />
+
+        <TextView
+            android:id="@+id/number2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="50sp"
+            tools:text="14" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
