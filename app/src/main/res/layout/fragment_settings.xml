@@ -27,7 +27,7 @@
                 app:layout_collapseMode="parallax">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_back"
+                    android:id="@+id/profile_pic"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginTop="45dp"
@@ -39,19 +39,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/initials"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="40sp"
-                    app:layout_collapseParallaxMultiplier="0.4"
-                    app:layout_constraintBottom_toBottomOf="@id/profile_back"
-                    app:layout_constraintEnd_toEndOf="@id/profile_back"
-                    app:layout_constraintStart_toStartOf="@id/profile_back"
-                    app:layout_constraintTop_toTopOf="@id/profile_back"
-                    android:textColor="?android:textColorPrimary"
-                    tools:text="NS" />
-
                 <LinearLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
@@ -62,7 +49,7 @@
                     app:layout_collapseParallaxMultiplier="0.4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/profile_back">
+                    app:layout_constraintTop_toBottomOf="@id/profile_pic">
 
                     <TextView
                         android:id="@+id/name"
@@ -75,7 +62,7 @@
                         tools:text="Naimish Srivastava" />
 
                     <TextView
-                        android:id="@+id/phone"
+                        android:id="@+id/email"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
@@ -86,24 +73,10 @@
                         tools:text="+91038474958" />
                 </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/edit"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/ripple"
-                    app:layout_constraintStart_toEndOf="@+id/linearLayout"
-                    app:layout_constraintTop_toTopOf="@+id/linearLayout"
-                    app:srcCompat="@drawable/ic_edit" />
-
             </android.support.constraint.ConstraintLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/edit_name_dialog"/>
-
     <include layout="@layout/content_settings" />
 
 </android.support.design.widget.CoordinatorLayout>

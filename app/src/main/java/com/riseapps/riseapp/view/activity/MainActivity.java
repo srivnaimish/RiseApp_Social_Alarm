@@ -8,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,6 +20,7 @@ import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.ResultCodes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.SectionPagerAdapter;
@@ -30,9 +30,8 @@ import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
 import com.riseapps.riseapp.executor.Network.RequestInterface;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.model.LoginRequest;
-import com.riseapps.riseapp.model.LoginResponse;
+import com.riseapps.riseapp.model.ServerResponse;
 import com.riseapps.riseapp.model.User;
-import com.riseapps.riseapp.utils.ZoomOutPageTransformer;
 import com.riseapps.riseapp.view.fragment.ShareReminder;
 
 import java.util.Collections;
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mViewPager = findViewById(R.id.viewpager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setOffscreenPageLimit(2);
-        mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
+       // mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -98,8 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this,R.color.colorAccent));
-        tabLayout.setSelectedTabIndicatorHeight(3);
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             int iconId = -1;
             switch (i) {
@@ -129,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Successfully signed in
             if (resultCode == ResultCodes.OK) {
                 currentUser=mAuth.getCurrentUser();
+                FirebaseMessaging.getInstance().subscribeToTopic(currentUser.getUid());
                 loginUserOnServer();
                 //Toast.makeText(this, "Approved", Toast.LENGTH_SHORT).show();
                 return;
@@ -162,28 +160,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .build();
 
         RequestInterface requestInterface = retrofit.create(RequestInterface.class);
-        Log.d(TAG,currentUser.getUid());
-        Log.d(TAG,currentUser.getPhoneNumber());
+
         LoginRequest loginRequest=new LoginRequest();
         loginRequest.setOperation(AppConstants.LOGIN);
-        User user=new User(currentUser.getUid(),currentUser.getPhoneNumber());
+        User user=new User(currentUser.getUid(), currentUser.getDisplayName(), currentUser.getEmail());
         loginRequest.setUser(user);
 
-        Call<LoginResponse> response = requestInterface.operation(loginRequest);
-        response.enqueue(new Callback<LoginResponse>() {
+        Call<ServerResponse> response = requestInterface.operation(loginRequest);
+        response.enqueue(new Callback<ServerResponse>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, retrofit2.Response<LoginResponse> response) {
-                LoginResponse resp = response.body();
+            public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
+                ServerResponse resp = response.body();
                 assert resp != null;
                 if(resp.getResult().equalsIgnoreCase("Success")) {
-                    Toast.makeText(MainActivity.this, "" + resp.getMessage(), Toast.LENGTH_SHORT).show();
-                    sharedPreferenceSingleton.saveAs(MainActivity.this, "UserName", resp.getName());
+                    Toast.makeText(MainActivity.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
                 Snackbar.make(mViewPager, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
             }
         });
@@ -218,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .setTheme(R.style.AppTheme)
                             .setAvailableProviders(
                                     Collections.singletonList(
-                                            new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build()
+                                            new AuthUI.IdpConfig.Builder(AuthUI.GOOGLE_PROVIDER).build()
                                     ))
                             .build(),
                     RC_SIGN_IN);

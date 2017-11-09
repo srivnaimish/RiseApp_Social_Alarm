@@ -4,19 +4,17 @@ package com.riseapps.riseapp.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponse {
+public class ServerResponse {
 
     private String result;
     private String message;
-    private String name;
 
-    public LoginResponse() {
+    public ServerResponse() {
     }
 
-    public LoginResponse(String result, String message, String name) {
+    public ServerResponse(String result, String message) {
         this.result = result;
         this.message = message;
-        this.name = name;
     }
 
     public String getResult() {
@@ -33,14 +31,6 @@ public class LoginResponse {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
 }

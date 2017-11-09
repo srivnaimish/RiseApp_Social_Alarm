@@ -1,9 +1,10 @@
 package com.riseapps.riseapp.view.fragment;
 
 
-import android.content.Context;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,22 +13,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Space;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.flexbox.FlexboxLayout;
+import com.google.firebase.auth.FirebaseUser;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
+import com.riseapps.riseapp.executor.Network.RequestInterface;
+import com.riseapps.riseapp.executor.TimeToView;
+import com.riseapps.riseapp.model.LoginRequest;
+import com.riseapps.riseapp.model.Message;
+import com.riseapps.riseapp.model.MessageRequest;
+import com.riseapps.riseapp.model.ServerResponse;
+import com.riseapps.riseapp.model.User;
+import com.riseapps.riseapp.view.activity.MainActivity;
 import com.riseapps.riseapp.widgets.TextStrips;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by naimish on 4/11/17.
@@ -36,28 +49,42 @@ import java.util.ArrayList;
 public class ShareReminder extends Fragment implements View.OnClickListener, TextWatcher {
 
     ToggleShareDialog toggleShareDialog;
-    ImageView closeFragment;
+    ImageButton closeFragment,send;
     FlexboxLayout linearLayout;
-    EditText editText;
-    ArrayList<String> emails=new ArrayList<>();
+    EditText edit_email,edit_note,edit_image;
+    TextView time;
+    long timestamp;
+    ArrayList<String> email=new ArrayList<>();
+    FirebaseUser firebaseUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_send, container, false);
 
+        firebaseUser=((MainActivity)getActivity()).currentUser;
+
         toggleShareDialog= (ToggleShareDialog) getActivity();
         closeFragment=view.findViewById(R.id.closeFragment);
+        send=view.findViewById(R.id.send);
+
+        send.setOnClickListener(this);
         closeFragment.setOnClickListener(this);
         linearLayout=view.findViewById(R.id.linearLayout);
-        editText=view.findViewById(R.id.edit_email);
-        editText.addTextChangedListener(this);
 
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        edit_email=view.findViewById(R.id.edit_email);
+        edit_note=view.findViewById(R.id.edit_note);
+        edit_image=view.findViewById(R.id.edit_image);
+        time=view.findViewById(R.id.time_pick);
+
+        time.setOnClickListener(this);
+        edit_email.addTextChangedListener(this);
+
+        edit_email.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 boolean handled = false;
                 if (i == EditorInfo.IME_ACTION_NEXT) {
-                    addTextStrip(editText.getText().toString(),true);
+                    addTextStrip(edit_email.getText().toString(),true);
                 }
 
                 return handled;
@@ -70,8 +97,34 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+
+            case R.id.time_pick:
+                openTimePicker();
+                break;
+
             case R.id.closeFragment:
                 toggleShareDialog.toggleVisibility();
+                break;
+            case R.id.send:
+                if(email.size()==0){
+                    Toast.makeText(getContext(), "Enter atleast 1 email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(time.getText().toString().length()==0){
+                    Toast.makeText(getContext(), "Enter a reminder time", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if(edit_note.getText().toString().length()==0){
+                    Toast.makeText(getContext(), "Enter a reminder note", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                new AppConstants().sendReminder(getContext(),firebaseUser.getDisplayName(), email, timestamp, edit_note.getText().toString(), edit_image.getText().toString());
+
+                Toast.makeText(getContext(), "Sending reminder", Toast.LENGTH_SHORT).show();
+
+                break;
+
         }
     }
 
@@ -85,7 +138,7 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
         if(charSequence.length()!=0) {
             char c = charSequence.charAt(charSequence.length() - 1);
             if (c == ' ' || c == ',') {
-                addTextStrip(editText.getText().toString(),false);
+                addTextStrip(edit_email.getText().toString(),false);
             }
         }
     }
@@ -97,18 +150,16 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
 
     public void addTextStrip(String charSequence,boolean enterpress){
 
-        if(AppConstants.isValidEmail(charSequence)) {
-
             TextStrips textStrips = new TextStrips(getContext());
 
             TextView textView = (TextView) textStrips.getChildAt(0);
-            String email;
+            String phone;
             if(!enterpress)
-            email = charSequence.substring(0, charSequence.length() - 1);
+            phone = charSequence.substring(0, charSequence.length() - 1);
             else
-                email = charSequence.substring(0, charSequence.length());
-            emails.add(email);
-            textView.setText(email);
+                phone = charSequence.substring(0, charSequence.length());
+            email.add(phone);
+            textView.setText(phone);
             linearLayout.addView(textStrips);
 
             ImageButton imageButton = (ImageButton) textStrips.getChildAt(1);
@@ -116,13 +167,30 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
                 @Override
                 public void onClick(View view) {
                     TextStrips textStrips1 = (TextStrips) view.getParent();
-                    emails.remove(linearLayout.indexOfChild(textStrips1));
+                    email.remove(linearLayout.indexOfChild(textStrips1));
                     linearLayout.removeViewAt(linearLayout.indexOfChild(textStrips1));
                 }
             });
-        }else {
-            Toast.makeText(getContext(), "Enter Valid Email", Toast.LENGTH_SHORT).show();
-        }
-        editText.setText("");
+        edit_email.setText("");
     }
+
+    public void openTimePicker(){
+        Calendar mcurrentTime = Calendar.getInstance();
+        int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = mcurrentTime.get(Calendar.MINUTE);
+        TimePickerDialog mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                Calendar calendar=Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY,selectedHour);
+                calendar.set(Calendar.MINUTE,selectedMinute);
+                timestamp=calendar.getTimeInMillis();
+                time.setText(new TimeToView().getTimeAsText(selectedHour,selectedMinute));
+            }
+        }, hour, minute, true);
+        mTimePicker.show();
+    }
+
+
+
 }

@@ -4,14 +4,14 @@
         <shape android:shape="rectangle" android:useLevel="false" android:visible="true">
             <corners android:radius="14dp" />
             <solid android:color="@color/colorAccent" />
-            <size android:height="25dp"/>
+            <size android:height="25dp" />
         </shape>
     </item>
     <item android:state_checked="false">
         <shape android:shape="rectangle" android:useLevel="false" android:visible="true">
             <corners android:radius="18dp" />
             <solid android:color="@color/colorPrimaryDark" />
-            <size android:height="25dp"/>
+            <size android:height="25dp" />
         </shape>
     </item>
 </selector>

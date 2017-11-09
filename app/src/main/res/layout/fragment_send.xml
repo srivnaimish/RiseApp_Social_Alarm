@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -19,17 +18,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_margin="8dp"
             android:fontFamily="sans-serif-light"
             android:text="Send Reminder"
             android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@id/closeFragment"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="243dp" />
 
         <ImageButton
             android:id="@+id/closeFragment"
@@ -44,7 +40,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_close" />
 
+        <ImageButton
+            android:id="@+id/send"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/ripple"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_send"
+            />
+
     </android.support.constraint.ConstraintLayout>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -52,6 +61,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -65,7 +75,8 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:fontFamily="sans-serif-light"
-                android:text="Recipient Email"
+                android:text="Email"
+                android:textColor="#9E9E9E"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -74,13 +85,14 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="(seperate by space for multiple)"
+                android:text="(seperate by space or , for multiple)"
+                android:textColor="#9E9E9E"
                 android:layout_marginStart="8dp"
                 android:fontFamily="sans-serif-thin"
                 app:layout_constraintBottom_toBottomOf="@+id/textView"
                 app:layout_constraintStart_toEndOf="@+id/textView"
                 app:layout_constraintTop_toTopOf="@+id/textView"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
 
             <com.google.android.flexbox.FlexboxLayout
                 android:id="@+id/linearLayout"
@@ -97,23 +109,52 @@
             <EditText
                 android:id="@+id/edit_email"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/email_edit"
                 android:fontFamily="sans-serif-light"
-                android:hint="Eg- abc.xyz@gmail.com"
+                android:hint="Eg. - abc@xyz.com"
+                android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:imeOptions="actionNext"
                 android:paddingBottom="8dp"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
                 android:paddingTop="8dp"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="14sp"
-                android:textColor="@android:color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/linearLayout" />
+
+            <TextView
+                android:id="@+id/textView_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="45dp"
+                android:fontFamily="sans-serif-light"
+                android:text="Pick a time"
+                android:textColor="#9E9E9E"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edit_email" />
+
+            <TextView
+                android:id="@+id/time_pick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/email_edit"
+                android:fontFamily="sans-serif-light"
+                android:hint="Eg- 05:00"
+                android:padding="16dp"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView_time" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -123,26 +164,30 @@
                 android:layout_marginTop="45dp"
                 android:fontFamily="sans-serif-light"
                 android:text="Reminder Note"
+                android:textColor="#9E9E9E"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_email" />
+                app:layout_constraintTop_toBottomOf="@id/time_pick" />
+
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="(max 150 characters)"
+                android:textColor="#9E9E9E"
                 android:layout_marginStart="8dp"
                 android:fontFamily="sans-serif-thin"
                 app:layout_constraintBottom_toBottomOf="@+id/textView3"
                 app:layout_constraintStart_toEndOf="@+id/textView3"
                 app:layout_constraintTop_toTopOf="@+id/textView3"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
 
             <EditText
                 android:id="@+id/edit_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/email_edit"
                 android:fontFamily="sans-serif-light"
@@ -150,11 +195,8 @@
                 android:imeOptions="actionDone"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:paddingBottom="8dp"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:textColor="@android:color/white"
+                android:padding="16dp"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView3" />
@@ -166,27 +208,31 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="45dp"
                 android:fontFamily="sans-serif-light"
-                android:text="Attach Image URL for Reminder"
+                android:text="Attach Image Url"
+                android:textColor="#9E9E9E"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edit_note" />
+
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="(Optional)"
+                android:textColor="#9E9E9E"
                 android:layout_marginStart="8dp"
                 android:fontFamily="sans-serif-thin"
                 app:layout_constraintBottom_toBottomOf="@+id/textView5"
                 app:layout_constraintStart_toEndOf="@+id/textView5"
                 app:layout_constraintTop_toTopOf="@+id/textView5"
-                android:textSize="13sp"/>
+                android:textSize="13sp" />
 
             <EditText
                 android:id="@+id/edit_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/email_edit"
                 android:fontFamily="sans-serif-light"
@@ -194,34 +240,14 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:imeOptions="actionDone"
-                android:paddingBottom="8dp"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
+                android:padding="16dp"
                 android:textSize="14sp"
-                android:textColor="@android:color/white"
+                android:textColor="?android:textColorPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView5" />
 
-            <Button
-                android:id="@+id/send"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:layout_marginTop="45dp"
-                android:background="@drawable/send_button"
-                android:fontFamily="sans-serif-light"
-                android:text="Send"
-                android:textAllCaps="false"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_image" />
-
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
-
-
 
 
 </android.support.constraint.ConstraintLayout>
