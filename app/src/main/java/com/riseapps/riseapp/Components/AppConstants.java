@@ -1,13 +1,12 @@
 package com.riseapps.riseapp.Components;
 
-import android.content.Context;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Network.RequestInterface;
-import com.riseapps.riseapp.model.Message;
-import com.riseapps.riseapp.model.MessageRequest;
-import com.riseapps.riseapp.model.ServerResponse;
+import com.riseapps.riseapp.model.Pojo.Message;
+import com.riseapps.riseapp.model.Pojo.MessageRequest;
+import com.riseapps.riseapp.model.Pojo.ServerResponse;
 
 import java.util.ArrayList;
 
@@ -36,7 +35,7 @@ public class AppConstants {
 
     public static final String BASE_URL = "http://192.168.1.101/";
 
-    public void sendReminder(final Context context, String sender, ArrayList<String> Recipients, long Time, String Note, String ImageURL) {
+    public void sendReminder(String sender, ArrayList<String> Recipients, long Time, String Note, String ImageURL) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AppConstants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -57,7 +56,8 @@ public class AppConstants {
                 ServerResponse resp = response.body();
                 assert resp != null;
                 if(resp.getResult().equalsIgnoreCase("Success")) {
-                    Toast.makeText(context, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.d(REMINDER,resp.getMessage());
+                    //Toast.makeText(context, resp.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 

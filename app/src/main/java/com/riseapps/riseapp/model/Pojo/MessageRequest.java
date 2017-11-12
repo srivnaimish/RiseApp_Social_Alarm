@@ -1,5 +1,5 @@
 
-package com.riseapps.riseapp.model;
+package com.riseapps.riseapp.model.Pojo;
 
 public class MessageRequest {
 

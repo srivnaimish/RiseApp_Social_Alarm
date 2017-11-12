@@ -29,9 +29,9 @@ import com.riseapps.riseapp.executor.Interface.RingtonePicker;
 import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
 import com.riseapps.riseapp.executor.Network.RequestInterface;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
-import com.riseapps.riseapp.model.LoginRequest;
-import com.riseapps.riseapp.model.ServerResponse;
-import com.riseapps.riseapp.model.User;
+import com.riseapps.riseapp.model.Pojo.LoginRequest;
+import com.riseapps.riseapp.model.Pojo.ServerResponse;
+import com.riseapps.riseapp.model.Pojo.User;
 import com.riseapps.riseapp.view.fragment.ShareReminder;
 
 import java.util.Collections;

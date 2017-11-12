@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +22,7 @@ import com.riseapps.riseapp.executor.OnSwipeTouchListener;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.executor.TimeToView;
-import com.riseapps.riseapp.model.PersonalAlarm;
+import com.riseapps.riseapp.model.Pojo.PersonalAlarm;
 
 import java.io.IOException;
 import java.util.ArrayList;

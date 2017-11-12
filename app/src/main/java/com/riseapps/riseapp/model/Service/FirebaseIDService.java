@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.model;
+package com.riseapps.riseapp.model.Service;
 
 import android.util.Log;
 

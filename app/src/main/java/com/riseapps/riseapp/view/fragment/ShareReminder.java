@@ -4,7 +4,6 @@ package com.riseapps.riseapp.view.fragment;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -24,23 +23,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
-import com.riseapps.riseapp.executor.Network.RequestInterface;
 import com.riseapps.riseapp.executor.TimeToView;
-import com.riseapps.riseapp.model.LoginRequest;
-import com.riseapps.riseapp.model.Message;
-import com.riseapps.riseapp.model.MessageRequest;
-import com.riseapps.riseapp.model.ServerResponse;
-import com.riseapps.riseapp.model.User;
 import com.riseapps.riseapp.view.activity.MainActivity;
 import com.riseapps.riseapp.widgets.TextStrips;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by naimish on 4/11/17.
@@ -54,7 +42,7 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
     EditText edit_email,edit_note,edit_image;
     TextView time;
     long timestamp;
-    ArrayList<String> email=new ArrayList<>();
+    ArrayList<String> emails=new ArrayList<>();
     FirebaseUser firebaseUser;
 
     @Override
@@ -106,7 +94,7 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
                 toggleShareDialog.toggleVisibility();
                 break;
             case R.id.send:
-                if(email.size()==0){
+                if(emails.size()==0){
                     Toast.makeText(getContext(), "Enter atleast 1 email", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -119,7 +107,7 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
                     return;
                 }
 
-                new AppConstants().sendReminder(getContext(),firebaseUser.getDisplayName(), email, timestamp, edit_note.getText().toString(), edit_image.getText().toString());
+                new AppConstants().sendReminder(firebaseUser.getUid(), emails, timestamp, edit_note.getText().toString(), edit_image.getText().toString());
 
                 Toast.makeText(getContext(), "Sending reminder", Toast.LENGTH_SHORT).show();
 
@@ -158,7 +146,7 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
             phone = charSequence.substring(0, charSequence.length() - 1);
             else
                 phone = charSequence.substring(0, charSequence.length());
-            email.add(phone);
+            emails.add(phone);
             textView.setText(phone);
             linearLayout.addView(textStrips);
 
@@ -167,7 +155,7 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
                 @Override
                 public void onClick(View view) {
                     TextStrips textStrips1 = (TextStrips) view.getParent();
-                    email.remove(linearLayout.indexOfChild(textStrips1));
+                    emails.remove(linearLayout.indexOfChild(textStrips1));
                     linearLayout.removeViewAt(linearLayout.indexOfChild(textStrips1));
                 }
             });

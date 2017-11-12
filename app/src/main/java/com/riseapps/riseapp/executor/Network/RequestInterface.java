@@ -1,8 +1,8 @@
 package com.riseapps.riseapp.executor.Network;
 
-import com.riseapps.riseapp.model.LoginRequest;
-import com.riseapps.riseapp.model.MessageRequest;
-import com.riseapps.riseapp.model.ServerResponse;
+import com.riseapps.riseapp.model.Pojo.LoginRequest;
+import com.riseapps.riseapp.model.Pojo.MessageRequest;
+import com.riseapps.riseapp.model.Pojo.ServerResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

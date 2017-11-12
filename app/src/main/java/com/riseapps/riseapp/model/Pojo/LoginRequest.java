@@ -1,8 +1,5 @@
 
-package com.riseapps.riseapp.model;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package com.riseapps.riseapp.model.Pojo;
 
 public class LoginRequest {
 

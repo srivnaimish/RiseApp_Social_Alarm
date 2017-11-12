@@ -4,12 +4,10 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
-import android.widget.Toast;
 
-import com.riseapps.riseapp.model.PersonalAlarm;
+import com.riseapps.riseapp.model.Pojo.PersonalAlarm;
 
 import java.util.Calendar;
 

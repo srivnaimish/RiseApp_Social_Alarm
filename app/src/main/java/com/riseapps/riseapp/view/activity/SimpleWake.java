@@ -1,6 +1,5 @@
 package com.riseapps.riseapp.view.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -16,18 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.AlarmCreator;
 import com.riseapps.riseapp.executor.OnSwipeTouchListener;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.executor.TimeToView;
-import com.riseapps.riseapp.model.PersonalAlarm;
+import com.riseapps.riseapp.model.Pojo.PersonalAlarm;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
 

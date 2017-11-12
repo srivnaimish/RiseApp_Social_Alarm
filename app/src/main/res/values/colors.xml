@@ -6,4 +6,10 @@
     <color name="colorPrimaryFontDark">#FAFAFA</color>
     <color name="colorAccent">#26C281</color>
     <color name="colorMainBackground">#1E1E28</color>
+
+    <color name="color1">#95a5a6</color>
+    <color name="color2">#e74c3c</color>
+    <color name="color3">#9b59b6</color>
+    <color name="color4">#2980b9</color>
+    <color name="color5">#ca2c68</color>
 </resources>

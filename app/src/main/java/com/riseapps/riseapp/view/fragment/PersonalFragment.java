@@ -18,9 +18,8 @@ import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.PersonalAlarmAdapter;
 import com.riseapps.riseapp.executor.AlarmCreator;
 import com.riseapps.riseapp.executor.Interface.FabListener;
-import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.Tasks;
-import com.riseapps.riseapp.model.PersonalAlarm;
+import com.riseapps.riseapp.model.Pojo.PersonalAlarm;
 import com.riseapps.riseapp.view.activity.MainActivity;
 
 import java.util.ArrayList;

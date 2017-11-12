@@ -3,19 +3,30 @@ package com.riseapps.riseapp.view.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.executor.Adapters.SharedReminderAdapter;
 import com.riseapps.riseapp.executor.Interface.FabListener;
 import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
+import com.riseapps.riseapp.executor.Tasks;
+import com.riseapps.riseapp.model.Pojo.ReceivedReminder;
+import com.riseapps.riseapp.model.Pojo.SentReminder;
 import com.riseapps.riseapp.view.activity.MainActivity;
 
+import java.util.ArrayList;
 
-public class SharedFragment extends Fragment implements View.OnClickListener{
+
+public class SharedFragment extends Fragment{
 
     ToggleShareDialog toggleShareDialog;
+    RecyclerView recyclerView;
+    ArrayList<Object> reminderList=new ArrayList<>();
+    SharedReminderAdapter sharedReminderAdapter;
     public SharedFragment() {
         // Required empty public constructor
     }
@@ -33,6 +44,12 @@ public class SharedFragment extends Fragment implements View.OnClickListener{
                 toggleShareDialog.toggleVisibility();
             }
         });
+        fillList();
+        sharedReminderAdapter=new SharedReminderAdapter(getContext(),reminderList);
+        recyclerView=view.findViewById(R.id.shared_reminder);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setAdapter(sharedReminderAdapter);
         return view;
     }
 
@@ -40,13 +57,17 @@ public class SharedFragment extends Fragment implements View.OnClickListener{
         return new SharedFragment();
     }
 
-    @Override
-    public void onClick(View view) {
 
-    }
+   public void fillList(){
+        reminderList.add(new SentReminder("abc@xyz.com,aaa@gmail.com","08:00","Get up","Some Image"));
+        reminderList.add(new ReceivedReminder("Naimish Srivastava"+" sent you a reminder","08:00","Get up","Some Image"));
+        reminderList.add(new ReceivedReminder("Taylor Swift"+" sent you a reminder","08:00","Get up","Some Image"));
+        reminderList.add(new SentReminder("abc@xyz.com,aaa@gmail.com","09:00","Get up","Some Image"));
+        reminderList.add(new ReceivedReminder("Ashish Srivastava"+" sent you a reminder","08:00","Get up","Some Image"));
+        reminderList.add(new SentReminder("abc@xyz.com,aaa@gmail.com","10:00","Get up","Some Image"));
+        reminderList.add(new SentReminder("abc@xyz.com,aaa@gmail.com","07:00","Get up","Some Image"));
+        reminderList.add(new ReceivedReminder("Naimish Srivastava"+" sent you a reminder","08:00","Get up","Some Image"));
 
-   /* public void openSharedDialog(){
-
-    }*/
+   }
 
 }

@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.model;
+package com.riseapps.riseapp.model.Service;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -21,11 +21,6 @@ import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.utils.NotificationUtils;
 import com.riseapps.riseapp.view.activity.MainActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
@@ -37,30 +32,30 @@ import java.util.concurrent.ExecutionException;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     String TAG="FIREBASE Service";
-    Bitmap bitmap;
+    //Bitmap bitmap;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         Map<String, String> data = remoteMessage.getData();
-        String sender = data.get("Sender");
+        int sender_no= Integer.parseInt(data.get("Sender_no"));
+        String sender_name = data.get("Sender_name");
         long time = Long.parseLong(data.get("Time"));
         String note = data.get("Note");
         String image = data.get("Image");
-        bitmap = getBitmapfromUrl(image);
 
-        sendNotification(sender+" send you a Reminder", bitmap);
+        sendNotification(sender_no,sender_name+" sent you a Reminder");
     }
 
-    private void sendNotification(String title, Bitmap image) {
+    private void sendNotification(int notification_id,String title) {
     Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        int NOTIFICATION_ID = 1;
         if(Build.VERSION.SDK_INT>= 26) {
             NotificationUtils mNotificationUtils = new NotificationUtils(this);
             Notification.Builder nb = mNotificationUtils.
-                    getChannelNotification(title, largeIcon,image);
-            mNotificationUtils.getManager().notify(NOTIFICATION_ID, nb.build());
+                    getChannelNotification(title, largeIcon);
+            mNotificationUtils.getManager().notify(notification_id, nb.build());
         }else {
+
             Intent i = new Intent(this, MainActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP );
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
@@ -70,9 +65,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mBuilder.setPriority(Notification.PRIORITY_HIGH);
             mBuilder.setGroupSummary(true);
             mBuilder.setAutoCancel(true);
-            mBuilder.setContentTitle(title);
-            mBuilder.setStyle(new NotificationCompat.BigPictureStyle()
-                    .bigPicture(image));
+            mBuilder.setContentTitle("You have new reminders");
+            mBuilder.setContentText(title);
             mBuilder.setOngoing(false);
             mBuilder.setSound(defaultSoundUri);
             mBuilder.setSmallIcon(R.drawable.ic_alarm_clock);
@@ -81,7 +75,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
             if (mNotificationManager != null) {
-                mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+                mNotificationManager.notify(notification_id, mBuilder.build());
             }
         }
     }
@@ -126,7 +120,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                         with(this)
                         .load("https://cdn.pixabay.com/photo/2017/09/12/23/14/time-2743994_640.jpg")
                         .asBitmap()
-                        .into(640, 320). // Width and height
+                        .centerCrop()
+                        .into(500, 300). // Width and height
                         get();
             } catch (InterruptedException e1) {
                 e.printStackTrace();

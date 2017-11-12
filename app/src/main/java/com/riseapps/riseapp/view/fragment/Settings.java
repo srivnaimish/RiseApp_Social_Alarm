@@ -32,7 +32,7 @@ public class Settings extends Fragment implements View.OnClickListener{
     }
 
     ImageView pic;
-    TextView name,email;
+    TextView name,email,initials;
     FirebaseUser firebaseUser;
 
     CardView rate,share;
@@ -47,21 +47,16 @@ public class Settings extends Fragment implements View.OnClickListener{
         email=view.findViewById(R.id.email);
         share=view.findViewById(R.id.setting_share);
         rate=view.findViewById(R.id.setting_rate);
-
+        initials=view.findViewById(R.id.initials);
         share.setOnClickListener(this);
         rate.setOnClickListener(this);
 
         firebaseUser=((MainActivity)getActivity()).currentUser;
-
-        name.setText(firebaseUser.getDisplayName());
+        String username=firebaseUser.getDisplayName();
+        name.setText(username);
         email.setText(firebaseUser.getEmail());
-        Glide.with(getContext())
-                .load(firebaseUser
-                .getPhotoUrl())
-                .centerCrop()
-                .dontAnimate()
-                .into(pic);
 
+        initials.setText(new Tasks().getInitial(username));
         return view;
     }
 

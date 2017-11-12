@@ -6,7 +6,8 @@ import android.util.TypedValue;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.riseapps.riseapp.model.PersonalAlarm;
+import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.model.Pojo.PersonalAlarm;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -46,6 +47,16 @@ public class Tasks {
     public int getRandomInteger(){
         Random random=new Random();
         return random.nextInt(100);
+    }
+
+    public String getInitial(String s){
+        return ""+s.charAt(0);
+    }
+
+    public int getRandomColor(){
+        int colors[]={R.color.color1,R.color.color2,R.color.color3,R.color.color4,R.color.color5};
+        Random random=new Random();
+        return colors[random.nextInt(5)];
     }
 
 }

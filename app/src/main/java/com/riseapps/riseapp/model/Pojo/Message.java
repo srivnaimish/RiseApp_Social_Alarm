@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.model;
+package com.riseapps.riseapp.model.Pojo;
 
 import java.util.ArrayList;
 
