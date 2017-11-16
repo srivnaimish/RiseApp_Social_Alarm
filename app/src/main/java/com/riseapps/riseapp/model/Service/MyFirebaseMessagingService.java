@@ -11,20 +11,16 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.model.DB.Feed_Entity;
+import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.utils.NotificationUtils;
 import com.riseapps.riseapp.view.activity.MainActivity;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by naimish on 25/9/17.
@@ -45,6 +41,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String image = data.get("Image");
 
         sendNotification(sender_no,sender_name+" sent you a Reminder");
+        Feed_Entity feed_entity=new Feed_Entity();
+        feed_entity.setType(3);
+        feed_entity.setMessage(sender_name+" sent you a reminder");
+        feed_entity.setTime(time);
+        feed_entity.setNote(note);
+        feed_entity.setImageurl(image);
+        ((MyApplication)getApplicationContext()).getDatabase().feedDao().insertFeed(feed_entity);
+
     }
 
     private void sendNotification(int notification_id,String title) {
@@ -69,7 +73,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mBuilder.setContentText(title);
             mBuilder.setOngoing(false);
             mBuilder.setSound(defaultSoundUri);
-            mBuilder.setSmallIcon(R.drawable.ic_alarm_clock);
+            mBuilder.setSmallIcon(R.drawable.ic_no_alarm);
             mBuilder.setLargeIcon(largeIcon);
             mBuilder.setVibrate(new long[]{100, 100});
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -80,56 +84,5 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    public Bitmap getBitmapfromUrl(String imageUrl) {
-        /*try {
-            URL url = new URL(imageUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            return BitmapFactory.decodeStream(input);
 
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            imageUrl="https://cdn.pixabay.com/photo/2017/09/12/23/14/time-2743994_640.jpg";
-            getBitmapfromUrl(imageUrl);
-
-        }
-
-        return null;*/
-        Bitmap theBitmap = null;
-        try {
-            URL url = new URL(imageUrl);
-            try {
-                theBitmap = Glide.
-                        with(this)
-                        .load(imageUrl)
-                        .asBitmap()
-                        .into(320, 100). // Width and height
-                        get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            try {
-                theBitmap = Glide.
-                        with(this)
-                        .load("https://cdn.pixabay.com/photo/2017/09/12/23/14/time-2743994_640.jpg")
-                        .asBitmap()
-                        .centerCrop()
-                        .into(500, 300). // Width and height
-                        get();
-            } catch (InterruptedException e1) {
-                e.printStackTrace();
-            } catch (ExecutionException e2) {
-                e.printStackTrace();
-            }
-        }
-
-        return theBitmap;
-    }
 }

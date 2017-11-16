@@ -50,7 +50,14 @@ public class Tasks {
     }
 
     public String getInitial(String s){
-        return ""+s.charAt(0);
+        int spaceIndex=s.indexOf(' ');
+        try {
+            if(spaceIndex!=-1) {
+                return "" +s.charAt(0)+s.charAt(spaceIndex+1);
+            }
+        }catch (Exception e){}
+
+        return "" + s.charAt(0);
     }
 
     public int getRandomColor(){

@@ -19,7 +19,7 @@
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            app:srcCompat="@drawable/ic_alarm_clock"
+            app:srcCompat="@drawable/ic_no_alarm"
             android:layout_gravity="center" />
 
         <TextView

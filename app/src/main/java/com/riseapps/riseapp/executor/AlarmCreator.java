@@ -55,4 +55,20 @@ public class AlarmCreator {
         alarmManager.cancel(pi);
     }
 
+    public void setNewReminder(Context context,long alarmTimeInMillis,int id){
+
+        Intent intent = new Intent(context,AlarmReciever.class);
+        PendingIntent pi = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        assert alarmManager != null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmTimeInMillis, pi);
+        }
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTimeInMillis, pi);
+        else
+            alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeInMillis, pi);
+    }
+
+
 }

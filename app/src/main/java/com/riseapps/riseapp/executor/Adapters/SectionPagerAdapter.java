@@ -6,8 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.riseapps.riseapp.view.fragment.PersonalFragment;
 import com.riseapps.riseapp.view.fragment.Settings;
-import com.riseapps.riseapp.view.fragment.SharedFragment;
-import com.riseapps.riseapp.view.fragment.WeatherFragment;
+import com.riseapps.riseapp.view.fragment.FeedsFragment;
 
 /**
  * Created by naimish on 31/10/17.
@@ -27,10 +26,8 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return PersonalFragment.newInstance();
             case 1:
-                return SharedFragment.newInstance();
+                return FeedsFragment.newInstance();
             case 2:
-                return WeatherFragment.newInstance();
-            case 3:
                 return Settings.newInstance();
 
 
@@ -40,7 +37,7 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 3;
     }
 
     @Override

@@ -29,6 +29,7 @@ import com.riseapps.riseapp.executor.Interface.RingtonePicker;
 import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
 import com.riseapps.riseapp.executor.Network.RequestInterface;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
+import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.model.Pojo.LoginRequest;
 import com.riseapps.riseapp.model.Pojo.ServerResponse;
 import com.riseapps.riseapp.model.Pojo.User;
@@ -54,11 +55,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public FloatingActionButton fab;
     private SharedPreferenceSingelton sharedPreferenceSingleton=new SharedPreferenceSingelton();
     private FabListener fabListener1,fabListener2;
+    private MyApplication myapp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        myapp= (MyApplication) getApplicationContext();
 
         TabLayout tabLayout = findViewById(R.id.tablayout);
         fab=findViewById(R.id.fab);
@@ -67,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SectionPagerAdapter mSectionsPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.viewpager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        mViewPager.setOffscreenPageLimit(2);
        // mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onPageSelected(int position) {
-                if(position==2||position==3)
+                if(position==2)
                     fab.hide();
                 else if(position==1){
                     fab.setImageResource(R.drawable.ic_quill);
@@ -104,12 +107,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     iconId = R.drawable.menu_alarm;
                     break;
                 case 1:
-                    iconId = R.drawable.menu_sharing;
+                    iconId = R.drawable.menu_feeds;
                     break;
                 case 2:
-                    iconId = R.drawable.menu_weather;
-                    break;
-                case 3:
                     iconId = R.drawable.menu_settings;
                     break;
             }
@@ -253,5 +253,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void setFabListener2(FabListener fabListener2) {
         this.fabListener2 = fabListener2;
+    }
+
+    public MyApplication getMyapp() {
+        return myapp;
     }
 }

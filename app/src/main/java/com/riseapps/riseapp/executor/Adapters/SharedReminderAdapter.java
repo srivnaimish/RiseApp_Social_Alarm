@@ -1,18 +1,14 @@
 package com.riseapps.riseapp.executor.Adapters;
 
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Tasks;
@@ -23,8 +19,9 @@ import java.util.ArrayList;
 
 public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int SENT_REMINDER = 0;
-    private static final int RECEIVED_REMINDER = 1;
+    private static final int PERSONAL_ALARM = 0;
+    private static final int SENT_REMINDER = 1;
+    private static final int RECEIVED_REMINDER = 2;
     private Context context;
     private ArrayList<Object> remindersList;
     private Tasks tasks=new Tasks();
@@ -40,6 +37,8 @@ public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             return SENT_REMINDER;
         } else if (remindersList.get(position) instanceof ReceivedReminder) {
             return RECEIVED_REMINDER;
+        } else if (remindersList.get(position) instanceof String) {
+            return PERSONAL_ALARM;
         }
         return -1;
     }
@@ -49,12 +48,16 @@ public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         View view = null;
         switch (viewType) {
             case SENT_REMINDER:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.sent_reminder, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_sent, parent, false);
                 return new SentViewHolder(context, view);
 
             case RECEIVED_REMINDER:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.received_reminder, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_received, parent, false);
                 return new ReceivedViewHolder(context, view);
+
+            case PERSONAL_ALARM:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_alarm, parent, false);
+                return new PersonalAlarmViewHolder(context, view);
 
         }
         return null;
@@ -82,6 +85,13 @@ public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 receivedViewHolder.note.setText(receivedReminder.getNote());
                 receivedViewHolder.image.setText(receivedReminder.getImage());
                 break;
+
+            case PERSONAL_ALARM:
+                PersonalAlarmViewHolder personalAlarmViewHolder= (PersonalAlarmViewHolder) holder;
+                String s= (String) remindersList.get(position);
+                personalAlarmViewHolder.message.setText(s);
+                break;
+
         }
     }
 
@@ -158,6 +168,17 @@ public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     break;
             }
 
+        }
+    }
+
+    class PersonalAlarmViewHolder extends RecyclerView.ViewHolder{
+        private Context context;
+        private TextView message;
+
+        public PersonalAlarmViewHolder(Context context, View itemView) {
+            super(itemView);
+            this.context = context;
+            message = itemView.findViewById(R.id.message);
         }
     }
 }

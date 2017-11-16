@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.flexbox.FlexboxLayout;
 import com.google.firebase.auth.FirebaseUser;
 import com.riseapps.riseapp.Components.AppConstants;
+import com.riseapps.riseapp.executor.DBAsync;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
 import com.riseapps.riseapp.executor.TimeToView;
@@ -109,6 +110,14 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
 
                 new AppConstants().sendReminder(firebaseUser.getUid(), emails, timestamp, edit_note.getText().toString(), edit_image.getText().toString());
 
+                StringBuilder people= new StringBuilder();
+                for(String s:emails)
+                    people.append(s).append(",");
+
+                DBAsync dbAsync=new DBAsync(((MainActivity)getActivity()).getMyapp().getDatabase(),3);
+                dbAsync.setSentParams(people.toString(),timestamp,edit_note.getText().toString(),edit_image.getText().toString());
+                dbAsync.execute();
+                
                 Toast.makeText(getContext(), "Sending reminder", Toast.LENGTH_SHORT).show();
 
                 break;

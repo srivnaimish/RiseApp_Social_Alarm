@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
+import com.riseapps.riseapp.executor.DBAsync;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.PersonalAlarmAdapter;
 import com.riseapps.riseapp.executor.AlarmCreator;
@@ -105,6 +106,9 @@ public class PersonalFragment extends Fragment {
                 alarmsAdapter.notifyItemInserted(personalAlarms.size() - 1);
                 recyclerView.smoothScrollToPosition(personalAlarms.size() - 1);
                 empty_state.setVisibility(View.GONE);
+
+                new DBAsync(((MainActivity)getActivity()).getMyapp().getDatabase(),2).execute();
+
 
             }
         }, hour, minute, true);
