@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?colorPrimaryDark">
+    android:background="?android:colorBackground">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -76,7 +76,6 @@
                 android:layout_marginTop="32dp"
                 android:fontFamily="sans-serif-light"
                 android:text="Email"
-                android:textColor="#9E9E9E"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -86,7 +85,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="(seperate by space or , for multiple)"
-                android:textColor="#9E9E9E"
                 android:layout_marginStart="8dp"
                 android:fontFamily="sans-serif-thin"
                 app:layout_constraintBottom_toBottomOf="@+id/textView"
@@ -102,6 +100,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 app:flexWrap="wrap"
+                app:showDivider="middle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -115,6 +114,7 @@
                 android:background="@drawable/email_edit"
                 android:fontFamily="sans-serif-light"
                 android:hint="Eg. - abc@xyz.com"
+                android:textColorHint="?android:textColorTertiary"
                 android:imeOptions="actionNext"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
@@ -135,7 +135,6 @@
                 android:layout_marginTop="45dp"
                 android:fontFamily="sans-serif-light"
                 android:text="Pick a time"
-                android:textColor="#9E9E9E"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edit_email" />
@@ -150,6 +149,7 @@
                 android:background="@drawable/email_edit"
                 android:fontFamily="sans-serif-light"
                 android:hint="Eg- 05:00"
+                android:textColorHint="?android:textColorTertiary"
                 android:padding="16dp"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="14sp"
@@ -164,7 +164,6 @@
                 android:layout_marginTop="45dp"
                 android:fontFamily="sans-serif-light"
                 android:text="Reminder Note"
-                android:textColor="#9E9E9E"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/time_pick" />
@@ -174,7 +173,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="(max 150 characters)"
-                android:textColor="#9E9E9E"
                 android:layout_marginStart="8dp"
                 android:fontFamily="sans-serif-thin"
                 app:layout_constraintBottom_toBottomOf="@+id/textView3"
@@ -192,11 +190,11 @@
                 android:background="@drawable/email_edit"
                 android:fontFamily="sans-serif-light"
                 android:hint="Eg- Happy birthday Henry!"
+                android:textColorHint="?android:textColorTertiary"
                 android:imeOptions="actionDone"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:padding="16dp"
-                android:textColor="?android:textColorPrimary"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView3" />
@@ -209,7 +207,6 @@
                 android:layout_marginTop="45dp"
                 android:fontFamily="sans-serif-light"
                 android:text="Attach Image Url"
-                android:textColor="#9E9E9E"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edit_note" />
@@ -219,7 +216,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="(Optional)"
-                android:textColor="#9E9E9E"
                 android:layout_marginStart="8dp"
                 android:fontFamily="sans-serif-thin"
                 app:layout_constraintBottom_toBottomOf="@+id/textView5"
@@ -237,6 +233,7 @@
                 android:background="@drawable/email_edit"
                 android:fontFamily="sans-serif-light"
                 android:hint="Eg- https://pixabay.com/get\n/birthday-cake-380178_1920.jpg"
+                android:textColorHint="?android:textColorTertiary"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:imeOptions="actionDone"

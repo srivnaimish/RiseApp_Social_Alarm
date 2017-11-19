@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:text="Set up a new alarm"
             android:layout_gravity="center"
+            android:fontFamily="sans-serif-light"
             android:layout_marginTop="16dp"
             android:textSize="18sp" />
     </LinearLayout>

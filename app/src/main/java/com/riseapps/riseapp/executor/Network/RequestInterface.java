@@ -13,9 +13,9 @@ import retrofit2.http.POST;
  */
 
 public interface RequestInterface {
-    @POST("RiseApp/index.php")
+    @POST("/index.php")
     Call<ServerResponse> operation(@Body LoginRequest request);
 
-    @POST("RiseApp/index.php")
+    @POST("/index.php")
     Call<ServerResponse> chat(@Body MessageRequest request);
 }

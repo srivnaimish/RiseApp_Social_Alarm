@@ -29,6 +29,7 @@ import com.riseapps.riseapp.executor.Interface.RingtonePicker;
 import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
 import com.riseapps.riseapp.executor.Network.RequestInterface;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
+import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.model.Pojo.LoginRequest;
 import com.riseapps.riseapp.model.Pojo.ServerResponse;
@@ -54,11 +55,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public FirebaseUser currentUser;
     public FloatingActionButton fab;
     private SharedPreferenceSingelton sharedPreferenceSingleton=new SharedPreferenceSingelton();
+    private Tasks tasks=new Tasks();
     private FabListener fabListener1,fabListener2;
     private MyApplication myapp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(tasks.getCurrentTheme(this)==0){
+            setTheme(R.style.AppTheme2);
+        }else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

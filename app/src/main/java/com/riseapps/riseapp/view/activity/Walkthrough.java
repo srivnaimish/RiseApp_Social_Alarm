@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
+import com.riseapps.riseapp.executor.Tasks;
 
 public class Walkthrough extends AppCompatActivity {
 
@@ -15,6 +16,11 @@ public class Walkthrough extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(new Tasks().getCurrentTheme(this)==0){
+            setTheme(R.style.AppTheme2);
+        }else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walkthrough);
     }

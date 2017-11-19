@@ -33,7 +33,7 @@ public class AppConstants {
     public static final String LOGIN = "login";
     public static final String REMINDER = "reminder";
 
-    public static final String BASE_URL = "http://192.168.1.101/";
+    public static final String BASE_URL = "http://riseapp.000webhostapp.com/";
 
     public void sendReminder(String sender, ArrayList<String> Recipients, long Time, String Note, String ImageURL) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -67,4 +67,6 @@ public class AppConstants {
             }
         });
     }
+
+
 }

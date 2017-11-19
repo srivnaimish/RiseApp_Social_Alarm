@@ -4,5 +4,5 @@
     android:useLevel="false"
     android:visible="true">
     <corners android:radius="8dp" />
-    <solid android:color="@color/colorPrimary" />
+    <solid android:color="?colorPrimary" />
 </shape>

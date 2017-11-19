@@ -7,6 +7,13 @@
     <color name="colorAccent">#26C281</color>
     <color name="colorMainBackground">#1E1E28</color>
 
+    <color name="colorPrimary1">#FFFFFF</color>
+    <color name="colorPrimaryDark1">#000</color>
+    <color name="textColorPrimary1">#000</color>
+    <color name="colorPrimaryFontDark1">#212121</color>
+    <color name="colorMainBackground1">#EEEEEE</color>
+
+
     <color name="color1">#95a5a6</color>
     <color name="color2">#e74c3c</color>
     <color name="color3">#9b59b6</color>

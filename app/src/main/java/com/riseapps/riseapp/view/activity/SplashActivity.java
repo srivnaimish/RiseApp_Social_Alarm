@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
+import com.riseapps.riseapp.executor.Tasks;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -13,6 +14,11 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(new Tasks().getCurrentTheme(this)==0){
+            setTheme(R.style.AppTheme2);
+        }else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         if(sharedPreferenceSingleton.getSavedBoolean(this,"Logged")){

@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -26,7 +28,6 @@ import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.view.activity.MainActivity;
-import com.riseapps.riseapp.widgets.TextStrips;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -118,8 +119,7 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
                 dbAsync.setSentParams(people.toString(),timestamp,edit_note.getText().toString(),edit_image.getText().toString());
                 dbAsync.execute();
                 
-                Toast.makeText(getContext(), "Sending reminder", Toast.LENGTH_SHORT).show();
-
+                toggleShareDialog.toggleVisibility();
                 break;
 
         }
@@ -135,7 +135,12 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
         if(charSequence.length()!=0) {
             char c = charSequence.charAt(charSequence.length() - 1);
             if (c == ' ' || c == ',') {
-                addTextStrip(edit_email.getText().toString(),false);
+                String s=edit_email.getText().toString();
+                if(s.length()>10) {
+                    addTextStrip(s, false);
+                }else {
+                    Toast.makeText(getContext(), "Enter valid email", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
@@ -147,27 +152,30 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
 
     public void addTextStrip(String charSequence,boolean enterpress){
 
-            TextStrips textStrips = new TextStrips(getContext());
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(16,0,0,16);
+        CardView email_strip = (CardView) getLayoutInflater().inflate(R.layout.emails_strip, null);
+        TextView textView= email_strip.findViewById(R.id.text);
 
-            TextView textView = (TextView) textStrips.getChildAt(0);
-            String phone;
-            if(!enterpress)
+        String phone;
+        if(!enterpress)
             phone = charSequence.substring(0, charSequence.length() - 1);
-            else
-                phone = charSequence.substring(0, charSequence.length());
-            emails.add(phone);
-            textView.setText(phone);
-            linearLayout.addView(textStrips);
+        else
+            phone = charSequence.substring(0, charSequence.length());
+        emails.add(phone);
+        textView.setText(phone);
 
-            ImageButton imageButton = (ImageButton) textStrips.getChildAt(1);
-            imageButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    TextStrips textStrips1 = (TextStrips) view.getParent();
-                    emails.remove(linearLayout.indexOfChild(textStrips1));
-                    linearLayout.removeViewAt(linearLayout.indexOfChild(textStrips1));
-                }
-            });
+        ImageButton imageButton = email_strip.findViewById(R.id.close);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CardView cardView = (CardView) view.getParent().getParent();
+                emails.remove(linearLayout.indexOfChild(cardView));
+                linearLayout.removeViewAt(linearLayout.indexOfChild(cardView));
+            }
+        });
+        email_strip.setLayoutParams(layoutParams);
+        linearLayout.addView(email_strip);
         edit_email.setText("");
     }
 

@@ -53,33 +53,38 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.personal_row, parent, false);
-        return new FolderViewHolder(view, c);
+        return new PersonalAlarmHolder(view, c);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         PersonalAlarm alarm = alarms.get(position);
-        ((FolderViewHolder) holder).alarm = alarm;
+        ((PersonalAlarmHolder) holder).alarm = alarm;
 
         Calendar calendar = alarm.getCalendar();
 
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minutes = calendar.get(Calendar.MINUTE);
         Log.d("TAG", System.currentTimeMillis() + "\n" + alarm.getAlarmTimeInMillis());
-        ((FolderViewHolder) holder).time.setText(timeToView.getTimeAsText(hour, minutes));
-        ((FolderViewHolder) holder).day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
-        //((FolderViewHolder) holder).sound.setText(alarm.getTone().toString());
+        ((PersonalAlarmHolder) holder).time.setText(timeToView.getTimeAsText(hour, minutes));
+        ((PersonalAlarmHolder) holder).day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
+        //((PersonalAlarmHolder) holder).sound.setText(alarm.getTone().toString());
         if (alarm.isVibrate()) {
-            ((FolderViewHolder) holder).vibrate.setText(R.string.on);
+            ((PersonalAlarmHolder) holder).vibrate.setText(R.string.on);
         }else
-            ((FolderViewHolder) holder).vibrate.setText(R.string.off);
+            ((PersonalAlarmHolder) holder).vibrate.setText(R.string.off);
 
         if(alarm.isStatus())
-            ((FolderViewHolder) holder).aSwitch.setChecked(true);
+            ((PersonalAlarmHolder) holder).aSwitch.setChecked(true);
 
         if(alarm.isRepeat()){
-            ((FolderViewHolder) holder).repeat.setChecked(true);
+            ((PersonalAlarmHolder) holder).repeat.setChecked(true);
         }
+
+        ((PersonalAlarmHolder) holder).days.setVisibility(View.GONE);
+        ((PersonalAlarmHolder) holder).bottom.setVisibility(View.GONE);
+        ((PersonalAlarmHolder) holder).up.setVisibility(View.GONE);
+
 
     }
 
@@ -99,7 +104,7 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
         return alarms.size();
     }
 
-    private class FolderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+    private class PersonalAlarmHolder extends RecyclerView.ViewHolder implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
         CardView alarmCard;
 
@@ -116,7 +121,7 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
         private Context ctx;
         PersonalAlarm alarm;
 
-        FolderViewHolder(View v, Context context) {
+        PersonalAlarmHolder(View v, Context context) {
             super(v);
             this.ctx = context;
             time = (TextView) v.findViewById(R.id.time);

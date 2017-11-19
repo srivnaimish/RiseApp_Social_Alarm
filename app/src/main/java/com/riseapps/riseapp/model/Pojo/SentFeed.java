@@ -4,25 +4,25 @@ package com.riseapps.riseapp.model.Pojo;
  * Created by naimish on 12/11/17.
  */
 
-public class ReceivedReminder {
-    private String sender;
+public class SentFeed {
+    private String people;
     private String time;
     private String note;
     private String image;
 
-    public ReceivedReminder(String sender, String time, String note, String image) {
-        this.sender = sender;
+    public SentFeed(String people, String time, String note, String image) {
+        this.people = people;
         this.time = time;
         this.note = note;
         this.image = image;
     }
 
-    public String getSender() {
-        return sender;
+    public String getPeople() {
+        return people;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setPeople(String people) {
+        this.people = people;
     }
 
     public String getTime() {

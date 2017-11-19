@@ -66,4 +66,10 @@ public class Tasks {
         return colors[random.nextInt(5)];
     }
 
+    public int getCurrentTheme(Context context){
+        if(sharedPreferenceSingelton.getSavedInt(context,"Theme")==1)
+            return 1;
+        return 0;
+    }
+
 }

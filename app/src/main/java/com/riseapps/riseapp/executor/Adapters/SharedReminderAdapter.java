@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Tasks;
-import com.riseapps.riseapp.model.Pojo.ReceivedReminder;
-import com.riseapps.riseapp.model.Pojo.SentReminder;
+import com.riseapps.riseapp.model.Pojo.ReceivedFeed;
+import com.riseapps.riseapp.model.Pojo.SentFeed;
 
 import java.util.ArrayList;
 
@@ -33,9 +33,9 @@ public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemViewType(int position) {
-        if (remindersList.get(position) instanceof SentReminder) {
+        if (remindersList.get(position) instanceof SentFeed) {
             return SENT_REMINDER;
-        } else if (remindersList.get(position) instanceof ReceivedReminder) {
+        } else if (remindersList.get(position) instanceof ReceivedFeed) {
             return RECEIVED_REMINDER;
         } else if (remindersList.get(position) instanceof String) {
             return PERSONAL_ALARM;
@@ -68,22 +68,24 @@ public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         switch (holder.getItemViewType()) {
             case SENT_REMINDER:
                 SentViewHolder sentViewHolder = (SentViewHolder) holder;
-                SentReminder sentReminder= (SentReminder) remindersList.get(position);
+                SentFeed sentReminder= (SentFeed) remindersList.get(position);
                 sentViewHolder.people.setText(sentReminder.getPeople());
                 sentViewHolder.time.setText(sentReminder.getTime());
                 sentViewHolder.note.setText(sentReminder.getNote());
                 sentViewHolder.image.setText(sentReminder.getImage());
+                sentViewHolder.hiddenLayout.setVisibility(View.GONE);
                 break;
 
             case RECEIVED_REMINDER:
                 ReceivedViewHolder receivedViewHolder = (ReceivedViewHolder) holder;
-                ReceivedReminder receivedReminder= (ReceivedReminder) remindersList.get(position);
+                ReceivedFeed receivedReminder= (ReceivedFeed) remindersList.get(position);
                 receivedViewHolder.background.setImageResource(tasks.getRandomColor());
                 receivedViewHolder.initials.setText(tasks.getInitial(receivedReminder.getSender()));
                 receivedViewHolder.sender.setText(receivedReminder.getSender());
                 receivedViewHolder.time.setText(receivedReminder.getTime());
                 receivedViewHolder.note.setText(receivedReminder.getNote());
                 receivedViewHolder.image.setText(receivedReminder.getImage());
+                receivedViewHolder.hiddenLayout.setVisibility(View.GONE);
                 break;
 
             case PERSONAL_ALARM:
@@ -125,8 +127,11 @@ public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.sent_card:
-                hiddenLayout.setVisibility(hiddenLayout.getVisibility()==View.GONE?View.VISIBLE:View.GONE);
-                break;
+                    if(hiddenLayout.getVisibility()==View.GONE){
+                        hiddenLayout.setVisibility(View.VISIBLE);
+                    }else {
+                        hiddenLayout.setVisibility(View.GONE);
+                    }                break;
             }
 
         }
@@ -134,7 +139,7 @@ public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     class ReceivedViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private Context context;
-        ImageView background,delete;
+        ImageView background;
         private TextView initials,sender, time, note, image;
         private CardView cardView;
         private LinearLayout hiddenLayout;
@@ -154,17 +159,19 @@ public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             cardView.setOnClickListener(this);
             hiddenLayout=itemView.findViewById(R.id.received_hidden);
 
-            delete=itemView.findViewById(R.id.delete);
-            delete.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.received_card:
-                    hiddenLayout.setVisibility(hiddenLayout.getVisibility()==View.GONE?View.VISIBLE:View.GONE);
-                    break;
-                case R.id.delete:
+                    if(hiddenLayout.getVisibility()==View.GONE){
+                        hiddenLayout.setVisibility(View.VISIBLE);
+                        sender.setSingleLine(false);
+                    }else {
+                        hiddenLayout.setVisibility(View.GONE);
+                        sender.setSingleLine(true);
+                    }
                     break;
             }
 

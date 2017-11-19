@@ -40,6 +40,11 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(tasks.getCurrentTheme(this)==0){
+            setTheme(R.style.AppTheme2);
+        }else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
 
         int id = getIntent().getIntExtra("ID", 0);

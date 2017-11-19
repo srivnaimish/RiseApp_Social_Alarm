@@ -28,7 +28,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="8dp"
-            app:civ_border_color="?android:textColorPrimary"
+            app:civ_border_color="@android:color/white"
             app:civ_border_width="2dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -58,22 +58,24 @@
             android:fadingEdge="horizontal"
             android:singleLine="true"
             app:layout_constraintBottom_toBottomOf="@id/bell"
-            app:layout_constraintEnd_toStartOf="@id/delete"
+            app:layout_constraintEnd_toStartOf="@id/time"
             app:layout_constraintStart_toEndOf="@id/bell"
             app:layout_constraintTop_toTopOf="@+id/bell"
             tools:text="Naimish Srivastava sent you a reminder "
             android:fontFamily="sans-serif-light" />
 
-        <ImageView
-            android:id="@+id/delete"
+        <TextView
+            android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:tint="?colorAccent"
-            app:layout_constraintBottom_toBottomOf="@+id/Sender"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-light"
+            app:layout_constraintBottom_toBottomOf="@+id/bell"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/Sender"
-            card_view:srcCompat="@drawable/ic_close" />
+            app:layout_constraintTop_toTopOf="@+id/bell"
+            tools:text="08:00"/>
 
         <LinearLayout
             android:id="@+id/received_hidden"
@@ -87,30 +89,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:visibility="gone"
             >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:text="Time"
-                    android:fontFamily="sans-serif-thin"
-                    android:textSize="18sp"
-                    />
-
-                <TextView
-                    android:id="@+id/time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="08:00"
-                    android:textSize="18sp"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="sans-serif-thin"/>
-            </LinearLayout>
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

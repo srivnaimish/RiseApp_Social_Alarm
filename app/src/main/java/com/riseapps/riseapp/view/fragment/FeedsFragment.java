@@ -2,6 +2,7 @@ package com.riseapps.riseapp.view.fragment;
 
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -74,10 +75,11 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     @Override
     public void onRefresh() {
 
-        swipeRefreshLayout.setRefreshing(false);
+
         DBAsync dbAsync=new DBAsync(((MainActivity)getActivity()).getMyapp().getDatabase(),1);
         try {
             reminderList=dbAsync.execute().get();
+            swipeRefreshLayout.setRefreshing(false);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -86,7 +88,6 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         Toast.makeText(getContext(), "Feeds Refreshed ", Toast.LENGTH_SHORT).show();
         sharedReminderAdapter = new SharedReminderAdapter(getContext(), reminderList);
         recyclerView.setAdapter(sharedReminderAdapter);
-
 
         //
     }
