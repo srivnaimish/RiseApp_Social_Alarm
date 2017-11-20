@@ -43,7 +43,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         sendNotification(sender_no,sender_name+" sent you a Reminder");
         Feed_Entity feed_entity=new Feed_Entity();
         feed_entity.setType(3);
-        feed_entity.setMessage(sender_name+" sent you a reminder");
+        feed_entity.setMessage(sender_name);
         feed_entity.setTime(time);
         feed_entity.setNote(note);
         feed_entity.setImageurl(image);

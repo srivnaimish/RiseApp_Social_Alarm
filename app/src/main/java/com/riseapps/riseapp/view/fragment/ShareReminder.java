@@ -1,6 +1,7 @@
 package com.riseapps.riseapp.view.fragment;
 
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -42,15 +44,15 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
     ImageButton closeFragment,send;
     FlexboxLayout linearLayout;
     EditText edit_email,edit_note,edit_image;
-    TextView time;
-    long timestamp;
+    TextView time,date;
     ArrayList<String> emails=new ArrayList<>();
     FirebaseUser firebaseUser;
+    private Calendar calendar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_send, container, false);
-
+        calendar=Calendar.getInstance();
         firebaseUser=((MainActivity)getActivity()).currentUser;
 
         toggleShareDialog= (ToggleShareDialog) getActivity();
@@ -65,8 +67,10 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
         edit_note=view.findViewById(R.id.edit_note);
         edit_image=view.findViewById(R.id.edit_image);
         time=view.findViewById(R.id.time_pick);
+        date=view.findViewById(R.id.date_pick);
 
         time.setOnClickListener(this);
+        date.setOnClickListener(this);
         edit_email.addTextChangedListener(this);
 
         edit_email.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -92,6 +96,10 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
                 openTimePicker();
                 break;
 
+            case R.id.date_pick:
+                openDatePicker();
+                break;
+
             case R.id.closeFragment:
                 toggleShareDialog.toggleVisibility();
                 break;
@@ -100,8 +108,8 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
                     Toast.makeText(getContext(), "Enter atleast 1 email", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                else if(time.getText().toString().length()==0){
-                    Toast.makeText(getContext(), "Enter a reminder time", Toast.LENGTH_SHORT).show();
+                else if(time.getText().toString().length()==0 ||date.getText().toString().length()==0){
+                    Toast.makeText(getContext(), "Enter a valid time and date", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if(edit_note.getText().toString().length()==0){
@@ -109,14 +117,14 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
                     return;
                 }
 
-                new AppConstants().sendReminder(firebaseUser.getUid(), emails, timestamp, edit_note.getText().toString(), edit_image.getText().toString());
+                new AppConstants().sendReminder(firebaseUser.getUid(), emails, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
 
                 StringBuilder people= new StringBuilder();
                 for(String s:emails)
                     people.append(s).append(",");
 
                 DBAsync dbAsync=new DBAsync(((MainActivity)getActivity()).getMyapp().getDatabase(),3);
-                dbAsync.setSentParams(people.toString(),timestamp,edit_note.getText().toString(),edit_image.getText().toString());
+                dbAsync.setSentParams(people.toString(),calendar.getTimeInMillis(),edit_note.getText().toString(),edit_image.getText().toString());
                 dbAsync.execute();
                 
                 toggleShareDialog.toggleVisibility();
@@ -186,14 +194,36 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Tex
         TimePickerDialog mTimePicker = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                Calendar calendar=Calendar.getInstance();
                 calendar.set(Calendar.HOUR_OF_DAY,selectedHour);
                 calendar.set(Calendar.MINUTE,selectedMinute);
-                timestamp=calendar.getTimeInMillis();
                 time.setText(new TimeToView().getTimeAsText(selectedHour,selectedMinute));
             }
         }, hour, minute, true);
+
         mTimePicker.show();
+    }
+
+    public void openDatePicker(){
+        Calendar c = Calendar.getInstance();
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int month = c.get(Calendar.MONTH);
+        int year = c.get(Calendar.YEAR);
+        DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int pickedyear, int monthOfYear, int dayOfMonth) {
+                calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                calendar.set(Calendar.MONTH,monthOfYear);
+                calendar.set(Calendar.YEAR,pickedyear);
+                date.setText(String.valueOf(dayOfMonth + "//" + (monthOfYear + 1) + "//" + pickedyear));
+            }
+        };
+
+        DatePickerDialog dpDialog = new DatePickerDialog(getContext(), listener, year, month, day);
+
+        dpDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        dpDialog.show();
+
     }
 
 

@@ -1,14 +1,19 @@
 package com.riseapps.riseapp.view.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -22,17 +27,19 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
 
     private static final String TAG = "AUTH";
     private SharedPreferenceSingelton sharedPreferenceSingleton = new SharedPreferenceSingelton();
+    private Dialog dialog;
 
     public static Settings newInstance() {
         return new Settings();
     }
 
     Tasks tasks = new Tasks();
-    ImageView pic;
+    ImageView pic,method;
     TextView name, email, initials;
     FirebaseUser firebaseUser;
     Switch theme_switch;
-    CardView rate, share, theme;
+    CardView method_card,rate, share, theme;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +48,7 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         pic = view.findViewById(R.id.profile_pic);
+        method=view.findViewById(R.id.setting_method_image);
         name = view.findViewById(R.id.name);
         email = view.findViewById(R.id.email);
         share = view.findViewById(R.id.setting_share);
@@ -48,6 +56,10 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
         initials = view.findViewById(R.id.initials);
         theme_switch = view.findViewById(R.id.setting_theme_switch);
         theme = view.findViewById(R.id.setting_theme);
+        method_card=view.findViewById(R.id.setting_alarm_method);
+
+
+        method_card.setOnClickListener(this);
         share.setOnClickListener(this);
         rate.setOnClickListener(this);
         theme.setOnClickListener(this);
@@ -72,6 +84,39 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.setting_alarm_method:
+                method.startAnimation(AnimationUtils.loadAnimation(getContext(),R.anim.vibrate));
+                
+                dialog=new Dialog(getContext());
+                dialog.setContentView(R.layout.method_dialog);
+                try {
+                    dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                } catch (Exception e) {
+                }
+                LinearLayout simple=dialog.findViewById(R.id.simple);
+                LinearLayout math=dialog.findViewById(R.id.math);
+                simple.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sharedPreferenceSingleton.saveAs(getContext(),"Method",0);
+                        dialog.dismiss();
+                    }
+                });
+                math.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        sharedPreferenceSingleton.saveAs(getContext(),"Method",1);
+                        dialog.dismiss();
+                    }
+                });
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.show();
+                    }
+                },100);
+                
+                break;
 
             case R.id.setting_rate:
                 break;
@@ -84,7 +129,6 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
 
         }
     }
-
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -102,5 +146,10 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

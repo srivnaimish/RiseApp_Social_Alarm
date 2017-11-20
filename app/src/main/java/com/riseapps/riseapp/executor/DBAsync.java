@@ -56,7 +56,7 @@ public class DBAsync extends AsyncTask<Void,Void,ArrayList<Object>> {
     private void insertAlarm() {
         Feed_Entity feed_entity=new Feed_Entity();
         feed_entity.setType(1);
-        feed_entity.setMessage("You set an alarm for "+alarm_time);
+        feed_entity.setMessage(alarm_time);
         myDB.feedDao().insertFeed(feed_entity);
     }
 

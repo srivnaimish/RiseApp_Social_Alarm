@@ -15,7 +15,7 @@
         <item name="backgroundDual">@color/colorMainBackground</item>
     </style>
 
-    <style name="AppTheme2" parent="Theme.AppCompat.NoActionBar">
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary1</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark1</item>

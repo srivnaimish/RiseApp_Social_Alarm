@@ -1,6 +1,7 @@
 package com.riseapps.riseapp.executor.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.model.Pojo.ReceivedFeed;
@@ -72,26 +77,41 @@ public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 sentViewHolder.people.setText(sentReminder.getPeople());
                 sentViewHolder.time.setText(sentReminder.getTime());
                 sentViewHolder.note.setText(sentReminder.getNote());
-                sentViewHolder.image.setText(sentReminder.getImage());
-                sentViewHolder.hiddenLayout.setVisibility(View.GONE);
+                /*sentViewHolder.image.setText(sentReminder.getImage());*/
                 break;
 
             case RECEIVED_REMINDER:
-                ReceivedViewHolder receivedViewHolder = (ReceivedViewHolder) holder;
+                final ReceivedViewHolder receivedViewHolder = (ReceivedViewHolder) holder;
                 ReceivedFeed receivedReminder= (ReceivedFeed) remindersList.get(position);
                 receivedViewHolder.background.setImageResource(tasks.getRandomColor());
                 receivedViewHolder.initials.setText(tasks.getInitial(receivedReminder.getSender()));
                 receivedViewHolder.sender.setText(receivedReminder.getSender());
                 receivedViewHolder.time.setText(receivedReminder.getTime());
                 receivedViewHolder.note.setText(receivedReminder.getNote());
-                receivedViewHolder.image.setText(receivedReminder.getImage());
-                receivedViewHolder.hiddenLayout.setVisibility(View.GONE);
+                final ImageView imageView=receivedViewHolder.imageView;
+
+                Glide.with(context)
+                        .load(receivedReminder.getImage())
+                        .asBitmap()
+                        .centerCrop()
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                if(resource!=null){
+                                    imageView.setImageBitmap(resource);
+                                    imageView.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        });
+
+
+
                 break;
 
             case PERSONAL_ALARM:
                 PersonalAlarmViewHolder personalAlarmViewHolder= (PersonalAlarmViewHolder) holder;
                 String s= (String) remindersList.get(position);
-                personalAlarmViewHolder.message.setText(s);
+                personalAlarmViewHolder.time.setText(s);
                 break;
 
         }
@@ -102,47 +122,25 @@ public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return remindersList.size();
     }
 
-    class SentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class SentViewHolder extends RecyclerView.ViewHolder {
 
         private Context context;
-        private ImageView imageView;
-        private TextView people, time, note, image;
-        private CardView cardView;
-        private LinearLayout hiddenLayout;
+        private TextView people, time, note;/*, image*/
 
         public SentViewHolder(Context context, View itemView) {
             super(itemView);
             this.context = context;
-            imageView = itemView.findViewById(R.id.bell);
             people = itemView.findViewById(R.id.people);
             time = itemView.findViewById(R.id.time);
             note = itemView.findViewById(R.id.note);
-            image = itemView.findViewById(R.id.image);
-            cardView=itemView.findViewById(R.id.sent_card);
-            cardView.setOnClickListener(this);
-            hiddenLayout=itemView.findViewById(R.id.sent_hidden);
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.sent_card:
-                    if(hiddenLayout.getVisibility()==View.GONE){
-                        hiddenLayout.setVisibility(View.VISIBLE);
-                    }else {
-                        hiddenLayout.setVisibility(View.GONE);
-                    }                break;
-            }
-
+            //image = itemView.findViewById(R.id.image);
         }
     }
 
-    class ReceivedViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ReceivedViewHolder extends RecyclerView.ViewHolder{
         private Context context;
-        ImageView background;
-        private TextView initials,sender, time, note, image;
-        private CardView cardView;
-        private LinearLayout hiddenLayout;
+        ImageView background,imageView;
+        private TextView initials,sender, time, note;
 
         public ReceivedViewHolder(Context context, View itemView) {
             super(itemView);
@@ -152,40 +150,21 @@ public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             sender = itemView.findViewById(R.id.Sender);
             time = itemView.findViewById(R.id.time);
             note = itemView.findViewById(R.id.note);
-            image = itemView.findViewById(R.id.image);
+            imageView = itemView.findViewById(R.id.imageView);
 
-            cardView=itemView.findViewById(R.id.received_card);
-
-            cardView.setOnClickListener(this);
-            hiddenLayout=itemView.findViewById(R.id.received_hidden);
 
         }
 
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()){
-                case R.id.received_card:
-                    if(hiddenLayout.getVisibility()==View.GONE){
-                        hiddenLayout.setVisibility(View.VISIBLE);
-                        sender.setSingleLine(false);
-                    }else {
-                        hiddenLayout.setVisibility(View.GONE);
-                        sender.setSingleLine(true);
-                    }
-                    break;
-            }
-
-        }
     }
 
     class PersonalAlarmViewHolder extends RecyclerView.ViewHolder{
         private Context context;
-        private TextView message;
+        private TextView time;
 
         public PersonalAlarmViewHolder(Context context, View itemView) {
             super(itemView);
             this.context = context;
-            message = itemView.findViewById(R.id.message);
+            time = itemView.findViewById(R.id.time);
         }
     }
 }

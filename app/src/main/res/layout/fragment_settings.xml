@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
+            android:background="?backgroundDual"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <android.support.constraint.ConstraintLayout
@@ -28,8 +28,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_pic"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
                     android:layout_marginTop="45dp"
                     android:src="@color/colorAccent"
                     app:civ_border_color="?android:textColorPrimary"
@@ -48,7 +48,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:textColor="@android:color/white"
-                    android:textSize="50sp"
+                    android:textSize="35sp"
                     android:fontFamily="sans-serif-condensed"
                     app:layout_constraintBottom_toBottomOf="@+id/profile_pic"
                     app:layout_constraintEnd_toEndOf="@+id/profile_pic"

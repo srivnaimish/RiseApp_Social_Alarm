@@ -115,6 +115,8 @@ public class SimpleWake extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        mediaPlayer.stop();
+        mediaPlayer.release();
         tasks.savePersonalAlarms(this,personalAlarms);
         if(personalAlarms.get(pos).isVibrate()) {
             assert ((Vibrator) getSystemService(VIBRATOR_SERVICE)) != null;

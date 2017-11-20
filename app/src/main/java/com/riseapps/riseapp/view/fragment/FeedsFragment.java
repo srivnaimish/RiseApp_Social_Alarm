@@ -3,6 +3,7 @@ package com.riseapps.riseapp.view.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,6 +31,7 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     RecyclerView recyclerView;
     ArrayList<Object> reminderList = new ArrayList<>();
     SharedReminderAdapter sharedReminderAdapter;
+    private ConstraintLayout empty_state;
 
     public FeedsFragment() {
         // Required empty public constructor
@@ -42,7 +44,7 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         View view = inflater.inflate(R.layout.fragment_feeds, container, false);
 
         swipeRefreshLayout=view.findViewById(R.id.swipeRefresh);
-
+        empty_state=view.findViewById(R.id.empty_state);
         swipeRefreshLayout.setOnRefreshListener(this);
         toggleShareDialog = (ToggleShareDialog) getActivity();
 
@@ -55,6 +57,8 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         DBAsync dbAsync=new DBAsync(((MainActivity)getActivity()).getMyapp().getDatabase(),1);
         try {
             reminderList=dbAsync.execute().get();
+            if(reminderList.size()==0)
+                empty_state.setVisibility(View.VISIBLE);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -79,6 +83,10 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         DBAsync dbAsync=new DBAsync(((MainActivity)getActivity()).getMyapp().getDatabase(),1);
         try {
             reminderList=dbAsync.execute().get();
+            if(reminderList.size()==0)
+                empty_state.setVisibility(View.VISIBLE);
+            else
+                empty_state.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
         } catch (InterruptedException e) {
             e.printStackTrace();
