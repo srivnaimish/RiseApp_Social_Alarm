@@ -30,18 +30,18 @@ public class TimeToView {
     }
 
     public int getCurrentDay() {
-        Calendar calendar=Calendar.getInstance();
-        return calendar.get(Calendar.DAY_OF_WEEK)-1;
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.DAY_OF_WEEK) - 1;
     }
 
     public String getNextTriggerDay(long milliseconds, boolean[] repeatDays, boolean repeat) {
         StringBuilder day = new StringBuilder();
         if (repeat) {
-                for (int i = 0; i < 7; i++) {
-                    if (repeatDays[i]){
+            for (int i = 0; i < 7; i++) {
+                if (repeatDays[i]) {
                     day.append(" ").append(AppConstants.weekdays[i]);
-                    }
                 }
+            }
         } else {
             long currentTime = System.currentTimeMillis();
             Calendar calendar = Calendar.getInstance();

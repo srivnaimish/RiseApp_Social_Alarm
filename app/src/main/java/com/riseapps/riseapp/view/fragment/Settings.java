@@ -34,11 +34,11 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
     }
 
     Tasks tasks = new Tasks();
-    ImageView pic,method;
-    TextView name, email, initials;
+    ImageView pic, method;
+    TextView name, phone, initials;
     FirebaseUser firebaseUser;
     Switch theme_switch;
-    CardView method_card,rate, share, theme;
+    CardView method_card, rate, share, theme;
 
 
     @Override
@@ -48,15 +48,15 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
         pic = view.findViewById(R.id.profile_pic);
-        method=view.findViewById(R.id.setting_method_image);
+        method = view.findViewById(R.id.setting_method_image);
         name = view.findViewById(R.id.name);
-        email = view.findViewById(R.id.email);
+        phone = view.findViewById(R.id.phone);
         share = view.findViewById(R.id.setting_share);
         rate = view.findViewById(R.id.setting_rate);
         initials = view.findViewById(R.id.initials);
         theme_switch = view.findViewById(R.id.setting_theme_switch);
         theme = view.findViewById(R.id.setting_theme);
-        method_card=view.findViewById(R.id.setting_alarm_method);
+        method_card = view.findViewById(R.id.setting_alarm_method);
 
 
         method_card.setOnClickListener(this);
@@ -70,11 +70,11 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
         }
 
         firebaseUser = ((MainActivity) getActivity()).currentUser;
-        String username = firebaseUser.getDisplayName();
-        name.setText(username);
-        email.setText(firebaseUser.getEmail());
+        /*String username = firebaseUser.getDisplayName();
+        name.setText(username);*/
+        phone.setText(firebaseUser.getPhoneNumber());
 
-        initials.setText(new Tasks().getInitial(username));
+        //initials.setText(new Tasks().getInitial(username));
 
 
         return view;
@@ -85,27 +85,27 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.setting_alarm_method:
-                method.startAnimation(AnimationUtils.loadAnimation(getContext(),R.anim.vibrate));
-                
-                dialog=new Dialog(getContext());
+                method.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.vibrate));
+
+                dialog = new Dialog(getContext());
                 dialog.setContentView(R.layout.method_dialog);
                 try {
                     dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
                 } catch (Exception e) {
                 }
-                LinearLayout simple=dialog.findViewById(R.id.simple);
-                LinearLayout math=dialog.findViewById(R.id.math);
+                LinearLayout simple = dialog.findViewById(R.id.simple);
+                LinearLayout math = dialog.findViewById(R.id.math);
                 simple.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        sharedPreferenceSingleton.saveAs(getContext(),"Method",0);
+                        sharedPreferenceSingleton.saveAs(getContext(), "Method", 0);
                         dialog.dismiss();
                     }
                 });
                 math.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        sharedPreferenceSingleton.saveAs(getContext(),"Method",1);
+                        sharedPreferenceSingleton.saveAs(getContext(), "Method", 1);
                         dialog.dismiss();
                     }
                 });
@@ -114,8 +114,8 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
                     public void run() {
                         dialog.show();
                     }
-                },100);
-                
+                }, 100);
+
                 break;
 
             case R.id.setting_rate:

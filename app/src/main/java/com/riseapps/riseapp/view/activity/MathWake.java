@@ -27,9 +27,9 @@ import com.riseapps.riseapp.model.Pojo.PersonalAlarm;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MathWake extends AppCompatActivity implements View.OnClickListener{
+public class MathWake extends AppCompatActivity implements View.OnClickListener {
 
-    int pos = 0,n1,n2;
+    int pos = 0, n1, n2;
     MediaPlayer mediaPlayer;
     private SharedPreferenceSingelton sharedPreferenceSingelton = new SharedPreferenceSingelton();
     private ArrayList<PersonalAlarm> personalAlarms = new ArrayList<>();
@@ -40,9 +40,9 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if(tasks.getCurrentTheme(this)==0){
+        if (tasks.getCurrentTheme(this) == 0) {
             setTheme(R.style.AppTheme2);
-        }else {
+        } else {
             setTheme(R.style.AppTheme);
         }
         super.onCreate(savedInstanceState);
@@ -96,7 +96,7 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener{
         mediaPlayer.stop();
         mediaPlayer.release();
         tasks.savePersonalAlarms(this, personalAlarms);
-        if(personalAlarms.get(pos).isVibrate()) {
+        if (personalAlarms.get(pos).isVibrate()) {
             assert ((Vibrator) getSystemService(VIBRATOR_SERVICE)) != null;
             ((Vibrator) getSystemService(VIBRATOR_SERVICE)).cancel();
         }
@@ -121,11 +121,11 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener{
         number2 = findViewById(R.id.number2);
         initiallizeNumbers();
 
-        for(int i=0;i< 12;i++){
+        for (int i = 0; i < 12; i++) {
             findViewById(AppConstants.numberButtons[i]).setOnClickListener(this);
         }
-        if(personalAlarms.get(pos).isVibrate())
-        vibrate();
+        if (personalAlarms.get(pos).isVibrate())
+            vibrate();
 
         ringTone();
 
@@ -137,15 +137,15 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener{
 
             public void onSwipeLeft() {
 
-                String answer=ans.getText().toString();
-                if(answer.length()!=0 && (n1+n2)==Integer.parseInt(answer)){
+                String answer = ans.getText().toString();
+                if (answer.length() != 0 && (n1 + n2) == Integer.parseInt(answer)) {
 
                     if (!personalAlarms.get(pos).isRepeat()) {
                         personalAlarms.get(pos).setStatus(false);
                         //new AlarmCreator().setNewAlarm(SimpleWake.this,personalAlarms.get(pos).getAlarmTimeInMillis(),personalAlarms.get(pos).getId());
                     }
                     finish();
-                }else{
+                } else {
                     Toast.makeText(MathWake.this, "Wrong answer", Toast.LENGTH_SHORT).show();
                 }
                 //stop
@@ -155,8 +155,8 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void initiallizeNumbers() {
-        n1=tasks.getRandomInteger();
-        n2=tasks.getRandomInteger();
+        n1 = tasks.getRandomInteger();
+        n2 = tasks.getRandomInteger();
         number1.setText(String.valueOf(n1));
         number2.setText(String.valueOf(n2));
     }
@@ -170,7 +170,7 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener{
         }
     }
 
-    private void ringTone(){
+    private void ringTone() {
         Uri alert = Uri.parse(personalAlarms.get(pos).getTone());
         mediaPlayer = new MediaPlayer();
         //Log.d("Tone",defRingtone);
@@ -191,50 +191,50 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.n0:
-                String s=ans.getText().toString()+"0";
+                String s = ans.getText().toString() + "0";
                 ans.setText(s);
                 break;
             case R.id.n1:
-                s=ans.getText().toString()+"1";
+                s = ans.getText().toString() + "1";
                 ans.setText(s);
                 break;
             case R.id.n2:
-                s=ans.getText().toString()+"2";
+                s = ans.getText().toString() + "2";
                 ans.setText(s);
                 break;
             case R.id.n3:
-                s=ans.getText().toString()+"3";
+                s = ans.getText().toString() + "3";
                 ans.setText(s);
                 break;
             case R.id.n4:
-                s=ans.getText().toString()+"4";
+                s = ans.getText().toString() + "4";
                 ans.setText(s);
                 break;
             case R.id.n5:
-                s=ans.getText().toString()+"5";
+                s = ans.getText().toString() + "5";
                 ans.setText(s);
                 break;
             case R.id.n6:
-                s=ans.getText().toString()+"6";
+                s = ans.getText().toString() + "6";
                 ans.setText(s);
                 break;
             case R.id.n7:
-                s=ans.getText().toString()+"7";
+                s = ans.getText().toString() + "7";
                 ans.setText(s);
                 break;
             case R.id.n8:
-                s=ans.getText().toString()+"8";
+                s = ans.getText().toString() + "8";
                 ans.setText(s);
                 break;
             case R.id.n9:
-                s=ans.getText().toString()+"9";
+                s = ans.getText().toString() + "9";
                 ans.setText(s);
                 break;
             case R.id.bck:
-                s=ans.getText().toString();
-                if(s.length()!=0) {
+                s = ans.getText().toString();
+                if (s.length() != 0) {
                     s = s.substring(0, s.length() - 1);
                     ans.setText(s);
                 }

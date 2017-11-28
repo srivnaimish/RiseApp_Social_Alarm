@@ -27,41 +27,42 @@ import java.util.Map;
  */
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-    String TAG="FIREBASE Service";
+    String TAG = "FIREBASE Service";
     //Bitmap bitmap;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
         Map<String, String> data = remoteMessage.getData();
-        int sender_no= Integer.parseInt(data.get("Sender_no"));
-        String sender_name = data.get("Sender_name");
+        int sender_no = Integer.parseInt(data.get("Sender Index"));
+        String sender_name=data.get("Sender Name");
+        String sender_phone=data.get("Sender Phone");
         long time = Long.parseLong(data.get("Time"));
         String note = data.get("Note");
         String image = data.get("Image");
 
         sendNotification(sender_no,sender_name+" sent you a Reminder");
-        Feed_Entity feed_entity=new Feed_Entity();
+       /* Feed_Entity feed_entity=new Feed_Entity();
         feed_entity.setType(3);
         feed_entity.setMessage(sender_name);
         feed_entity.setTime(time);
         feed_entity.setNote(note);
         feed_entity.setImageurl(image);
-        ((MyApplication)getApplicationContext()).getDatabase().feedDao().insertFeed(feed_entity);
-
+        ((MyApplication) getApplicationContext()).getDatabase().feedDao().insertFeed(feed_entity);
+*/
     }
 
-    private void sendNotification(int notification_id,String title) {
-    Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        if(Build.VERSION.SDK_INT>= 26) {
+    private void sendNotification(int notification_id, String title) {
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        if (Build.VERSION.SDK_INT >= 26) {
             NotificationUtils mNotificationUtils = new NotificationUtils(this);
             Notification.Builder nb = mNotificationUtils.
                     getChannelNotification(title, largeIcon);
             mNotificationUtils.getManager().notify(notification_id, nb.build());
-        }else {
+        } else {
 
             Intent i = new Intent(this, MainActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP );
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 2, i, PendingIntent.FLAG_ONE_SHOT);

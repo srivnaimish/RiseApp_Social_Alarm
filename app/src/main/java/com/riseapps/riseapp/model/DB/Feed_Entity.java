@@ -27,7 +27,8 @@ public class Feed_Entity {
     @ColumnInfo(name = "feed_url")
     private String imageurl;
 
-    public Feed_Entity(){}
+    public Feed_Entity() {
+    }
 
     public int getType() {
         return type;

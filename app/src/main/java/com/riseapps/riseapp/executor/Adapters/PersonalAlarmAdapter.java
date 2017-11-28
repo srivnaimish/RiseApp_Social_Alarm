@@ -39,12 +39,12 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
     private Context c;
     private TimeToView timeToView;
     private AlarmCreator alarmCreator;
-    private Tasks task=new Tasks();
+    private Tasks task = new Tasks();
     private LinearLayout empty_state;
 
     public PersonalAlarmAdapter(Context context, ArrayList<PersonalAlarm> alarms, LinearLayout empty_state) {
         this.alarms = alarms;
-        this.empty_state=empty_state;
+        this.empty_state = empty_state;
         c = context;
         timeToView = new TimeToView();
         alarmCreator = new AlarmCreator();
@@ -71,13 +71,13 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
         //((PersonalAlarmHolder) holder).sound.setText(alarm.getTone().toString());
         if (alarm.isVibrate()) {
             ((PersonalAlarmHolder) holder).vibrate.setText(R.string.on);
-        }else
+        } else
             ((PersonalAlarmHolder) holder).vibrate.setText(R.string.off);
 
-        if(alarm.isStatus())
+        if (alarm.isStatus())
             ((PersonalAlarmHolder) holder).aSwitch.setChecked(true);
 
-        if(alarm.isRepeat()){
+        if (alarm.isRepeat()) {
             ((PersonalAlarmHolder) holder).repeat.setChecked(true);
         }
 
@@ -88,14 +88,14 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
 
     }
 
-    public void delete(int position){
-        alarmCreator.setAlarmOff(c,alarms.get(position).getId());
+    public void delete(int position) {
+        alarmCreator.setAlarmOff(c, alarms.get(position).getId());
         alarms.remove(position);
         notifyDataSetChanged();
-        if(alarms.size()==0){
+        if (alarms.size() == 0) {
             empty_state.setVisibility(View.VISIBLE);
         }
-        task.savePersonalAlarms(c,alarms);
+        task.savePersonalAlarms(c, alarms);
     }
 
 
@@ -114,7 +114,7 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
         CheckBox repeat;
         Button[] repeat_days = new Button[7];
         LinearLayout days, bottom;
-        Button sound, vibrate,delete;
+        Button sound, vibrate, delete;
         ImageButton up;
 
 
@@ -153,11 +153,11 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
             delete.setOnClickListener(this);
             up.setOnClickListener(this);
 
-            ((MainActivity)c).setRingtonePicker(new RingtonePicker() {
+            ((MainActivity) c).setRingtonePicker(new RingtonePicker() {
                 @Override
                 public void onRingtonePicked(Uri uri) {
                     alarm.setTone(uri.toString());
-                    task.savePersonalAlarms(ctx,alarms);
+                    task.savePersonalAlarms(ctx, alarms);
                 }
             });
 
@@ -187,7 +187,7 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                     break;
 
                 case R.id.vibrate:
-                    vibrate.startAnimation(AnimationUtils.loadAnimation(ctx,R.anim.vibrate));
+                    vibrate.startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.vibrate));
                     if (alarm.isVibrate()) {
                         vibrate.setText(R.string.off);
                         alarm.setVibrate(false);
@@ -195,18 +195,18 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                         vibrate.setText(R.string.on);
                         alarm.setVibrate(true);
                     }
-                    task.savePersonalAlarms(ctx,alarms);
+                    task.savePersonalAlarms(ctx, alarms);
                     break;
 
                 case R.id.sound:
-                    Uri currentTone= RingtoneManager.getActualDefaultRingtoneUri(c, RingtoneManager.TYPE_ALARM);
+                    Uri currentTone = RingtoneManager.getActualDefaultRingtoneUri(c, RingtoneManager.TYPE_ALARM);
                     Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
                     intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select Alarm Tone");
                     intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, currentTone);
                     intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false);
                     intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
-                    intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE,RingtoneManager.TYPE_ALARM);
-                    ((MainActivity)c).startActivityForResult( intent, RC_RINGTONE);
+                    intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM);
+                    ((MainActivity) c).startActivityForResult(intent, RC_RINGTONE);
                     break;
 
                 case R.id.delete:
@@ -214,7 +214,7 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                     break;
 
                 case R.id.sun:
-                    repeat_days[0].startAnimation(AnimationUtils.loadAnimation(ctx,R.anim.day));
+                    repeat_days[0].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
                     day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[0]) {
                         repeat_days[0].setBackgroundResource(R.drawable.day_off);
@@ -223,10 +223,10 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                         repeat_days[0].setBackgroundResource(R.drawable.day_on);
                         alarm.getRepeatDays()[0] = true;
                     }
-                    task.savePersonalAlarms(ctx,alarms);
+                    task.savePersonalAlarms(ctx, alarms);
                     break;
                 case R.id.mon:
-                    repeat_days[1].startAnimation(AnimationUtils.loadAnimation(ctx,R.anim.day));
+                    repeat_days[1].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
                     day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[1]) {
                         repeat_days[1].setBackgroundResource(R.drawable.day_off);
@@ -235,10 +235,10 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                         repeat_days[1].setBackgroundResource(R.drawable.day_on);
                         alarm.getRepeatDays()[1] = true;
                     }
-                    task.savePersonalAlarms(ctx,alarms);
+                    task.savePersonalAlarms(ctx, alarms);
                     break;
                 case R.id.tue:
-                    repeat_days[2].startAnimation(AnimationUtils.loadAnimation(ctx,R.anim.day));
+                    repeat_days[2].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
                     day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[2]) {
                         repeat_days[2].setBackgroundResource(R.drawable.day_off);
@@ -247,10 +247,10 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                         repeat_days[2].setBackgroundResource(R.drawable.day_on);
                         alarm.getRepeatDays()[2] = true;
                     }
-                    task.savePersonalAlarms(ctx,alarms);
+                    task.savePersonalAlarms(ctx, alarms);
                     break;
                 case R.id.wed:
-                    repeat_days[3].startAnimation(AnimationUtils.loadAnimation(ctx,R.anim.day));
+                    repeat_days[3].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
                     day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[3]) {
                         repeat_days[3].setBackgroundResource(R.drawable.day_off);
@@ -259,10 +259,10 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                         repeat_days[3].setBackgroundResource(R.drawable.day_on);
                         alarm.getRepeatDays()[3] = true;
                     }
-                    task.savePersonalAlarms(ctx,alarms);
+                    task.savePersonalAlarms(ctx, alarms);
                     break;
                 case R.id.thu:
-                    repeat_days[4].startAnimation(AnimationUtils.loadAnimation(ctx,R.anim.day));
+                    repeat_days[4].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
                     day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[4]) {
                         repeat_days[4].setBackgroundResource(R.drawable.day_off);
@@ -271,10 +271,10 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                         repeat_days[4].setBackgroundResource(R.drawable.day_on);
                         alarm.getRepeatDays()[4] = true;
                     }
-                    task.savePersonalAlarms(ctx,alarms);
+                    task.savePersonalAlarms(ctx, alarms);
                     break;
                 case R.id.fri:
-                    repeat_days[5].startAnimation(AnimationUtils.loadAnimation(ctx,R.anim.day));
+                    repeat_days[5].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
                     day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[5]) {
                         repeat_days[5].setBackgroundResource(R.drawable.day_off);
@@ -283,10 +283,10 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                         repeat_days[5].setBackgroundResource(R.drawable.day_on);
                         alarm.getRepeatDays()[5] = true;
                     }
-                    task.savePersonalAlarms(ctx,alarms);
+                    task.savePersonalAlarms(ctx, alarms);
                     break;
                 case R.id.sat:
-                    repeat_days[6].startAnimation(AnimationUtils.loadAnimation(ctx,R.anim.day));
+                    repeat_days[6].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
                     day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[6]) {
                         repeat_days[6].setBackgroundResource(R.drawable.day_off);
@@ -295,7 +295,7 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                         repeat_days[6].setBackgroundResource(R.drawable.day_on);
                         alarm.getRepeatDays()[6] = true;
                     }
-                    task.savePersonalAlarms(ctx,alarms);
+                    task.savePersonalAlarms(ctx, alarms);
                     break;
 
 
@@ -307,7 +307,7 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-            switch (compoundButton.getId()){
+            switch (compoundButton.getId()) {
                 case R.id.repeat:
                     boolean[] repeat_days = alarm.getRepeatDays();
                     if (b) {
@@ -321,12 +321,12 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                                 && !repeat_days[6]) {
 
                             for (int i = 0; i < 7; i++) {
-                                alarm.getRepeatDays()[i]=true;
+                                alarm.getRepeatDays()[i] = true;
                                 this.repeat_days[i].setBackgroundResource(R.drawable.day_on);
                             }
-                        }else {
+                        } else {
                             for (int i = 0; i < 7; i++) {
-                                if(repeat_days[i]){
+                                if (repeat_days[i]) {
                                     this.repeat_days[i].setBackgroundResource(R.drawable.day_on);
                                 }
                             }
@@ -335,16 +335,16 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                     } else {
                         alarm.setRepeat(false);
                     }
-                    task.savePersonalAlarms(ctx,alarms);
+                    task.savePersonalAlarms(ctx, alarms);
                     break;
                 case R.id.aSwitch:
 
-                    if(b){
+                    if (b) {
                         //Toast.makeText(ctx, "Checked", Toast.LENGTH_SHORT).show();
 
-                        Calendar savedCalendar=alarm.getCalendar();
+                        Calendar savedCalendar = alarm.getCalendar();
 
-                        Calendar calendar=Calendar.getInstance();
+                        Calendar calendar = Calendar.getInstance();
                         calendar.set(Calendar.HOUR_OF_DAY, savedCalendar.get(Calendar.HOUR_OF_DAY));
                         calendar.set(Calendar.MINUTE, savedCalendar.get(Calendar.MINUTE));
 
@@ -355,16 +355,16 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                         alarm.setAlarmTimeInMillis(alarmTimeInMillis);
                         day.setText(timeToView.getNextTriggerDay(alarmTimeInMillis, alarm.getRepeatDays(), alarm.isRepeat()));
 
-                        alarmCreator.setNewAlarm(ctx,alarmTimeInMillis,alarm.getId());
+                        alarmCreator.setNewAlarm(ctx, alarmTimeInMillis, alarm.getId());
                         alarm.setStatus(true);
 
-                    }else {
+                    } else {
                         //Toast.makeText(ctx, "UnChecked", Toast.LENGTH_SHORT).show();
 
-                        alarmCreator.setAlarmOff(ctx,alarm.getId());
+                        alarmCreator.setAlarmOff(ctx, alarm.getId());
                         alarm.setStatus(false);
                     }
-                    task.savePersonalAlarms(ctx,alarms);
+                    task.savePersonalAlarms(ctx, alarms);
                     break;
             }
 

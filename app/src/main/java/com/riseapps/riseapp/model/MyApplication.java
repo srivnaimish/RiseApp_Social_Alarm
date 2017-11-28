@@ -1,6 +1,5 @@
 package com.riseapps.riseapp.model;
 
-import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.support.multidex.MultiDexApplication;
 

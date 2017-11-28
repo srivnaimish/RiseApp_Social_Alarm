@@ -1,8 +1,4 @@
-
-package com.riseapps.riseapp.model.Pojo;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+package com.riseapps.riseapp.model.Pojo.Server;
 
 public class ServerResponse {
 

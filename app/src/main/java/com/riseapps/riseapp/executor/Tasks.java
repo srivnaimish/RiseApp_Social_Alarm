@@ -19,9 +19,9 @@ import java.util.Random;
 
 public class Tasks {
 
-    private SharedPreferenceSingelton sharedPreferenceSingelton=new SharedPreferenceSingelton();
+    private SharedPreferenceSingelton sharedPreferenceSingelton = new SharedPreferenceSingelton();
 
-    public void savePersonalAlarms(Context context,ArrayList<PersonalAlarm> personalAlarms){
+    public void savePersonalAlarms(Context context, ArrayList<PersonalAlarm> personalAlarms) {
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<PersonalAlarm>>() {
         }.getType();
@@ -29,13 +29,13 @@ public class Tasks {
         sharedPreferenceSingelton.saveAs(context, "Personal Cached", cachedJSON);
     }
 
-    public ArrayList<PersonalAlarm> getPersonalAlarms(Context context){
-        String cachedJSON=sharedPreferenceSingelton.getSavedString(context, "Personal Cached");  //Fetch cached JSON string
+    public ArrayList<PersonalAlarm> getPersonalAlarms(Context context) {
+        String cachedJSON = sharedPreferenceSingelton.getSavedString(context, "Personal Cached");  //Fetch cached JSON string
         return new Gson().fromJson(cachedJSON, new TypeToken<ArrayList<PersonalAlarm>>() {
         }.getType());
     }
 
-    public int getPxfromDp(Context context,int dp){
+    public int getPxfromDp(Context context, int dp) {
         Resources r = context.getResources();
         return (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP,
@@ -44,30 +44,31 @@ public class Tasks {
         );
     }
 
-    public int getRandomInteger(){
-        Random random=new Random();
+    public int getRandomInteger() {
+        Random random = new Random();
         return random.nextInt(100);
     }
 
-    public String getInitial(String s){
-        int spaceIndex=s.indexOf(' ');
+    public String getInitial(String s) {
+        int spaceIndex = s.indexOf(' ');
         try {
-            if(spaceIndex!=-1) {
-                return "" +s.charAt(0)+s.charAt(spaceIndex+1);
+            if (spaceIndex != -1) {
+                return "" + s.charAt(0) + s.charAt(spaceIndex + 1);
             }
-        }catch (Exception e){}
+        } catch (Exception e) {
+        }
 
         return "" + s.charAt(0);
     }
 
-    public int getRandomColor(){
-        int colors[]={R.color.color1,R.color.color2,R.color.color3,R.color.color4,R.color.color5};
-        Random random=new Random();
+    public int getRandomColor() {
+        int colors[] = {R.color.color1, R.color.color2, R.color.color3, R.color.color4, R.color.color5};
+        Random random = new Random();
         return colors[random.nextInt(5)];
     }
 
-    public int getCurrentTheme(Context context){
-        if(sharedPreferenceSingelton.getSavedInt(context,"Theme")==1)
+    public int getCurrentTheme(Context context) {
+        if (sharedPreferenceSingelton.getSavedInt(context, "Theme") == 1)
             return 1;
         return 0;
     }

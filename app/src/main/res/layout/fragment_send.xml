@@ -75,22 +75,10 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
                 android:fontFamily="sans-serif-light"
-                android:text="Email"
+                android:text="Selected Contacts"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="(seperate by space or , for multiple)"
-                android:layout_marginStart="8dp"
-                android:fontFamily="sans-serif-thin"
-                app:layout_constraintBottom_toBottomOf="@+id/textView"
-                app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toTopOf="@+id/textView"
-                android:textSize="13sp" />
 
             <com.google.android.flexbox.FlexboxLayout
                 android:id="@+id/linearLayout"
@@ -105,28 +93,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-            <EditText
-                android:id="@+id/edit_email"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/email_edit"
-                android:fontFamily="sans-serif-light"
-                android:hint="Eg. - abc@xyz.com"
-                android:textColorHint="?android:textColorTertiary"
-                android:imeOptions="actionNext"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:paddingBottom="8dp"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/linearLayout" />
-
             <TextView
                 android:id="@+id/textView_time"
                 android:layout_width="wrap_content"
@@ -137,7 +103,7 @@
                 android:text="Reminder Trigger Time"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/edit_email" />
+                app:layout_constraintTop_toBottomOf="@id/linearLayout" />
 
             <TextView
                 android:id="@+id/time_pick"

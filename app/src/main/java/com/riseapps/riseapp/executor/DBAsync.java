@@ -14,7 +14,7 @@ import java.util.Calendar;
  * Created by naimish on 16/11/17.
  */
 
-public class DBAsync extends AsyncTask<Void,Void,ArrayList<Object>> {
+public class DBAsync extends AsyncTask<Void, Void, ArrayList<Object>> {
 
     private int choice;
     private MyDB myDB;
@@ -23,17 +23,17 @@ public class DBAsync extends AsyncTask<Void,Void,ArrayList<Object>> {
 
     private String alarm_time;
 
-    private String people,sent_note,sent_image;     //Insert Sent reminder feed
+    private String people, sent_note, sent_image;     //Insert Sent reminder feed
     private long sent_time;
 
-    public DBAsync(MyDB myDB,int choice){
-        this.myDB=myDB;
-        this.choice=choice;
+    public DBAsync(MyDB myDB, int choice) {
+        this.myDB = myDB;
+        this.choice = choice;
     }
 
     @Override
     protected ArrayList<Object> doInBackground(Void... voids) {
-        switch (choice){
+        switch (choice) {
             case 1:
                 fillList();
                 return reminderList;
@@ -54,14 +54,14 @@ public class DBAsync extends AsyncTask<Void,Void,ArrayList<Object>> {
     }
 
     private void insertAlarm() {
-        Feed_Entity feed_entity=new Feed_Entity();
+        Feed_Entity feed_entity = new Feed_Entity();
         feed_entity.setType(1);
         feed_entity.setMessage(alarm_time);
         myDB.feedDao().insertFeed(feed_entity);
     }
 
     private void insertSentReminder() {
-        Feed_Entity feed_entity=new Feed_Entity();
+        Feed_Entity feed_entity = new Feed_Entity();
         feed_entity.setType(2);
         feed_entity.setMessage(people);
         feed_entity.setTime(sent_time);
@@ -70,15 +70,15 @@ public class DBAsync extends AsyncTask<Void,Void,ArrayList<Object>> {
         myDB.feedDao().insertFeed(feed_entity);
     }
 
-    private void fillList(){
-        reminderList=new ArrayList<>();
+    private void fillList() {
+        reminderList = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         TimeToView timeToView = new TimeToView();
 
         ArrayList<Feed_Entity> feed_entities = (ArrayList<Feed_Entity>) myDB.feedDao().getAll();
 
-        for(int i=feed_entities.size()-1;i>=0;i--){
-            Feed_Entity row=feed_entities.get(i);
+        for (int i = feed_entities.size() - 1; i >= 0; i--) {
+            Feed_Entity row = feed_entities.get(i);
             if (row.getType() == 1) {
                 reminderList.add(row.getMessage());
                 //personal
@@ -100,15 +100,15 @@ public class DBAsync extends AsyncTask<Void,Void,ArrayList<Object>> {
 
     }
 
-    public void setSentParams(String people,long sent_time,String sent_note,String sent_image){
-        this.people=people;
-        this.sent_time=sent_time;
-        this.sent_note=sent_note;
-        this.sent_image=sent_image;
+    public void setSentParams(String people, long sent_time, String sent_note, String sent_image) {
+        this.people = people;
+        this.sent_time = sent_time;
+        this.sent_note = sent_note;
+        this.sent_image = sent_image;
     }
 
-    public void setAlarmParams(String time){
-        alarm_time=time;
+    public void setAlarmParams(String time) {
+        alarm_time = time;
     }
 
 }

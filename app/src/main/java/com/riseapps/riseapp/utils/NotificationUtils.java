@@ -50,9 +50,10 @@ public class NotificationUtils extends ContextWrapper {
         }
         return mManager;
     }
+
     public Notification.Builder getChannelNotification(String title, Bitmap largeIcon) {
         Intent i = new Intent(this, MainActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP );
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 2, i, PendingIntent.FLAG_ONE_SHOT);
         return new Notification.Builder(getApplicationContext())
                 .setContentIntent(resultPendingIntent)

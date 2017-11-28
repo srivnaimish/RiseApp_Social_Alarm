@@ -117,7 +117,9 @@
                 app:layout_constraintStart_toStartOf="@+id/ll1"
                 app:layout_constraintTop_toBottomOf="@id/ll1"
                 android:background="?android:colorBackground"
-                android:visibility="gone"
+                android:src="@drawable/box_2953722_640"
+                android:scaleType="centerCrop"
+
                 />
 
 

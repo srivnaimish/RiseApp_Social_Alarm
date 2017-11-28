@@ -5,7 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
-    android:id="@+id/background"
     tools:context="com.riseapps.riseapp.view.activity.MainActivity">
 
     <android.support.constraint.ConstraintLayout

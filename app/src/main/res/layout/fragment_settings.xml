@@ -80,7 +80,7 @@
                         tools:text="Naimish Srivastava" />
 
                     <TextView
-                        android:id="@+id/email"
+                        android:id="@+id/phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
@@ -96,6 +96,7 @@
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
+
     <include layout="@layout/content_settings" />
 
 </android.support.design.widget.CoordinatorLayout>

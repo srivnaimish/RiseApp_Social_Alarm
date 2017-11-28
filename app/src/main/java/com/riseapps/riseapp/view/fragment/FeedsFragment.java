@@ -2,7 +2,6 @@ package com.riseapps.riseapp.view.fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,11 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.riseapps.riseapp.executor.DBAsync;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.SharedReminderAdapter;
-import com.riseapps.riseapp.executor.Interface.FabListener;
-import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
+import com.riseapps.riseapp.executor.DBAsync;
 import com.riseapps.riseapp.view.activity.MainActivity;
 
 import java.util.ArrayList;
@@ -27,7 +24,7 @@ import java.util.concurrent.ExecutionException;
 public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     SwipeRefreshLayout swipeRefreshLayout;
-    ToggleShareDialog toggleShareDialog;
+    //ToggleShareDialog toggleShareDialog;
     RecyclerView recyclerView;
     ArrayList<Object> reminderList = new ArrayList<>();
     SharedReminderAdapter sharedReminderAdapter;
@@ -43,21 +40,21 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feeds, container, false);
 
-        swipeRefreshLayout=view.findViewById(R.id.swipeRefresh);
-        empty_state=view.findViewById(R.id.empty_state);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
+        empty_state = view.findViewById(R.id.empty_state);
         swipeRefreshLayout.setOnRefreshListener(this);
-        toggleShareDialog = (ToggleShareDialog) getActivity();
+        //toggleShareDialog = (ToggleShareDialog) getActivity();
 
-        ((MainActivity) getActivity()).setFabListener2(new FabListener() {
+        /*((MainActivity) getActivity()).setFabListener2(new FabListener() {
             @Override
             public void onFabClick() {
                 toggleShareDialog.toggleVisibility();
             }
-        });
-        DBAsync dbAsync=new DBAsync(((MainActivity)getActivity()).getMyapp().getDatabase(),1);
+        });*/
+        DBAsync dbAsync = new DBAsync(((MainActivity) getActivity()).getMyapp().getDatabase(), 1);
         try {
-            reminderList=dbAsync.execute().get();
-            if(reminderList.size()==0)
+            reminderList = dbAsync.execute().get();
+            if (reminderList.size() == 0)
                 empty_state.setVisibility(View.VISIBLE);
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -80,10 +77,10 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     public void onRefresh() {
 
 
-        DBAsync dbAsync=new DBAsync(((MainActivity)getActivity()).getMyapp().getDatabase(),1);
+        DBAsync dbAsync = new DBAsync(((MainActivity) getActivity()).getMyapp().getDatabase(), 1);
         try {
-            reminderList=dbAsync.execute().get();
-            if(reminderList.size()==0)
+            reminderList = dbAsync.execute().get();
+            if (reminderList.size() == 0)
                 empty_state.setVisibility(View.VISIBLE);
             else
                 empty_state.setVisibility(View.GONE);

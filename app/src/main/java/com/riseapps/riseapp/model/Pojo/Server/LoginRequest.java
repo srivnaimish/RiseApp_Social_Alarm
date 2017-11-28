@@ -1,5 +1,4 @@
-
-package com.riseapps.riseapp.model.Pojo;
+package com.riseapps.riseapp.model.Pojo.Server;
 
 public class LoginRequest {
 

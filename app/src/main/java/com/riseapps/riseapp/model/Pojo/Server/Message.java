@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.model.Pojo;
+package com.riseapps.riseapp.model.Pojo.Server;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ public class Message {
     private String Note;
     private String ImageURL;
 
-    public Message( String Sender, ArrayList<String> Recipients, long Time, String Note, String ImageURL) {
+    public Message(String Sender, ArrayList<String> Recipients, long Time, String Note, String ImageURL) {
         this.Sender = Sender;
         this.Recipients = Recipients;
         this.Time = Time;

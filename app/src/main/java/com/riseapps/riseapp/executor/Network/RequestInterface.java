@@ -1,8 +1,8 @@
 package com.riseapps.riseapp.executor.Network;
 
-import com.riseapps.riseapp.model.Pojo.LoginRequest;
-import com.riseapps.riseapp.model.Pojo.MessageRequest;
-import com.riseapps.riseapp.model.Pojo.ServerResponse;
+import com.riseapps.riseapp.model.Pojo.Server.LoginRequest;
+import com.riseapps.riseapp.model.Pojo.Server.MessageRequest;
+import com.riseapps.riseapp.model.Pojo.Server.ServerResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -13,9 +13,9 @@ import retrofit2.http.POST;
  */
 
 public interface RequestInterface {
-    @POST("/index.php")
+    @POST("RiseApp/index.php")
     Call<ServerResponse> operation(@Body LoginRequest request);
 
-    @POST("/index.php")
+    @POST("RiseApp/index.php")
     Call<ServerResponse> chat(@Body MessageRequest request);
 }

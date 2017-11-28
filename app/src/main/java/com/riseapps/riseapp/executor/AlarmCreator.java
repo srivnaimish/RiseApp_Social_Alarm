@@ -17,54 +17,52 @@ import java.util.Calendar;
 
 public class AlarmCreator {
 
-    public PersonalAlarm getPersonalAlarm(Uri ringtone,int selectedHour, int selectedMinute, boolean status, boolean repeat){
-        Calendar calendar=Calendar.getInstance();
+    public PersonalAlarm getPersonalAlarm(Uri ringtone, int selectedHour, int selectedMinute, boolean status, boolean repeat) {
+        Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
         calendar.set(Calendar.MINUTE, selectedMinute);
-        int id=selectedHour*100+selectedMinute;
+        int id = selectedHour * 100 + selectedMinute;
         long alarmTimeInMillis = (calendar.getTimeInMillis() - (calendar.getTimeInMillis() % 60000));
         if (System.currentTimeMillis() >= alarmTimeInMillis)
             alarmTimeInMillis = alarmTimeInMillis + (1000 * 60 * 60 * 24);
 
-        boolean[] repeat_days={false,false,false,false,false,false,false};
-        return new PersonalAlarm(id,calendar,status,repeat,repeat_days, alarmTimeInMillis,ringtone.toString() , true);
+        boolean[] repeat_days = {false, false, false, false, false, false, false};
+        return new PersonalAlarm(id, calendar, status, repeat, repeat_days, alarmTimeInMillis, ringtone.toString(), true);
     }
 
-    public void setNewAlarm(Context context,long alarmTimeInMillis,int id){
+    public void setNewAlarm(Context context, long alarmTimeInMillis, int id) {
 
-        Intent intent = new Intent(context,AlarmReciever.class);
-        intent.putExtra("ID",id);
+        Intent intent = new Intent(context, AlarmReciever.class);
+        intent.putExtra("ID", id);
         PendingIntent pi = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         assert alarmManager != null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmTimeInMillis, pi);
-        }
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTimeInMillis, pi);
         else
             alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeInMillis, pi);
     }
 
-    public void setAlarmOff(Context context,int id){
+    public void setAlarmOff(Context context, int id) {
 
-        Intent intent = new Intent(context,AlarmReciever.class);
-        intent.putExtra("ID",id);
+        Intent intent = new Intent(context, AlarmReciever.class);
+        intent.putExtra("ID", id);
         PendingIntent pi = PendingIntent.getBroadcast(context, id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pi);
     }
 
-    public void setNewReminder(Context context,long alarmTimeInMillis,int id){
+    public void setNewReminder(Context context, long alarmTimeInMillis, int id) {
 
-        Intent intent = new Intent(context,AlarmReciever.class);
+        Intent intent = new Intent(context, AlarmReciever.class);
         PendingIntent pi = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         assert alarmManager != null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarmTimeInMillis, pi);
-        }
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTimeInMillis, pi);
         else
             alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTimeInMillis, pi);

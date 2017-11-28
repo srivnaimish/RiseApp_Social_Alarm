@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
-import com.riseapps.riseapp.executor.DBAsync;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.PersonalAlarmAdapter;
 import com.riseapps.riseapp.executor.AlarmCreator;
+import com.riseapps.riseapp.executor.DBAsync;
 import com.riseapps.riseapp.executor.Interface.FabListener;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.executor.TimeToView;
@@ -29,14 +29,15 @@ import java.util.Calendar;
 
 public class PersonalFragment extends Fragment {
 
-    ArrayList<PersonalAlarm> personalAlarms=new ArrayList<>();
+    ArrayList<PersonalAlarm> personalAlarms = new ArrayList<>();
     RecyclerView recyclerView;
     PersonalAlarmAdapter alarmsAdapter;
-    Tasks tasks=new Tasks();
-    AlarmCreator alarmCreator=new AlarmCreator();
+    Tasks tasks = new Tasks();
+    AlarmCreator alarmCreator = new AlarmCreator();
     private LinearLayout empty_state;
     DBAsync dbAsync;
-    TimeToView timeToView=new TimeToView();
+    TimeToView timeToView = new TimeToView();
+
     public PersonalFragment() {
     }
 
@@ -48,21 +49,21 @@ public class PersonalFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_personal, container, false);
+        View view = inflater.inflate(R.layout.fragment_personal, container, false);
 
-        recyclerView=view.findViewById(R.id.personal_alarms);
-        empty_state=view.findViewById(R.id.empty_state);
-        ArrayList<PersonalAlarm> alarms=tasks.getPersonalAlarms(getContext());
-        if(alarms!=null){
-            personalAlarms=alarms;
+        recyclerView = view.findViewById(R.id.personal_alarms);
+        empty_state = view.findViewById(R.id.empty_state);
+        ArrayList<PersonalAlarm> alarms = tasks.getPersonalAlarms(getContext());
+        if (alarms != null) {
+            personalAlarms = alarms;
         }
 
-        if(personalAlarms.size()>0){
+        if (personalAlarms.size() > 0) {
             empty_state.setVisibility(View.GONE);
         }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        alarmsAdapter=new PersonalAlarmAdapter(getContext(),personalAlarms,empty_state);
+        alarmsAdapter = new PersonalAlarmAdapter(getContext(), personalAlarms, empty_state);
         recyclerView.setAdapter(alarmsAdapter);
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
@@ -80,14 +81,14 @@ public class PersonalFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        ((MainActivity)getActivity()).setFabListener1(new FabListener() {
+        ((MainActivity) getActivity()).setFabListener1(new FabListener() {
             @Override
             public void onFabClick() {
                 openTimePicker();
             }
         });
 
-        dbAsync=new DBAsync(((MainActivity)getActivity()).getMyapp().getDatabase(),2);
+        dbAsync = new DBAsync(((MainActivity) getActivity()).getMyapp().getDatabase(), 2);
 
         return view;
     }
@@ -98,7 +99,7 @@ public class PersonalFragment extends Fragment {
         super.onDestroy();
     }
 
-    public void openTimePicker(){
+    public void openTimePicker() {
         Calendar mcurrentTime = Calendar.getInstance();
         int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
         int minute = mcurrentTime.get(Calendar.MINUTE);
@@ -111,7 +112,7 @@ public class PersonalFragment extends Fragment {
                 recyclerView.smoothScrollToPosition(personalAlarms.size() - 1);
                 empty_state.setVisibility(View.GONE);
 
-                dbAsync.setAlarmParams(timeToView.getTimeAsText(selectedHour,selectedMinute));
+                dbAsync.setAlarmParams(timeToView.getTimeAsText(selectedHour, selectedMinute));
                 dbAsync.execute();
 
             }
