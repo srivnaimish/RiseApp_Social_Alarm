@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -36,7 +37,7 @@ public class SendReminderActivity extends AppCompatActivity implements LoaderMan
     private Tasks tasks = new Tasks();
     private ArrayList<Integer> selected_positions = new ArrayList<>();
     private TextView selected_count;
-    private Button done;
+    private FloatingActionButton done;
     private String UID;
     private ImageView back;
     private MyApplication myapp;
@@ -97,13 +98,13 @@ public class SendReminderActivity extends AppCompatActivity implements LoaderMan
         if (selected) {
             selected_positions.add(position);
             selected_count.setText(selected_positions.size() + " contacts selected");
-            done.setVisibility(View.VISIBLE);
+            done.show();
         } else {
             Integer value = Integer.valueOf(position);
             selected_positions.remove(value);
             if (selected_positions.size() == 0) {
                 selected_count.setText("Select Contacts to remind");
-                done.setVisibility(View.GONE);
+                done.hide();
             } else {
                 selected_count.setText(selected_positions.size() + " contacts selected");
             }

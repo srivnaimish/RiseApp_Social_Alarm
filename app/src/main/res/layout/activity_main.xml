@@ -45,6 +45,6 @@
             app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_add" />
+            app:srcCompat="@drawable/ic_add_alarm" />
     </android.support.constraint.ConstraintLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -3,14 +3,16 @@ package com.riseapps.riseapp.model.Pojo.Server;
 public class User {
 
     private String UID;
+    private String Name;
     private String Phone;
 
     public User() {
     }
 
-    public User(String UID, String Phone) {
+    public User(String UID, String Name,String Phone) {
         super();
         this.UID = UID;
+        this.Name = Name;
         this.Phone = Phone;
     }
 
@@ -28,5 +30,13 @@ public class User {
 
     public void setPhone(String Phone) {
         this.Phone = Phone;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
     }
 }

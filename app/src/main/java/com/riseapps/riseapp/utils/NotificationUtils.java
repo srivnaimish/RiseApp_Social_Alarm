@@ -59,7 +59,7 @@ public class NotificationUtils extends ContextWrapper {
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle("You have new reminders")
                 .setContentText(title)
-                .setSmallIcon(R.drawable.ic_no_alarm)
+                .setSmallIcon(R.drawable.ic_add_alarm)
                 .setLargeIcon(largeIcon)
                 .setAutoCancel(true)
                 .setChannelId(ANDROID_CHANNEL_ID);

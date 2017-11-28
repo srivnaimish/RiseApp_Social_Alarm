@@ -5,53 +5,28 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.firebase.ui.auth.AuthUI;
-import com.firebase.ui.auth.ErrorCodes;
-import com.firebase.ui.auth.IdpResponse;
-import com.firebase.ui.auth.ResultCodes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.SectionPagerAdapter;
 import com.riseapps.riseapp.executor.Interface.FabListener;
 import com.riseapps.riseapp.executor.Interface.RingtonePicker;
-import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
-import com.riseapps.riseapp.executor.Network.RequestInterface;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.model.MyApplication;
-import com.riseapps.riseapp.model.Pojo.Server.LoginRequest;
-import com.riseapps.riseapp.model.Pojo.Server.ServerResponse;
-import com.riseapps.riseapp.model.Pojo.Server.User;
-import com.riseapps.riseapp.view.fragment.ShareReminder;
-
-import java.util.Collections;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.riseapps.riseapp.Components.AppConstants.RC_RINGTONE;
-import static com.riseapps.riseapp.Components.AppConstants.RC_SIGN_IN;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "SIGN IN";
     private ViewPager mViewPager;
     private RingtonePicker ringtonePicker;
-    private FirebaseAuth mAuth;
     public FirebaseUser currentUser;
     public FloatingActionButton fab;
     private SharedPreferenceSingelton sharedPreferenceSingleton = new SharedPreferenceSingelton();
@@ -94,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     fab.setImageResource(R.drawable.ic_quill);
                     fab.show();
                 } else if (position == 0) {
-                    fab.setImageResource(R.drawable.ic_add);
+                    fab.setImageResource(R.drawable.ic_add_alarm);
                     fab.show();
                 }
 
@@ -128,67 +103,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-            // Successfully signed in
-            if (resultCode == ResultCodes.OK) {
-                currentUser = mAuth.getCurrentUser();
-                FirebaseMessaging.getInstance().subscribeToTopic(currentUser.getUid());
-                loginUserOnServer();
-                //Toast.makeText(this, "Approved", Toast.LENGTH_SHORT).show();
-                return;
-            } else {
-                // Sign in failed
-                if (response == null) {
-                    // User pressed back button
-                    Log.e("Login", "Login canceled by User");
-                    return;
-                }
-                if (response.getErrorCode() == ErrorCodes.NO_NETWORK) {
-                    Log.e("Login", "No Internet Connection");
-                    return;
-                }
-                if (response.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
-                    Log.e("Login", "Unknown Error");
-                    return;
-                }
-            }
-            Log.e("Login", "Unknown sign in response");
-        } else if (requestCode == RC_RINGTONE && resultCode == RESULT_OK) {
+        if (requestCode == RC_RINGTONE && resultCode == RESULT_OK) {
             Uri uri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
             ringtonePicker.onRingtonePicked(uri);
         }
     }
-
-    private void loginUserOnServer() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AppConstants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RequestInterface requestInterface = retrofit.create(RequestInterface.class);
-
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setOperation(AppConstants.LOGIN);
-        User user = new User(currentUser.getUid(), currentUser.getPhoneNumber());
-        loginRequest.setUser(user);
-
-        Call<ServerResponse> response = requestInterface.operation(loginRequest);
-        response.enqueue(new Callback<ServerResponse>() {
-            @Override
-            public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
-                ServerResponse resp = response.body();
-                assert resp != null;
-                Toast.makeText(MainActivity.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<ServerResponse> call, Throwable t) {
-                Snackbar.make(mViewPager, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
-            }
-        });
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -200,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Intent intent=new Intent(this, SendReminderActivity.class);
                     intent.putExtra("UID",currentUser.getUid());
                     startActivity(intent);
-                    //fabListener2.onFabClick();
                 }
                 break;
         }
@@ -209,22 +127,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             currentUser = mAuth.getCurrentUser();
-        } else {
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setTheme(R.style.AppTheme2)
-                            .setAvailableProviders(
-                                    Collections.singletonList(
-                                            new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build()
-                                    ))
-                            .build(),
-                    RC_SIGN_IN);
         }
-
     }
 
 
@@ -235,10 +141,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void setFabListener1(FabListener fabListener1) {
         this.fabListener1 = fabListener1;
     }
-
-    /*public void setFabListener2(FabListener fabListener2) {
-        this.fabListener2 = fabListener2;
-    }*/
 
     public MyApplication getMyapp() {
         return myapp;

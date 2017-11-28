@@ -74,7 +74,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mBuilder.setContentText(title);
             mBuilder.setOngoing(false);
             mBuilder.setSound(defaultSoundUri);
-            mBuilder.setSmallIcon(R.drawable.ic_no_alarm);
+            mBuilder.setSmallIcon(R.drawable.ic_add_alarm);
             mBuilder.setLargeIcon(largeIcon);
             mBuilder.setVibrate(new long[]{100, 100});
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
