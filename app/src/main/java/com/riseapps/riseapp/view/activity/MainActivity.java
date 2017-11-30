@@ -9,20 +9,29 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.SectionPagerAdapter;
+import com.riseapps.riseapp.executor.ContactsSync;
+import com.riseapps.riseapp.executor.Interface.ContactCallback;
 import com.riseapps.riseapp.executor.Interface.FabListener;
 import com.riseapps.riseapp.executor.Interface.RingtonePicker;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.model.MyApplication;
+import com.riseapps.riseapp.model.Pojo.Contact;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import static com.riseapps.riseapp.Components.AppConstants.RC_RINGTONE;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,ContactCallback {
 
     private static final String TAG = "SIGN IN";
     private ViewPager mViewPager;
@@ -131,6 +140,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mAuth.getCurrentUser() != null) {
             currentUser = mAuth.getCurrentUser();
         }
+        if(sharedPreferenceSingleton.getSavedString(this,"Cached_Contacts")==null) {
+            ContactsSync contactsSync = new ContactsSync(this);
+            contactsSync.setContactCallback((ContactCallback) this);
+            contactsSync.execute();
+        }
     }
 
 
@@ -144,5 +158,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public MyApplication getMyapp() {
         return myapp;
+    }
+
+    @Override
+    public void onSuccessfulFetch(ArrayList<Contact> contacts) {
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<Contact>>() {
+        }.getType();
+        String cachedJSON = gson.toJson(contacts, type);
+        Toast.makeText(this, "Contacts synced", Toast.LENGTH_SHORT).show();
+        sharedPreferenceSingleton.saveAs(this, "Cached_Contacts", cachedJSON);
+    }
+
+    @Override
+    public void onUnsuccessfulFetch() {
+        Toast.makeText(this, "Error Fetching contacts", Toast.LENGTH_SHORT).show();
     }
 }

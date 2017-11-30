@@ -25,6 +25,8 @@ public class AppConstants {
 
     public static final int RC_SIGN_IN = 9001;
     public static final int RC_RINGTONE = 101;
+    public static final int GET_CONTACTS_FROM_DB = 0;
+    public static final int RESYNC_CONTACTS = 1;
 
     public static final String[] weekdays = {"Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"};
 
@@ -34,6 +36,7 @@ public class AppConstants {
 
     public static final String LOGIN = "login";
     public static final String REMINDER = "reminder";
+    public static final String GET_CONTACTS = "GET_CONTACTS";
 
     public static final String BASE_URL = "http://192.168.1.105/";
 

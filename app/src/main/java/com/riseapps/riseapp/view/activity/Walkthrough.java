@@ -57,7 +57,6 @@ public class Walkthrough extends AppCompatActivity {
     private ImageView initial_background;
     private TextView initials;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,18 +215,4 @@ public class Walkthrough extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
