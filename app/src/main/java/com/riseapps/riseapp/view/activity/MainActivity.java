@@ -23,13 +23,14 @@ import com.riseapps.riseapp.executor.Interface.FabListener;
 import com.riseapps.riseapp.executor.Interface.RingtonePicker;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.Tasks;
+import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.MyApplication;
-import com.riseapps.riseapp.model.Pojo.Contact;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import static com.riseapps.riseapp.Components.AppConstants.RC_RINGTONE;
+import static com.riseapps.riseapp.Components.AppConstants.RESYNC_CONTACTS;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,ContactCallback {
 
@@ -140,10 +141,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mAuth.getCurrentUser() != null) {
             currentUser = mAuth.getCurrentUser();
         }
-        if(sharedPreferenceSingleton.getSavedString(this,"Cached_Contacts")==null) {
-            ContactsSync contactsSync = new ContactsSync(this);
+        if(!sharedPreferenceSingleton.getSavedBoolean(this,"Cached_Contacts")) {
+            ContactsSync contactsSync = new ContactsSync(this,getMyapp().getDatabase(),RESYNC_CONTACTS);
             contactsSync.setContactCallback((ContactCallback) this);
             contactsSync.execute();
+
         }
     }
 
@@ -161,13 +163,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onSuccessfulFetch(ArrayList<Contact> contacts) {
-        Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<Contact>>() {
-        }.getType();
-        String cachedJSON = gson.toJson(contacts, type);
-        Toast.makeText(this, "Contacts synced", Toast.LENGTH_SHORT).show();
-        sharedPreferenceSingleton.saveAs(this, "Cached_Contacts", cachedJSON);
+    public void onSuccessfulFetch(ArrayList<Contact_Entity> contacts,boolean restart_Async) {
+        sharedPreferenceSingleton.saveAs(this,"Cached_Contacts",true);
+        if(restart_Async) {
+            Toast.makeText(this, "Contacts synced", Toast.LENGTH_SHORT).show();
+            ContactsSync contactsSync = new ContactsSync(getMyapp().getDatabase(), 2, contacts);
+            contactsSync.execute();
+        }
     }
 
     @Override

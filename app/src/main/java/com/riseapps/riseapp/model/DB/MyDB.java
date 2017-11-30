@@ -7,7 +7,7 @@ import android.arch.persistence.room.RoomDatabase;
  * Created by naimish on 15/11/17.
  */
 
-@Database(entities = {Feed_Entity.class}, version = 1)
+@Database(entities = {Contact_Entity.class,Chat_Entity.class}, version = 2)
 public abstract class MyDB extends RoomDatabase {
-    public abstract FeedDao feedDao();
+    public abstract ContactDao contactDao();
 }

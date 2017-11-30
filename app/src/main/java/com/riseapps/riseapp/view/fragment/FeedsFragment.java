@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.SharedReminderAdapter;
-import com.riseapps.riseapp.executor.DBAsync;
 import com.riseapps.riseapp.view.activity.MainActivity;
 
 import java.util.ArrayList;
@@ -51,16 +50,7 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 toggleShareDialog.toggleVisibility();
             }
         });*/
-        DBAsync dbAsync = new DBAsync(((MainActivity) getActivity()).getMyapp().getDatabase(), 1);
-        try {
-            reminderList = dbAsync.execute().get();
-            if (reminderList.size() == 0)
-                empty_state.setVisibility(View.VISIBLE);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+
         sharedReminderAdapter = new SharedReminderAdapter(getContext(), reminderList);
         recyclerView = view.findViewById(R.id.shared_reminder);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -77,7 +67,7 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     public void onRefresh() {
 
 
-        DBAsync dbAsync = new DBAsync(((MainActivity) getActivity()).getMyapp().getDatabase(), 1);
+        /*DBAsync dbAsync = new DBAsync(((MainActivity) getActivity()).getMyapp().getDatabase(), 1);
         try {
             reminderList = dbAsync.execute().get();
             if (reminderList.size() == 0)
@@ -89,7 +79,7 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
-        }
+        }*/
         Toast.makeText(getContext(), "Feeds Refreshed ", Toast.LENGTH_SHORT).show();
         sharedReminderAdapter = new SharedReminderAdapter(getContext(), reminderList);
         recyclerView.setAdapter(sharedReminderAdapter);

@@ -26,10 +26,11 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.firebase.auth.FirebaseUser;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
-import com.riseapps.riseapp.executor.DBAsync;
+
 import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
 import com.riseapps.riseapp.executor.TimeToView;
-import com.riseapps.riseapp.model.Pojo.Contact;
+import com.riseapps.riseapp.model.DB.Contact_Entity;
+
 import com.riseapps.riseapp.view.activity.MainActivity;
 import com.riseapps.riseapp.view.activity.SendReminderActivity;
 
@@ -48,7 +49,7 @@ public class ShareReminder extends Fragment implements View.OnClickListener {
     TextView time, date;
     ArrayList<String> phones = new ArrayList<>();
     private Calendar calendar;
-    ArrayList<Contact> selected_Contacts;
+    ArrayList<Contact_Entity> selected_Contacts;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

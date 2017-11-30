@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "c3f574ad7fb82cdb0c307b1d858d2ba5",
+    "identityHash": "355563323ca37a0666961b2f3fbfbebf",
     "entities": [
       {
-        "tableName": "Feed_Entity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `feed_type` INTEGER NOT NULL, `feed_sender` TEXT, `feed_time` INTEGER NOT NULL, `feed_note` TEXT, `feed_url` TEXT)",
+        "tableName": "Contact_Entity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `contact_initials` TEXT, `contact_name` TEXT, `contact_number` TEXT, `contact_selection` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,34 +15,28 @@
             "notNull": true
           },
           {
-            "fieldPath": "type",
-            "columnName": "feed_type",
+            "fieldPath": "initials",
+            "columnName": "contact_initials",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "contact_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "number",
+            "columnName": "contact_number",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "selection",
+            "columnName": "contact_selection",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "message",
-            "columnName": "feed_sender",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "time",
-            "columnName": "feed_time",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "note",
-            "columnName": "feed_note",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "imageurl",
-            "columnName": "feed_url",
-            "affinity": "TEXT",
-            "notNull": false
           }
         ],
         "primaryKey": {
@@ -57,7 +51,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c3f574ad7fb82cdb0c307b1d858d2ba5\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"355563323ca37a0666961b2f3fbfbebf\")"
     ]
   }
 }

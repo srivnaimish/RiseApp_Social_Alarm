@@ -22,8 +22,8 @@ import com.riseapps.riseapp.executor.Interface.ContactCallback;
 import com.riseapps.riseapp.executor.Interface.ContactSelection;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.Tasks;
+import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.MyApplication;
-import com.riseapps.riseapp.model.Pojo.Contact;
 import com.riseapps.riseapp.view.fragment.ShareReminder;
 
 import java.lang.reflect.Type;
@@ -31,10 +31,11 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import static com.riseapps.riseapp.Components.AppConstants.GET_CONTACTS_FROM_DB;
+import static com.riseapps.riseapp.Components.AppConstants.RESYNC_CONTACTS;
 
 public class SendReminderActivity extends AppCompatActivity implements ContactSelection, View.OnClickListener,ContactCallback {
 
-    private ArrayList<Contact> contactArrayList = new ArrayList<>();
+    private ArrayList<Contact_Entity> contactArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
     private ContactsAdapter contactsAdapter;
     private int CONTACT_LOADER = 1;
@@ -78,7 +79,7 @@ public class SendReminderActivity extends AppCompatActivity implements ContactSe
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId()==R.id.sync){
-                    ContactsSync contactsSync = new ContactsSync(SendReminderActivity.this);
+                    ContactsSync contactsSync = new ContactsSync(SendReminderActivity.this,getMyapp().getDatabase(),RESYNC_CONTACTS);
                     contactsSync.setContactCallback((ContactCallback) SendReminderActivity.this);
                     contactsSync.execute();
                 }
@@ -89,43 +90,13 @@ public class SendReminderActivity extends AppCompatActivity implements ContactSe
         getContacts();
         contactsAdapter = new ContactsAdapter(this, contactArrayList);
         recyclerView.setAdapter(contactsAdapter);
-        //getSupportLoaderManager().initLoader(CONTACT_LOADER, null, this);
     }
 
     public void getContacts()  {
-        String cachedContacts=sharedPreferenceSingleton.getSavedString(this,"Cached_Contacts");
-        if(cachedContacts!=null) {
-            contactArrayList=new Gson().fromJson(cachedContacts, new TypeToken<ArrayList<Contact>>() {
-            }.getType());
-        }
+        ContactsSync contactsSync = new ContactsSync(this,getMyapp().getDatabase(),GET_CONTACTS_FROM_DB);
+        contactsSync.setContactCallback((ContactCallback) this);
+        contactsSync.execute();
     }
-
-    /*@Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri CONTENT_URI = Phone.CONTENT_URI;
-        String sortOrder = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY + " COLLATE LOCALIZED ASC";
-        final String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY,
-                ContactsContract.CommonDataKinds.Phone.NUMBER
-        };
-        return new CursorLoader(this, CONTENT_URI, PROJECTION, null, null, sortOrder);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        while (data.moveToNext()) {
-            String name = data.getString(data.getColumnIndex(Phone.DISPLAY_NAME_PRIMARY));
-            String number = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            String initial = tasks.getInitial(name);
-            contactArrayList.add(new Contact(initial, name, number, false));
-        }
-        contactsAdapter = new ContactsAdapter(this, contactArrayList);
-        recyclerView.setAdapter(contactsAdapter);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-    }*/
 
     @Override
     public void onContactSelected(boolean selected, int position) {
@@ -165,8 +136,8 @@ public class SendReminderActivity extends AppCompatActivity implements ContactSe
         return UID;
     }
 
-    public ArrayList<Contact> getSelectedContacts(){
-        ArrayList<Contact> selected_contacts=new ArrayList<>();
+    public ArrayList<Contact_Entity> getSelectedContacts(){
+        ArrayList<Contact_Entity> selected_contacts=new ArrayList<>();
         for(int i=0;i<selected_positions.size();i++){
             selected_contacts.add(contactArrayList.get(selected_positions.get(i)));
         }
@@ -178,17 +149,17 @@ public class SendReminderActivity extends AppCompatActivity implements ContactSe
     }
 
     @Override
-    public void onSuccessfulFetch(ArrayList<Contact> contacts) {
-        Gson gson = new Gson();
-        Type type = new TypeToken<ArrayList<Contact>>() {
-        }.getType();
-        String cachedJSON = gson.toJson(contacts, type);
-        Toast.makeText(this, "Contacts synced", Toast.LENGTH_SHORT).show();
-        sharedPreferenceSingleton.saveAs(this, "Cached_Contacts", cachedJSON);
+    public void onSuccessfulFetch(ArrayList<Contact_Entity> contacts,boolean restart_Async) {
 
         contactArrayList=contacts;
         contactsAdapter = new ContactsAdapter(this, contactArrayList);
         recyclerView.setAdapter(contactsAdapter);
+
+        if(restart_Async){
+            ContactsSync contactsSync = new ContactsSync(getMyapp().getDatabase(),2,contacts);
+            contactsSync.execute();
+            Toast.makeText(this, "Contacts synced", Toast.LENGTH_SHORT).show();
+        }
 
         selected_positions.clear();
         toolbar.setTitle("Select Contacts");

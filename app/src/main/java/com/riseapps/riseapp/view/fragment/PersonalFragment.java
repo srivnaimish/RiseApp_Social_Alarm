@@ -17,7 +17,7 @@ import android.widget.TimePicker;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.PersonalAlarmAdapter;
 import com.riseapps.riseapp.executor.AlarmCreator;
-import com.riseapps.riseapp.executor.DBAsync;
+
 import com.riseapps.riseapp.executor.Interface.FabListener;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.executor.TimeToView;
@@ -35,7 +35,6 @@ public class PersonalFragment extends Fragment {
     Tasks tasks = new Tasks();
     AlarmCreator alarmCreator = new AlarmCreator();
     private LinearLayout empty_state;
-    DBAsync dbAsync;
     TimeToView timeToView = new TimeToView();
 
     public PersonalFragment() {
@@ -88,8 +87,6 @@ public class PersonalFragment extends Fragment {
             }
         });
 
-        dbAsync = new DBAsync(((MainActivity) getActivity()).getMyapp().getDatabase(), 2);
-
         return view;
     }
 
@@ -111,9 +108,6 @@ public class PersonalFragment extends Fragment {
                 alarmsAdapter.notifyItemInserted(personalAlarms.size() - 1);
                 recyclerView.smoothScrollToPosition(personalAlarms.size() - 1);
                 empty_state.setVisibility(View.GONE);
-
-                dbAsync.setAlarmParams(timeToView.getTimeAsText(selectedHour, selectedMinute));
-                dbAsync.execute();
 
             }
         }, hour, minute, true);

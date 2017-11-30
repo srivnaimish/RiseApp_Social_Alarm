@@ -58,7 +58,7 @@ public class SharedReminderAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 return new ReceivedViewHolder(context, view);
 
             case PERSONAL_ALARM:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_alarm, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.feed_row, parent, false);
                 return new PersonalAlarmViewHolder(context, view);
 
         }

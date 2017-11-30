@@ -15,8 +15,6 @@ import android.support.v4.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.riseapps.riseapp.R;
-import com.riseapps.riseapp.model.DB.Feed_Entity;
-import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.utils.NotificationUtils;
 import com.riseapps.riseapp.view.activity.MainActivity;
 
@@ -42,14 +40,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String image = data.get("Image");
 
         sendNotification(sender_no,sender_name+" sent you a Reminder");
-       /* Feed_Entity feed_entity=new Feed_Entity();
-        feed_entity.setType(3);
-        feed_entity.setMessage(sender_name);
-        feed_entity.setTime(time);
-        feed_entity.setNote(note);
-        feed_entity.setImageurl(image);
-        ((MyApplication) getApplicationContext()).getDatabase().feedDao().insertFeed(feed_entity);
-*/
+
     }
 
     private void sendNotification(int notification_id, String title) {
