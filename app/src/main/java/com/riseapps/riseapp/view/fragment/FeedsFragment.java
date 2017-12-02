@@ -10,23 +10,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.riseapps.riseapp.R;
-import com.riseapps.riseapp.executor.Adapters.SharedReminderAdapter;
+import com.riseapps.riseapp.executor.Adapters.FeedsAdapter;
+import com.riseapps.riseapp.executor.ChatSync;
+import com.riseapps.riseapp.executor.Interface.ChatCallback;
+import com.riseapps.riseapp.model.DB.Chat_Entity;
+import com.riseapps.riseapp.model.DB.ChatSummary;
 import com.riseapps.riseapp.view.activity.MainActivity;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
+
+import static com.riseapps.riseapp.Components.AppConstants.GET_CHAT_SUMMARIES;
 
 
-public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,ChatCallback {
 
     SwipeRefreshLayout swipeRefreshLayout;
     //ToggleShareDialog toggleShareDialog;
     RecyclerView recyclerView;
-    ArrayList<Object> reminderList = new ArrayList<>();
-    SharedReminderAdapter sharedReminderAdapter;
+    ArrayList<ChatSummary> summaryList = new ArrayList<>();
+    FeedsAdapter feedsAdapter;
     private ConstraintLayout empty_state;
 
     public FeedsFragment() {
@@ -42,20 +46,16 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         empty_state = view.findViewById(R.id.empty_state);
         swipeRefreshLayout.setOnRefreshListener(this);
-        //toggleShareDialog = (ToggleShareDialog) getActivity();
-
-        /*((MainActivity) getActivity()).setFabListener2(new FabListener() {
-            @Override
-            public void onFabClick() {
-                toggleShareDialog.toggleVisibility();
-            }
-        });*/
-
-        sharedReminderAdapter = new SharedReminderAdapter(getContext(), reminderList);
         recyclerView = view.findViewById(R.id.shared_reminder);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setAdapter(sharedReminderAdapter);
+        recyclerView.setAdapter(feedsAdapter);
+
+        ChatSync chatSync=new ChatSync(((MainActivity)getActivity()).getMyapp().getDatabase(),GET_CHAT_SUMMARIES);
+        chatSync.setChatCallback((ChatCallback) this);
+        chatSync.execute();
+
+
         return view;
     }
 
@@ -65,26 +65,29 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onRefresh() {
+        ChatSync chatSync=new ChatSync(((MainActivity)getActivity()).getMyapp().getDatabase(),GET_CHAT_SUMMARIES);
+        chatSync.setChatCallback((ChatCallback) this);
+        chatSync.execute();
+    }
 
+    @Override
+    public void summariesFetched(ArrayList<ChatSummary> chatSummaries) {
+        if(chatSummaries.size()!=0) {
+            summaryList = chatSummaries;
+            feedsAdapter = new FeedsAdapter(getContext(), summaryList);
+            recyclerView.setAdapter(feedsAdapter);
+            if (swipeRefreshLayout.isRefreshing())
+                swipeRefreshLayout.setRefreshing(false);
 
-        /*DBAsync dbAsync = new DBAsync(((MainActivity) getActivity()).getMyapp().getDatabase(), 1);
-        try {
-            reminderList = dbAsync.execute().get();
-            if (reminderList.size() == 0)
-                empty_state.setVisibility(View.VISIBLE);
-            else
-                empty_state.setVisibility(View.GONE);
-            swipeRefreshLayout.setRefreshing(false);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }*/
-        Toast.makeText(getContext(), "Feeds Refreshed ", Toast.LENGTH_SHORT).show();
-        sharedReminderAdapter = new SharedReminderAdapter(getContext(), reminderList);
-        recyclerView.setAdapter(sharedReminderAdapter);
+            empty_state.setVisibility(View.GONE);
+        }else {
+            empty_state.setVisibility(View.VISIBLE);
+        }
+    }
 
-        //
+    @Override
+    public void chatFetched(ArrayList<Chat_Entity> chatList) {
+
     }
 }
 

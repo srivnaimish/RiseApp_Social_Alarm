@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "c8b21b8540f7416e45521bf77eba7870",
+    "identityHash": "b7738884dcdaa78e710f7d139d5e8aef",
     "entities": [
       {
-        "tableName": "Feed_Entity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `feed_type` INTEGER NOT NULL, `feed_sender` TEXT, `feed_time` INTEGER NOT NULL, `feed_note` TEXT, `feed_url` TEXT)",
+        "tableName": "Contact_Entity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `contact_initials` TEXT, `contact_name` TEXT, `contact_number` TEXT, `contact_selection` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,34 +15,28 @@
             "notNull": true
           },
           {
-            "fieldPath": "type",
-            "columnName": "feed_type",
+            "fieldPath": "initials",
+            "columnName": "contact_initials",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "contact_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "number",
+            "columnName": "contact_number",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "selection",
+            "columnName": "contact_selection",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "message",
-            "columnName": "feed_sender",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "time",
-            "columnName": "feed_time",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "note",
-            "columnName": "feed_note",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "imageurl",
-            "columnName": "feed_url",
-            "affinity": "TEXT",
-            "notNull": false
           }
         ],
         "primaryKey": {
@@ -55,31 +49,61 @@
         "foreignKeys": []
       },
       {
-        "tableName": "Contact_Entity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `number` TEXT)",
+        "tableName": "Chat_Entity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`message_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `chat_contact_id` INTEGER NOT NULL, `chat_sender` TEXT, `chat_reciever` TEXT, `chat_time` INTEGER NOT NULL, `chat_note` TEXT, `chat_image` TEXT, `chat_read_status` INTEGER NOT NULL)",
         "fields": [
           {
-            "fieldPath": "id",
-            "columnName": "id",
+            "fieldPath": "message_id",
+            "columnName": "message_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "name",
-            "columnName": "name",
+            "fieldPath": "contact_id",
+            "columnName": "chat_contact_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sender",
+            "columnName": "chat_sender",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "number",
-            "columnName": "number",
+            "fieldPath": "reciever",
+            "columnName": "chat_reciever",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "chat_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "note",
+            "columnName": "chat_note",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "image",
+            "columnName": "chat_image",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "read_status",
+            "columnName": "chat_read_status",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "id"
+            "message_id"
           ],
           "autoGenerate": true
         },
@@ -89,7 +113,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c8b21b8540f7416e45521bf77eba7870\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b7738884dcdaa78e710f7d139d5e8aef\")"
     ]
   }
 }

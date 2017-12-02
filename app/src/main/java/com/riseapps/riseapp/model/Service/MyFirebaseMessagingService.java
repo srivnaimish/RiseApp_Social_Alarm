@@ -11,14 +11,28 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.executor.ChatSync;
+import com.riseapps.riseapp.model.DB.ChatSummary;
+import com.riseapps.riseapp.model.DB.Chat_Entity;
+import com.riseapps.riseapp.model.DB.Contact_Entity;
+import com.riseapps.riseapp.model.DB.MyDB;
+import com.riseapps.riseapp.model.MyApplication;
+import com.riseapps.riseapp.model.Pojo.ContactFetch;
 import com.riseapps.riseapp.utils.NotificationUtils;
 import com.riseapps.riseapp.view.activity.MainActivity;
+import com.riseapps.riseapp.view.activity.SendReminderActivity;
 
+import java.util.List;
 import java.util.Map;
+
+import static com.riseapps.riseapp.Components.AppConstants.INSERT_NEW_CHAT;
+import static com.riseapps.riseapp.Components.AppConstants.RECIEVED_MESSAGE;
+import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
 
 /**
  * Created by naimish on 25/9/17.
@@ -40,6 +54,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String image = data.get("Image");
 
         sendNotification(sender_no,sender_name+" sent you a Reminder");
+
+        insertChatMessage(sender_phone,time,note,image);
 
     }
 
@@ -73,6 +89,33 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             if (mNotificationManager != null) {
                 mNotificationManager.notify(notification_id, mBuilder.build());
             }
+        }
+    }
+
+    private void insertChatMessage(String phone,long time,String note,String image){
+        MyDB myDB=((MyApplication) getApplicationContext()).getDatabase();
+
+        if(myDB.contactDao().isContactPresent(phone)==0){   //Not found contact name-->phone number
+
+        }else {
+            ContactFetch contactFetched=myDB.contactDao().getContact(phone);
+
+            Chat_Entity chat_entity = new Chat_Entity();
+            chat_entity.setContact_id(contactFetched.getId());
+            chat_entity.setContact_name(contactFetched.getContact_name());
+            chat_entity.setTime(time);
+            chat_entity.setNote(note);
+            chat_entity.setImage(image);
+            chat_entity.setSent_or_recieved(RECIEVED_MESSAGE);
+            chat_entity.setRead_status(false);
+            myDB.chatDao().insertChat(chat_entity);
+
+            ChatSummary chatSummary=new ChatSummary();
+            chatSummary.setChat_contact_id(contactFetched.getId());
+            chatSummary.setChat_contact_name(contactFetched.getContact_name());
+            chatSummary.setRead(false);
+            myDB.chatDao().insertSummary(chatSummary);
+
         }
     }
 

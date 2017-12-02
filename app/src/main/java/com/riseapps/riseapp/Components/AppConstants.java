@@ -25,8 +25,16 @@ public class AppConstants {
 
     public static final int RC_SIGN_IN = 9001;
     public static final int RC_RINGTONE = 101;
+
     public static final int GET_CONTACTS_FROM_DB = 0;
     public static final int RESYNC_CONTACTS = 1;
+
+    public static final int GET_CHAT_SUMMARIES=0;
+    public static final int GET_CHAT=1;
+    public static final int INSERT_NEW_CHAT=2;
+
+    public static final int SENT_MESSAGE=0;
+    public static final int RECIEVED_MESSAGE=1;
 
     public static final String[] weekdays = {"Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"};
 

@@ -1,7 +1,7 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
+    "version": 3,
     "identityHash": "0bf59ad0b346b892c29634e0f6caa9b9",
     "entities": [
       {
@@ -121,13 +121,13 @@
             "notNull": true
           },
           {
-            "fieldPath": "chat_contact_name",
+            "fieldPath": "chat_sender",
             "columnName": "chat_contact_name",
             "affinity": "TEXT",
             "notNull": false
           },
           {
-            "fieldPath": "read",
+            "fieldPath": "unread_count",
             "columnName": "unread_messages",
             "affinity": "INTEGER",
             "notNull": true

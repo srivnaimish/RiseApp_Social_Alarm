@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+    android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/empty_state"
@@ -15,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone">
+        >
 
         <ImageView
             android:id="@+id/im1"

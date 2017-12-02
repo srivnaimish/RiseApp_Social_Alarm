@@ -4,6 +4,8 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
+import com.riseapps.riseapp.model.Pojo.ContactFetch;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,5 +24,11 @@ public interface ContactDao {
 
     @Query("DELETE FROM contact_entity")
     public void clearContacts();
+
+    @Query("SELECT COUNT(*) FROM contact_entity WHERE contact_number=:phone")
+    int isContactPresent(String phone);
+
+    @Query("SELECT id,contact_name FROM contact_entity WHERE contact_number=:phone")
+    ContactFetch getContact(String phone);
 
 }

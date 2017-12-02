@@ -10,58 +10,40 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class Chat_Entity {
     @PrimaryKey(autoGenerate = true)
-    private int id;
-    @ColumnInfo(name = "chat_sender")
-    private String sender;
-    @ColumnInfo(name = "chat_reciver")
-    private String reciever;
+    private int message_id;
+
+    @ColumnInfo(name = "chat_contact_id")
+    private int contact_id;
+    @ColumnInfo(name = "chat_contact_name")
+    private String contact_name;
     @ColumnInfo(name = "chat_time")
-    private String time;
-    @ColumnInfo(name = "contact_note")
+    private long time;
+    @ColumnInfo(name = "chat_note")
     private String note;
-    @ColumnInfo(name = "image")
+    @ColumnInfo(name = "chat_image")
     private String image;
-    @ColumnInfo(name = "read_status")
+    @ColumnInfo(name = "sent_or_recieved")
+    private int sent_or_recieved;
+    @ColumnInfo(name = "chat_read_status")
     private boolean read_status;
 
-    public Chat_Entity(String sender, String reciever, String time, String note, String image, boolean read_status) {
-        this.sender = sender;
-        this.reciever = reciever;
-        this.time = time;
-        this.note = note;
-        this.image = image;
-        this.read_status = read_status;
+    public Chat_Entity() {
+
     }
 
-    public int getId() {
-        return id;
+    public String getContact_name() {
+        return contact_name;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setContact_name(String contact_name) {
+        this.contact_name = contact_name;
     }
 
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public String getReciever() {
-        return reciever;
-    }
-
-    public void setReciever(String reciever) {
-        this.reciever = reciever;
-    }
-
-    public String getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(long time) {
         this.time = time;
     }
 
@@ -87,5 +69,29 @@ public class Chat_Entity {
 
     public void setRead_status(boolean read_status) {
         this.read_status = read_status;
+    }
+
+    public int getContact_id() {
+        return contact_id;
+    }
+
+    public void setContact_id(int contact_id) {
+        this.contact_id = contact_id;
+    }
+
+    public int getMessage_id() {
+        return message_id;
+    }
+
+    public void setMessage_id(int message_id) {
+        this.message_id = message_id;
+    }
+
+    public int getSent_or_recieved() {
+        return sent_or_recieved;
+    }
+
+    public void setSent_or_recieved(int sent_or_recieved) {
+        this.sent_or_recieved = sent_or_recieved;
     }
 }

@@ -40,7 +40,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".view.activity.SendReminderActivity"></activity>
+        <activity android:name=".view.activity.SendReminderActivity" />
+        <activity android:name=".view.activity.ChatActivity"></activity>
     </application>
 
 </manifest>

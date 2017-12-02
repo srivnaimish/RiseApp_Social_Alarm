@@ -27,8 +27,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 
+import com.riseapps.riseapp.executor.ChatSync;
 import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
 import com.riseapps.riseapp.executor.TimeToView;
+import com.riseapps.riseapp.model.DB.Chat_Entity;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 
 import com.riseapps.riseapp.view.activity.MainActivity;
@@ -36,6 +38,9 @@ import com.riseapps.riseapp.view.activity.SendReminderActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import static com.riseapps.riseapp.Components.AppConstants.INSERT_NEW_CHAT;
+import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
 
 /**
  * Created by naimish on 4/11/17.
@@ -111,14 +116,8 @@ public class ShareReminder extends Fragment implements View.OnClickListener {
 
                 new AppConstants().sendReminder(((SendReminderActivity)getActivity()).getUID(), phones, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
 
-                /*StringBuilder people = new StringBuilder();
-                for (String s : phones)
-                    people.append(s).append(",");
-
-                DBAsync dbAsync = new DBAsync(((SendReminderActivity)getActivity()).getMyapp().getDatabase(), 3);
-                dbAsync.setSentParams(people.toString(), calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
-                dbAsync.execute();
-*/
+                ChatSync chatSync=new ChatSync(selected_Contacts,calendar.getTimeInMillis(),edit_note.getText().toString(),edit_image.getText().toString(),SENT_MESSAGE,true,((SendReminderActivity)getActivity()).getMyapp().getDatabase(),INSERT_NEW_CHAT);
+                chatSync.execute();
                 getActivity().finish();
                 break;
 
