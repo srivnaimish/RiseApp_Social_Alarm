@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,6 +8,7 @@
     tools:context="com.riseapps.riseapp.view.activity.ChatActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <android.support.v7.widget.Toolbar
@@ -62,10 +63,14 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chat_messages"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior = "@string/appbar_scrolling_view_behavior"
-        />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toTopOf="@id/card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appbar" />
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -74,6 +79,10 @@
         android:layout_margin="8dp"
         card_view:cardCornerRadius="24dp"
         card_view:cardBackgroundColor="?colorPrimary"
+        android:id="@+id/card"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         >
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -110,9 +119,10 @@
                 app:srcCompat="@drawable/ic_send"
                 card_view:layout_constraintBottom_toBottomOf="parent"
                 card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent" />
+                card_view:layout_constraintTop_toTopOf="parent"
+                />
             <!---->
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.constraint.ConstraintLayout>

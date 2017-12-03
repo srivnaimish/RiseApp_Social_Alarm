@@ -78,7 +78,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         @Override
         public void onClick(View v) {
             Intent intent=new Intent(context, ChatActivity.class);
-            intent.putExtra("Sender_id",chatSummary.getChat_contact_id());
+            intent.putExtra("contact_id",chatSummary.getChat_contact_id());
             context.startActivity(intent);
         }
     }

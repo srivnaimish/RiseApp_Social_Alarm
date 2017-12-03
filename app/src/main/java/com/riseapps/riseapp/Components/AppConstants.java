@@ -34,7 +34,7 @@ public class AppConstants {
     public static final int INSERT_NEW_CHAT=2;
 
     public static final int SENT_MESSAGE=0;
-    public static final int RECIEVED_MESSAGE=1;
+    public static final int RECEIVED_MESSAGE =1;
 
     public static final String[] weekdays = {"Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"};
 
@@ -46,7 +46,7 @@ public class AppConstants {
     public static final String REMINDER = "reminder";
     public static final String GET_CONTACTS = "GET_CONTACTS";
 
-    public static final String BASE_URL = "http://192.168.1.105/";
+    public static final String BASE_URL = "http://192.168.29.153/";
 
     public void sendReminder(String sender, ArrayList<String> Recipients, long Time, String Note, String ImageURL) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -61,7 +61,6 @@ public class AppConstants {
 
         Message message = new Message(sender, Recipients, Time, Note, ImageURL);
         messageRequest.setMessage(message);
-        Log.d(REMINDER, "Sending");
         Call<ServerResponse> response = requestInterface.chat(messageRequest);
         response.enqueue(new Callback<ServerResponse>() {
             @Override
