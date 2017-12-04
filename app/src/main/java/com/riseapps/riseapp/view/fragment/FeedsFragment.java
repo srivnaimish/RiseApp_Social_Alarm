@@ -72,12 +72,12 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void summariesFetched(ArrayList<ChatSummary> chatSummaries) {
+        if (swipeRefreshLayout.isRefreshing())
+            swipeRefreshLayout.setRefreshing(false);
         if(chatSummaries.size()!=0) {
             summaryList = chatSummaries;
             feedsAdapter = new FeedsAdapter(getContext(), summaryList);
             recyclerView.setAdapter(feedsAdapter);
-            if (swipeRefreshLayout.isRefreshing())
-                swipeRefreshLayout.setRefreshing(false);
 
             empty_state.setVisibility(View.GONE);
         }else {

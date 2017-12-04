@@ -2,6 +2,7 @@ package com.riseapps.riseapp.executor.Adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.riseapps.riseapp.model.DB.Chat_Entity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.concurrent.ExecutionException;
 
 import static com.riseapps.riseapp.Components.AppConstants.RECEIVED_MESSAGE;
 import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
@@ -92,15 +94,12 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 sentMessageViewHolder.note.setText(sent_note);
                 sentMessageViewHolder.time.setText(sent_timeInString);
                 sentMessageViewHolder.date.setText(sent_dateInString);
-                if(sent_chat.getImage()==null){
-                    sentMessageViewHolder.imageView.setVisibility(View.GONE);
-                }else {
-                    Glide.with(context)
-                            .load(sent_chat.getImage())
-                            .asBitmap()
-                            .dontAnimate()
-                            .into(sentMessageViewHolder.imageView);
-                }
+
+                Glide.with(context)
+                        .load(sent_chat.getImage())
+                        .dontAnimate()
+                        .error(R.drawable.placeholder_image)
+                        .into(sentMessageViewHolder.imageView);
 
                 sentMessageViewHolder.chat_entity=sent_chat;
 
@@ -122,23 +121,17 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 else
                     received_timeInString+=" pm,";
 
-
-
                 String received_dateInString=received_calendar.get(Calendar.DAY_OF_MONTH)+"-"+(received_calendar.get(Calendar.MONTH)+1)+"-"+received_calendar.get(Calendar.YEAR);
 
                 receivedMessageViewHolder.note.setText(received_note);
                 receivedMessageViewHolder.time.setText(received_timeInString);
                 receivedMessageViewHolder.date.setText(received_dateInString);
-                Log.d("ikage",received_chat.getImage());
-                if(received_chat.getImage()==null){
-                    receivedMessageViewHolder.imageView.setVisibility(View.GONE);
-                }else {
-                    Glide.with(context)
-                            .load(received_chat.getImage())
-                            .asBitmap()
-                            .dontAnimate()
-                            .into(receivedMessageViewHolder.imageView);
-                }
+
+                Glide.with(context)
+                        .load(received_chat.getImage())
+                        .dontAnimate()
+                        .error(R.drawable.placeholder_image)
+                        .into(receivedMessageViewHolder.imageView);
 
                 receivedMessageViewHolder.chat_entity=received_chat;
 

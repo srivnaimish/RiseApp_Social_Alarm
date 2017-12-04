@@ -32,6 +32,7 @@ public class AppConstants {
     public static final int GET_CHAT_SUMMARIES=0;
     public static final int GET_CHAT=1;
     public static final int INSERT_NEW_CHAT=2;
+    public static final int DELETE_CHAT=3;
 
     public static final int SENT_MESSAGE=0;
     public static final int RECEIVED_MESSAGE =1;

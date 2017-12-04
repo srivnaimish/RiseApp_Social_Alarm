@@ -100,7 +100,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             chat_entity.setNote(note);
             chat_entity.setImage(image);
             chat_entity.setSent_or_recieved(RECEIVED_MESSAGE);
-            chat_entity.setRead_status(false);
             myDB.chatDao().insertChat(chat_entity);
 
             ChatSummary chatSummary=new ChatSummary();

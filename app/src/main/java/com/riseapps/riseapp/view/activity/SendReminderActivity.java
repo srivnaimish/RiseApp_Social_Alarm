@@ -127,6 +127,7 @@ public class SendReminderActivity extends AppCompatActivity implements ContactSe
             ft.replace(R.id.background, shareReminder, "SharedReminder");
             ft.addToBackStack(null);
             ft.commit();
+            done.hide();
         }else {
             finish();
         }

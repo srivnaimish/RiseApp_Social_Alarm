@@ -13,7 +13,7 @@ public class ChatSummary {
     private int chat_contact_id;
     @ColumnInfo(name = "chat_contact_name")
     private String chat_contact_name;
-    @ColumnInfo(name = "unread_messages")
+    @ColumnInfo(name = "read_messages")
     private boolean read;
 
     public ChatSummary(){}

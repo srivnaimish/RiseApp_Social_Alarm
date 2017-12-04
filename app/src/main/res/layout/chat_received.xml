@@ -21,7 +21,7 @@
         android:foreground="?selectableItemBackgroundBorderless"
         card_view:cardBackgroundColor="?colorPrimary"
         card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="0dp"
+        card_view:cardElevation="2dp"
         card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toTopOf="parent">
@@ -30,17 +30,18 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/received_layout">
 
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="220dp"
+                android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/pic"
+                android:src="@drawable/placeholder_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +55,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:fontFamily="sans-serif-light"
-                android:maxWidth="212dp"
+                android:maxWidth="192dp"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

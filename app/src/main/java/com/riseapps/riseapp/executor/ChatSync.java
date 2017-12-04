@@ -11,6 +11,7 @@ import com.riseapps.riseapp.model.DB.ChatSummary;
 
 import java.util.ArrayList;
 
+import static com.riseapps.riseapp.Components.AppConstants.DELETE_CHAT;
 import static com.riseapps.riseapp.Components.AppConstants.GET_CHAT;
 import static com.riseapps.riseapp.Components.AppConstants.GET_CHAT_SUMMARIES;
 import static com.riseapps.riseapp.Components.AppConstants.INSERT_NEW_CHAT;
@@ -40,7 +41,7 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
         this.choice=choice;
     }
 
-    public ChatSync(int contact_id,MyDB myDB,int choice) {   // for choice GET_CHAT
+    public ChatSync(int contact_id,MyDB myDB,int choice) {   // for choice GET_CHAT  & DELETE_CHAT
         this.myDB=myDB;
         this.choice=choice;
         this.contact_id=contact_id;
@@ -69,6 +70,9 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
             case INSERT_NEW_CHAT:
                 insertChatMessage();
                 break;
+            case DELETE_CHAT:
+                deleteChat();
+                break;
         }
 
         return null;
@@ -81,6 +85,8 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
     }
 
     private void getChatWithContact() {
+        myDB.chatDao().updateReadStatus(contact_id,true);
+
         ArrayList<Chat_Entity> chat_entities=(ArrayList<Chat_Entity>) myDB.chatDao().getChatMessages(contact_id);
         chatCallback.chatFetched(chat_entities);
         Log.d("Chat Fetched","Successful "+chat_entities.size());
@@ -95,19 +101,28 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
             chat_entity.setNote(note);
             chat_entity.setImage(image);
             chat_entity.setSent_or_recieved(sent_or_recieved);
-            chat_entity.setRead_status(read);
             myDB.chatDao().insertChat(chat_entity);
 
             ChatSummary chatSummary=new ChatSummary();
             chatSummary.setChat_contact_id(contact.getId());
             chatSummary.setChat_contact_name(contact.getName());
             chatSummary.setRead(read);
-            myDB.chatDao().insertSummary(chatSummary);
+
+           // if(myDB.chatDao().searchSummary(contact_id)==0){
+                myDB.chatDao().insertSummary(chatSummary);
+           /* }else {
+                myDB.chatDao().updateSummaryRead(chatSummary);
+            }*/
         }
 
         Log.d("Insert","Successful");
     }
 
+    private void deleteChat(){
+        myDB.chatDao().deleteChat(contact_id);
+        myDB.chatDao().deleteSummary(contact_id);
+        Log.d("Delete","Successful");
+    }
 
     public void setChatCallback(ChatCallback chatCallback) {
         this.chatCallback = chatCallback;

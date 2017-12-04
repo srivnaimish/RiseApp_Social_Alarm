@@ -24,8 +24,6 @@ public class Chat_Entity {
     private String image;
     @ColumnInfo(name = "sent_or_recieved")
     private int sent_or_recieved;
-    @ColumnInfo(name = "chat_read_status")
-    private boolean read_status;
 
     public Chat_Entity() {
 
@@ -61,14 +59,6 @@ public class Chat_Entity {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public boolean isRead_status() {
-        return read_status;
-    }
-
-    public void setRead_status(boolean read_status) {
-        this.read_status = read_status;
     }
 
     public int getContact_id() {

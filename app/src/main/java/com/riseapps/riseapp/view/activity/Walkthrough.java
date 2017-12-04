@@ -212,6 +212,7 @@ public class Walkthrough extends AppCompatActivity {
     public void gotoMain() {
         editText.clearFocus();
         sharedPreferenceSingleton.saveAs(this, "Logged", true);
+        sharedPreferenceSingleton.saveAs(this,"Name",editText.getText().toString());
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }

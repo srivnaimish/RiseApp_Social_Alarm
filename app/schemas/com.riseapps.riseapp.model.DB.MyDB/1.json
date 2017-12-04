@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0bf59ad0b346b892c29634e0f6caa9b9",
+    "identityHash": "6958ad0af61d573975dba735f4df2690",
     "entities": [
       {
         "tableName": "Contact_Entity",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "Chat_Entity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`message_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `chat_contact_id` INTEGER NOT NULL, `chat_contact_name` TEXT, `chat_time` INTEGER NOT NULL, `chat_note` TEXT, `chat_image` TEXT, `sent_or_recieved` INTEGER NOT NULL, `chat_read_status` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`message_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `chat_contact_id` INTEGER NOT NULL, `chat_contact_name` TEXT, `chat_time` INTEGER NOT NULL, `chat_note` TEXT, `chat_image` TEXT, `sent_or_recieved` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "message_id",
@@ -93,12 +93,6 @@
             "columnName": "sent_or_recieved",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "read_status",
-            "columnName": "chat_read_status",
-            "affinity": "INTEGER",
-            "notNull": true
           }
         ],
         "primaryKey": {
@@ -112,7 +106,7 @@
       },
       {
         "tableName": "ChatSummary",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`chat_contact_id` INTEGER NOT NULL, `chat_contact_name` TEXT, `unread_messages` INTEGER NOT NULL, PRIMARY KEY(`chat_contact_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`chat_contact_id` INTEGER NOT NULL, `chat_contact_name` TEXT, `read_messages` INTEGER NOT NULL, PRIMARY KEY(`chat_contact_id`))",
         "fields": [
           {
             "fieldPath": "chat_contact_id",
@@ -128,7 +122,7 @@
           },
           {
             "fieldPath": "read",
-            "columnName": "unread_messages",
+            "columnName": "read_messages",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -145,7 +139,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0bf59ad0b346b892c29634e0f6caa9b9\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6958ad0af61d573975dba735f4df2690\")"
     ]
   }
 }

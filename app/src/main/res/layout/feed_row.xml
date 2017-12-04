@@ -8,7 +8,7 @@
     android:layout_marginTop="2dp"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?selectableItemBackgroundBorderless"
+    android:foreground="?selectableItemBackground"
     card_view:cardBackgroundColor="?colorPrimary"
     card_view:cardCornerRadius="1dp"
     card_view:cardElevation="1dp"

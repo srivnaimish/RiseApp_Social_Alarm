@@ -5,13 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.ChatAdapter;
@@ -27,6 +28,7 @@ import java.util.Calendar;
 
 import static com.riseapps.riseapp.Components.AppConstants.GET_CHAT;
 import static com.riseapps.riseapp.Components.AppConstants.RECEIVED_MESSAGE;
+import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
 
 public class ChatActivity extends AppCompatActivity implements ChatCallback{
 
@@ -38,24 +40,38 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback{
     private ChatAdapter chatAdapter;
     private TextView initials,name;
     private Toolbar toolbar;
+    private ImageButton back;
     private int contact_id;
     private ArrayList<Chat_Entity> chatList;
     private Tasks tasks=new Tasks();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (tasks.getCurrentTheme(this) == 0) {
+            setTheme(R.style.AppTheme2);
+        } else {
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         toolbar=findViewById(R.id.toolbar);
+        back=findViewById(R.id.back);
         initials=findViewById(R.id.initials);
         name=findViewById(R.id.chat_title);
         recyclerView=findViewById(R.id.chat_messages);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         contact_id=getIntent().getIntExtra("contact_id",0);
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         getChat();
 
-        new Handler().postDelayed(new Runnable() {
+        /*new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Chat_Entity chat_entity=new Chat_Entity();
@@ -68,8 +84,18 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback{
                 chat_entity.setImage("https://cdn.pixabay.com/photo/2017/09/22/19/05/tomato-2776735_640.jpg");
                 chatList.add(chat_entity);
                 chatAdapter.notifyItemInserted(chatList.size());
+                chat_entity=new Chat_Entity();
+                chat_entity.setContact_id(1);
+                chat_entity.setContact_name("Papa");
+                chat_entity.setNote("Hey there");
+                chat_entity.setRead_status(true);
+                chat_entity.setSent_or_recieved(SENT_MESSAGE);
+                chat_entity.setTime(System.currentTimeMillis());
+                chat_entity.setImage("https://cdn.pixabay.com/photo/2017/09/22/19/05/tomato-2776735_640.jpg");
+                chatList.add(chat_entity);
+                chatAdapter.notifyItemInserted(chatList.size());
             }
-        },3000);
+        },3000);*/
     }
 
     private void getChat() {
