@@ -6,15 +6,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.SectionPagerAdapter;
 import com.riseapps.riseapp.executor.ContactsSync;
@@ -25,8 +27,8 @@ import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.MyApplication;
+import com.riseapps.riseapp.view.fragment.Settings;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import static com.riseapps.riseapp.Components.AppConstants.RC_RINGTONE;
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Tasks tasks = new Tasks();
     private FabListener fabListener1, fabListener2;
     private MyApplication myapp;
+    private TextView toolbar_title;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,27 +63,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TabLayout tabLayout = findViewById(R.id.tablayout);
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(this);
+        toolbar_title=findViewById(R.id.toolbar_title);
 
         SectionPagerAdapter mSectionsPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.viewpager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        toolbar=findViewById(R.id.toolbar);
+
+        toolbar.inflateMenu(R.menu.main_menu);
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Settings settings = new Settings();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.main_background, settings, "Settings");
+                ft.addToBackStack(null);
+                ft.commit();
+                return false;
+            }
+        });
         // mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                if(position==0){
+                    toolbar_title.setText("Messages");
+                }else if(position==1){
+                    toolbar_title.setText("Personal Alarms");
+                }
             }
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 2)
-                    fab.hide();
-                else if (position == 1) {
-                    fab.setImageResource(R.drawable.ic_quill);
+                if (position == 1) {
+                    fab.setImageResource(R.drawable.ic_add_alarm);
                     fab.show();
                 } else if (position == 0) {
-                    fab.setImageResource(R.drawable.ic_add_alarm);
+                    fab.setImageResource(R.drawable.ic_quill);
                     fab.show();
                 }
 
@@ -96,13 +117,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int iconId = -1;
             switch (i) {
                 case 0:
-                    iconId = R.drawable.menu_alarm;
-                    break;
-                case 1:
                     iconId = R.drawable.menu_feeds;
                     break;
-                case 2:
-                    iconId = R.drawable.menu_settings;
+                case 1:
+                    iconId = R.drawable.menu_alarm;
                     break;
             }
             tabLayout.getTabAt(i).setIcon(iconId);
@@ -124,11 +142,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.fab:
                 int pos = mViewPager.getCurrentItem();
                 if (pos == 0) {
-                    fabListener1.onFabClick();
-                } else if (pos == 1) {
-                    Intent intent=new Intent(this, SendReminderActivity.class);
+                    Intent intent=new Intent(this, PickContacts.class);
                     intent.putExtra("UID",currentUser.getUid());
                     startActivity(intent);
+                } else if (pos == 1) {
+                    fabListener1.onFabClick();
                 }
                 break;
         }
@@ -175,5 +193,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onUnsuccessfulFetch() {
         Toast.makeText(this, "Error Fetching contacts", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0)
+            getSupportFragmentManager().popBackStackImmediate();
+        else
+        super.onBackPressed();
     }
 }

@@ -5,16 +5,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:fitsSystemWindows="true"
-    tools:context="com.riseapps.riseapp.view.activity.ChatActivity">
+    tools:context="com.riseapps.riseapp.view.activity.ChatActivity"
+    android:background="?android:colorBackground">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -70,6 +73,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/bell"
                     app:layout_constraintStart_toEndOf="@+id/bell"
                     app:layout_constraintTop_toTopOf="@+id/bell"
+                    android:textColor="@android:color/white"
                     tools:text="@string/app_name" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.Toolbar>
@@ -90,12 +94,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="4dp"
-        card_view:cardCornerRadius="24dp"
-        card_view:cardBackgroundColor="?colorPrimary"
+        card_view:cardCornerRadius="0dp"
+        card_view:cardBackgroundColor="?card_color"
         android:id="@+id/card"
+        card_view:cardElevation="3dp"
         card_view:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -119,23 +121,20 @@
                 card_view:layout_constraintEnd_toStartOf="@+id/send_fab"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toTopOf="parent"
+                android:maxLength="1000"
                 android:maxLines="5"
                 android:textSize="16sp"
+                android:imeOptions="actionSend|flagNoEnterAction"
                 />
 
             <ImageButton
                 android:id="@+id/send_fab"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="12dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/ripple"
-                android:tint="@color/colorAccent"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="?colorPrimary"
                 app:srcCompat="@drawable/ic_send"
                 card_view:layout_constraintBottom_toBottomOf="parent"
                 card_view:layout_constraintEnd_toEndOf="parent"
-                card_view:layout_constraintTop_toTopOf="parent"
                 />
             <!---->
         </android.support.constraint.ConstraintLayout>

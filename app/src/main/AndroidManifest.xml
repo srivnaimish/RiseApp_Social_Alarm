@@ -40,7 +40,7 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".view.activity.SendReminderActivity" />
+        <activity android:name=".view.activity.PickContacts" />
         <activity android:name=".view.activity.ChatActivity"></activity>
     </application>
 

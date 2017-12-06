@@ -69,7 +69,8 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
             theme_switch.setChecked(true);
         }
 
-        firebaseUser = ((MainActivity) getActivity()).currentUser;
+        assert ((MainActivity)getActivity()) != null;
+        firebaseUser = ((MainActivity)getActivity()).currentUser;
 
         String username = sharedPreferenceSingleton.getSavedString(getContext(),"Name");
         name.setText(username);

@@ -11,7 +11,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackgroundBorderless"
-    card_view:cardBackgroundColor="?colorPrimary"
+    card_view:cardBackgroundColor="?card_color"
     card_view:cardCornerRadius="0dp"
     card_view:cardElevation="0dp">
 
@@ -41,7 +41,6 @@
             android:layout_marginTop="32dp"
             android:fontFamily="sans-serif-light"
             android:textSize="40sp"
-            android:textStyle=""
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="22:00" />
@@ -75,12 +74,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-
+            android:paddingTop="8dp"
             app:layout_constraintStart_toStartOf="@id/next_trigger_day"
             app:layout_constraintTop_toBottomOf="@+id/repeat">
 
             <Button
                 android:id="@+id/sun"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:background="@drawable/day_off"
@@ -92,9 +92,10 @@
 
             <Button
                 android:id="@+id/mon"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="1dp"
                 android:background="@drawable/day_off"
                 android:fontFamily="sans-serif-light"
                 android:text="Mo"
@@ -104,9 +105,10 @@
 
             <Button
                 android:id="@+id/tue"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="1dp"
                 android:background="@drawable/day_off"
                 android:fontFamily="sans-serif-light"
                 android:text="Tu"
@@ -116,9 +118,10 @@
 
             <Button
                 android:id="@+id/wed"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="1dp"
                 android:background="@drawable/day_off"
                 android:fontFamily="sans-serif-light"
                 android:text="Wd"
@@ -128,9 +131,10 @@
 
             <Button
                 android:id="@+id/thu"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="1dp"
                 android:background="@drawable/day_off"
                 android:fontFamily="sans-serif-light"
                 android:text="Th"
@@ -140,9 +144,10 @@
 
             <Button
                 android:id="@+id/fri"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="1dp"
                 android:background="@drawable/day_off"
                 android:fontFamily="sans-serif-light"
                 android:text="Fr"
@@ -152,9 +157,10 @@
 
             <Button
                 android:id="@+id/sat"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="1dp"
                 android:background="@drawable/day_off"
                 android:fontFamily="sans-serif-light"
                 android:text="Sa"

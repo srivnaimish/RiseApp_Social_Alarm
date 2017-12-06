@@ -9,12 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.ContactsAdapter;
 import com.riseapps.riseapp.executor.ContactsSync;
@@ -26,14 +22,12 @@ import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.view.fragment.ShareReminder;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 import static com.riseapps.riseapp.Components.AppConstants.GET_CONTACTS_FROM_DB;
 import static com.riseapps.riseapp.Components.AppConstants.RESYNC_CONTACTS;
 
-public class SendReminderActivity extends AppCompatActivity implements ContactSelection, View.OnClickListener,ContactCallback {
+public class PickContacts extends AppCompatActivity implements ContactSelection, View.OnClickListener,ContactCallback {
 
     private ArrayList<Contact_Entity> contactArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -56,7 +50,7 @@ public class SendReminderActivity extends AppCompatActivity implements ContactSe
         } else {
             setTheme(R.style.AppTheme);
         }
-        setContentView(R.layout.activity_send_reminder);
+        setContentView(R.layout.activity_pick_contacts);
         myapp = (MyApplication) getApplicationContext();
         UID=getIntent().getStringExtra("UID");
         toolbar=findViewById(R.id.toolbar);
@@ -79,8 +73,8 @@ public class SendReminderActivity extends AppCompatActivity implements ContactSe
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId()==R.id.sync){
-                    ContactsSync contactsSync = new ContactsSync(SendReminderActivity.this,getMyapp().getDatabase(),RESYNC_CONTACTS);
-                    contactsSync.setContactCallback((ContactCallback) SendReminderActivity.this);
+                    ContactsSync contactsSync = new ContactsSync(PickContacts.this,getMyapp().getDatabase(),RESYNC_CONTACTS);
+                    contactsSync.setContactCallback((ContactCallback) PickContacts.this);
                     contactsSync.execute();
                 }
                 return true;

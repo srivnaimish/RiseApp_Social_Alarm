@@ -19,9 +19,9 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?selectableItemBackgroundBorderless"
-        card_view:cardBackgroundColor="?colorPrimary"
+        card_view:cardBackgroundColor="?card_color"
         card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="2dp"
+        card_view:cardElevation="1dp"
         card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintStart_toStartOf="parent"
         card_view:layout_constraintTop_toTopOf="parent">

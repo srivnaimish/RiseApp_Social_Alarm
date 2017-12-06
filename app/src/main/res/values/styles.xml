@@ -13,6 +13,7 @@
         <item name="android:colorBackground">@color/colorMainBackground</item>
         <item name="iconDual">#ffffff</item>
         <item name="backgroundDual">@color/colorMainBackground</item>
+        <item name="card_color">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
@@ -21,12 +22,13 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark1</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorPrimary">@color/textColorPrimary1</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary1</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="android:textColorTertiary">@color/colorPrimaryFontDark1</item>
         <item name="actionModeBackground">@android:color/white</item>
         <item name="android:colorBackground">@color/colorMainBackground1</item>
-        <item name="iconDual">#000000</item>
+        <item name="iconDual">@color/colorPrimary1</item>
         <item name="backgroundDual">@color/colorMainBackground1</item>
+        <item name="card_color">@android:color/white</item>
     </style>
 
     <style name="DialogAnimation">

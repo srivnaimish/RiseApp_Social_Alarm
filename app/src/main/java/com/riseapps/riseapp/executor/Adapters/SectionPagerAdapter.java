@@ -1,9 +1,15 @@
 package com.riseapps.riseapp.executor.Adapters;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
+import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.view.fragment.FeedsFragment;
 import com.riseapps.riseapp.view.fragment.PersonalFragment;
 import com.riseapps.riseapp.view.fragment.Settings;
@@ -14,7 +20,7 @@ import com.riseapps.riseapp.view.fragment.Settings;
 
 public class SectionPagerAdapter extends FragmentPagerAdapter {
 
-    // String tabTitles[] = new String[]{"Personal", "Shared", "Weather","Settings"};
+     private String tabTitles[] = new String[]{"Messages", "Personal"};
 
     public SectionPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -24,25 +30,21 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return PersonalFragment.newInstance();
-            case 1:
                 return FeedsFragment.newInstance();
-            case 2:
-                return Settings.newInstance();
-
-
+            case 1:
+                return PersonalFragment.newInstance();
         }
         return PersonalFragment.newInstance();
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "";
+        return tabTitles[position];
     }
 
 }

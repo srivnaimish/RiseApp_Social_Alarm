@@ -5,7 +5,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     card_view:cardCornerRadius="4dp"
     card_view:cardElevation="4dp"
-    card_view:cardBackgroundColor="?colorPrimary"
+    card_view:cardBackgroundColor="?android:colorBackground"
     >
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

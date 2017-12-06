@@ -7,13 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -23,18 +19,14 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.flexbox.FlexboxLayout;
-import com.google.firebase.auth.FirebaseUser;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 
 import com.riseapps.riseapp.executor.ChatSync;
-import com.riseapps.riseapp.executor.Interface.ToggleShareDialog;
 import com.riseapps.riseapp.executor.TimeToView;
-import com.riseapps.riseapp.model.DB.Chat_Entity;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 
-import com.riseapps.riseapp.view.activity.MainActivity;
-import com.riseapps.riseapp.view.activity.SendReminderActivity;
+import com.riseapps.riseapp.view.activity.PickContacts;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -76,7 +68,7 @@ public class ShareReminder extends Fragment implements View.OnClickListener {
         time.setOnClickListener(this);
         date.setOnClickListener(this);
 
-        selected_Contacts=((SendReminderActivity)getActivity()).getSelectedContacts();
+        selected_Contacts=((PickContacts)getActivity()).getSelectedContacts();
         addTextStrips();
         return view;
     }
@@ -114,9 +106,9 @@ public class ShareReminder extends Fragment implements View.OnClickListener {
                     return;
                 }
 
-                new AppConstants().sendReminder(((SendReminderActivity)getActivity()).getUID(), phones, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
+                new AppConstants().sendReminder(((PickContacts)getActivity()).getUID(), phones, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
 
-                ChatSync chatSync=new ChatSync(selected_Contacts,calendar.getTimeInMillis(),edit_note.getText().toString(),edit_image.getText().toString(),SENT_MESSAGE,true,((SendReminderActivity)getActivity()).getMyapp().getDatabase(),INSERT_NEW_CHAT);
+                ChatSync chatSync=new ChatSync(selected_Contacts,calendar.getTimeInMillis(),edit_note.getText().toString(),edit_image.getText().toString(),SENT_MESSAGE,true,((PickContacts)getActivity()).getMyapp().getDatabase(),INSERT_NEW_CHAT);
                 chatSync.execute();
                 getActivity().finish();
                 break;

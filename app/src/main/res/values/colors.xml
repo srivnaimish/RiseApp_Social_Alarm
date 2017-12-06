@@ -4,14 +4,14 @@
     <color name="colorPrimaryDark">#1E1E28</color>
     <color name="textColorPrimary">#FAFAFA</color>
     <color name="colorPrimaryFontDark">#FAFAFA</color>
-    <color name="colorAccent">#26C281</color>
+    <color name="colorAccent">#ff9800</color>
     <color name="colorMainBackground">#1E1E28</color>
 
-    <color name="colorPrimary1">#FFFFFF</color>
-    <color name="colorPrimaryDark1">#000</color>
-    <color name="textColorPrimary1">#000</color>
-    <color name="colorPrimaryFontDark1">#212121</color>
-    <color name="colorMainBackground1">#EEEEEE</color>
+    <color name="colorPrimary1">#673AB7</color>
+    <color name="colorPrimaryDark1">#512DA8</color>
+    <color name="textColorPrimary1">#636363</color>
+    <color name="textColorSecondary1">#9E9E9E</color>
+    <color name="colorMainBackground1">#f7fbfd</color>
 
 
     <color name="color1">#95a5a6</color>

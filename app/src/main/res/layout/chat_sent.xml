@@ -21,7 +21,7 @@
         android:foreground="?selectableItemBackgroundBorderless"
         card_view:cardBackgroundColor="?colorPrimary"
         card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="2dp"
+        card_view:cardElevation="0dp"
         card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintEnd_toEndOf="parent"
         card_view:layout_constraintTop_toTopOf="parent">
@@ -56,6 +56,7 @@
                 android:fontFamily="sans-serif-light"
                 android:maxWidth="192dp"
                 android:textSize="16sp"
+                android:textColor="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/image"
@@ -78,7 +79,8 @@
                     android:fontFamily="sans-serif-light"
                     android:textSize="13sp"
                     android:textStyle="italic"
-                    tools:text="18:30," />
+                    tools:text="18:30,"
+                    android:textColor="@android:color/white"/>
 
                 <TextView
                     android:id="@+id/date"
@@ -88,7 +90,9 @@
                     android:fontFamily="sans-serif-light"
                     android:textSize="13sp"
                     android:textStyle="italic"
-                    tools:text="22-Jan-2017" />
+                    tools:text="22-Jan-2017"
+                    android:textColor="@android:color/white"/>
+
             </LinearLayout>
 
         </android.support.constraint.ConstraintLayout>

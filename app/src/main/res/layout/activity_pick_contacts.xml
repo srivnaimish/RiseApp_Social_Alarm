@@ -5,7 +5,7 @@
     android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.riseapps.riseapp.view.activity.SendReminderActivity">
+    tools:context="com.riseapps.riseapp.view.activity.PickContacts">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -16,6 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="Select Contacts"
+        app:titleTextColor="@android:color/white"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Menu" />
 
     <android.support.v7.widget.RecyclerView
