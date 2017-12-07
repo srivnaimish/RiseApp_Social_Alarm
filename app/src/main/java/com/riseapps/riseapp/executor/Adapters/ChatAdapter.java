@@ -2,6 +2,12 @@ package com.riseapps.riseapp.executor.Adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -95,11 +101,16 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 sentMessageViewHolder.time.setText(sent_timeInString);
                 sentMessageViewHolder.date.setText(sent_dateInString);
 
-                Glide.with(context)
-                        .load(sent_chat.getImage())
-                        .dontAnimate()
-                        .error(R.drawable.placeholder_image)
-                        .into(sentMessageViewHolder.imageView);
+                if(sent_chat.getImage()==null){
+                    sentMessageViewHolder.imageView.setVisibility(View.GONE);
+                }else {
+                    Glide.with(context)
+                            .load(sent_chat.getImage())
+                            .dontAnimate()
+                            .error(R.drawable.placeholder_image)
+                            .into(sentMessageViewHolder.imageView)
+                            ;
+                }
 
                 sentMessageViewHolder.chat_entity=sent_chat;
 
@@ -127,12 +138,16 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 receivedMessageViewHolder.time.setText(received_timeInString);
                 receivedMessageViewHolder.date.setText(received_dateInString);
 
-                Glide.with(context)
-                        .load(received_chat.getImage())
-                        .dontAnimate()
-                        .error(R.drawable.placeholder_image)
-                        .into(receivedMessageViewHolder.imageView);
-
+                if(received_chat.getImage()==null){
+                    receivedMessageViewHolder.imageView.setVisibility(View.GONE);
+                }else {
+                    Glide.with(context)
+                            .load(received_chat.getImage())
+                            .dontAnimate()
+                            .error(R.drawable.placeholder_image)
+                            .centerCrop()
+                            .into(receivedMessageViewHolder.imageView);
+                }
                 receivedMessageViewHolder.chat_entity=received_chat;
 
                 break;
