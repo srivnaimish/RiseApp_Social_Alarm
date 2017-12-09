@@ -98,6 +98,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             Intent intent=new Intent(context, ChatActivity.class);
             intent.putExtra("contact_id",chatSummary.getChat_contact_id());
+            intent.putExtra("contact_number",chatSummary.getChat_contact_number());
             context.startActivity(intent);
 
         }

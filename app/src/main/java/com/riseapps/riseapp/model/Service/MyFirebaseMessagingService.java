@@ -88,7 +88,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void insertChatMessage(String phone,long time,String note,String image){
         MyDB myDB=((MyApplication) getApplicationContext()).getDatabase();
 
-        if(myDB.contactDao().isContactPresent(phone)==0){   //Not found contact name-->phone number
+        if(myDB.contactDao().isContactPresent(phone)==0){   //Not found then contact name-->phone number
 
         }else {
             ContactFetch contactFetched=myDB.contactDao().getContact(phone);
@@ -105,6 +105,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             ChatSummary chatSummary=new ChatSummary();
             chatSummary.setChat_contact_id(contactFetched.getId());
             chatSummary.setChat_contact_name(contactFetched.getContact_name());
+            chatSummary.setChat_contact_number(contactFetched.getPhone());
             chatSummary.setRead(false);
             myDB.chatDao().insertSummary(chatSummary);
 

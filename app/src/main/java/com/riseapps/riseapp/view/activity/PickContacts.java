@@ -1,14 +1,19 @@
 package com.riseapps.riseapp.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.riseapps.riseapp.R;
@@ -41,6 +46,9 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
     private MyApplication myapp;
     private SharedPreferenceSingelton sharedPreferenceSingleton=new SharedPreferenceSingelton();
     private Toolbar toolbar;
+    private ConstraintLayout empty_state;
+    private Button invite;
+    private RelativeLayout loading_screen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +60,11 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
         }
         setContentView(R.layout.activity_pick_contacts);
         myapp = (MyApplication) getApplicationContext();
-        UID=getIntent().getStringExtra("UID");
+        UID=myapp.getUID();
         toolbar=findViewById(R.id.toolbar);
-        //selected_count = findViewById(R.id.selection_count);
+        empty_state=findViewById(R.id.empty_state);
+        loading_screen=findViewById(R.id.loading_screen);
+        invite=findViewById(R.id.invite);
         done = findViewById(R.id.button_done);
         done.setOnClickListener(this);
         recyclerView = findViewById(R.id.contacts);
@@ -76,6 +86,7 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
                     ContactsSync contactsSync = new ContactsSync(PickContacts.this,getMyapp().getDatabase(),RESYNC_CONTACTS);
                     contactsSync.setContactCallback((ContactCallback) PickContacts.this);
                     contactsSync.execute();
+                    loading_screen.setVisibility(View.VISIBLE);
                 }
                 return true;
             }
@@ -84,6 +95,8 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
         getContacts();
         contactsAdapter = new ContactsAdapter(this, contactArrayList);
         recyclerView.setAdapter(contactsAdapter);
+
+        invite.setOnClickListener(this);
     }
 
     public void getContacts()  {
@@ -122,6 +135,12 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
             ft.addToBackStack(null);
             ft.commit();
             done.hide();
+        }else if(v.getId()==R.id.invite){
+            String message = "Hey I want to send you scheduled messages .\n\nhttps://play.google.com/store/apps/details?id=com.riseapps.riseapp";
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.putExtra(Intent.EXTRA_TEXT, message);
+            startActivity(Intent.createChooser(share, "Invite via.."));
         }else {
             finish();
         }
@@ -145,20 +164,25 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
 
     @Override
     public void onSuccessfulFetch(ArrayList<Contact_Entity> contacts,boolean restart_Async) {
+        //Toast.makeText(this, ""+contacts.size(), Toast.LENGTH_SHORT).show();
+        Log.d("Size",""+contacts.size());
+        loading_screen.setVisibility(View.GONE);
+        if(contacts.size()!=0){
+            empty_state.setVisibility(View.GONE);
+            contactArrayList = contacts;
+            contactsAdapter = new ContactsAdapter(this, contactArrayList);
+            recyclerView.setAdapter(contactsAdapter);
 
-        contactArrayList=contacts;
-        contactsAdapter = new ContactsAdapter(this, contactArrayList);
-        recyclerView.setAdapter(contactsAdapter);
+            if (restart_Async) {
+                ContactsSync contactsSync = new ContactsSync(getMyapp().getDatabase(), 2, contacts);
+                contactsSync.execute();
+                Toast.makeText(this, "Contacts synced", Toast.LENGTH_SHORT).show();
+            }
 
-        if(restart_Async){
-            ContactsSync contactsSync = new ContactsSync(getMyapp().getDatabase(),2,contacts);
-            contactsSync.execute();
-            Toast.makeText(this, "Contacts synced", Toast.LENGTH_SHORT).show();
+            selected_positions.clear();
+            toolbar.setTitle("Select Contacts");
+            done.hide();
         }
-
-        selected_positions.clear();
-        toolbar.setTitle("Select Contacts");
-        done.hide();
     }
 
     @Override

@@ -175,6 +175,7 @@ public class Walkthrough extends AppCompatActivity {
             initials.setText(new Tasks().getInitial(editText.getText().toString()));
             initial_background.startAnimation(AnimationUtils.loadAnimation(this,R.anim.selection));
             initial_background.setVisibility(View.VISIBLE);
+            view.setClickable(false);
             loginUserOnServer();
         }
     }

@@ -47,7 +47,7 @@ public class AppConstants {
     public static final String REMINDER = "reminder";
     public static final String GET_CONTACTS = "GET_CONTACTS";
 
-    public static final String BASE_URL = "http://192.168.29.153/";
+    public static final String BASE_URL = "http://riseapp.000webhostapp.com/";
 
     public void sendReminder(String sender, ArrayList<String> Recipients, long Time, String Note, String ImageURL) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -59,6 +59,42 @@ public class AppConstants {
 
         MessageRequest messageRequest = new MessageRequest();
         messageRequest.setOperation(AppConstants.REMINDER);
+
+        Message message = new Message(sender, Recipients, Time, Note, ImageURL);
+        messageRequest.setMessage(message);
+        Call<ServerResponse> response = requestInterface.chat(messageRequest);
+        response.enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
+                ServerResponse resp = response.body();
+                assert resp != null;
+                Log.d(REMINDER, resp.getResult());
+                if (resp.getResult().equalsIgnoreCase("Success")) {
+                    Log.d(REMINDER, resp.getMessage());
+                    //Toast.makeText(context, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                // Snackbar.make(get, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void sendReminderToSingleUser(String sender, String Recipient, long Time, String Note, String ImageURL) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(AppConstants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        RequestInterface requestInterface = retrofit.create(RequestInterface.class);
+
+        MessageRequest messageRequest = new MessageRequest();
+        messageRequest.setOperation(AppConstants.REMINDER);
+
+        ArrayList<String> Recipients=new ArrayList<>();
+        Recipients.add(Recipient);
 
         Message message = new Message(sender, Recipients, Time, Note, ImageURL);
         messageRequest.setMessage(message);

@@ -16,6 +16,14 @@
         card_view:cardBackgroundColor="?card_color"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="1dp">-->
+    <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_received_arrow"
+        />
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -24,14 +32,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:clickable="true"
         android:focusable="true"
         android:background="@drawable/received_background"
         android:foreground="?selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/arrow"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -57,8 +63,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="sans-serif-light"
             android:maxWidth="192dp"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image"
             tools:text="Gkjs dkcj sdkjc sdkcj sdkcj sdkcs jkls dlcksdlksdlk dslkc " />

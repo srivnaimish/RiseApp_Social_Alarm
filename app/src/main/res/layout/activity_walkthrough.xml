@@ -30,7 +30,7 @@
         android:onClick="startVerification"
         android:padding="16dp"
         android:text="Verify Number"
-        android:fontFamily="sans-serif-light"
+        android:textColor="@android:color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

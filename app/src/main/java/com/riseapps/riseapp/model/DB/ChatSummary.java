@@ -13,6 +13,8 @@ public class ChatSummary {
     private int chat_contact_id;
     @ColumnInfo(name = "chat_contact_name")
     private String chat_contact_name;
+    @ColumnInfo(name = "chat_contact_number")
+    private String chat_contact_number;
     @ColumnInfo(name = "read_messages")
     private boolean read;
 
@@ -42,4 +44,11 @@ public class ChatSummary {
         this.read = read;
     }
 
+    public String getChat_contact_number() {
+        return chat_contact_number;
+    }
+
+    public void setChat_contact_number(String chat_contact_number) {
+        this.chat_contact_number = chat_contact_number;
+    }
 }

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestListener;
@@ -101,7 +102,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 sentMessageViewHolder.time.setText(sent_timeInString);
                 sentMessageViewHolder.date.setText(sent_dateInString);
 
-                if(sent_chat.getImage()==null){
+                if(sent_chat.getImage().equalsIgnoreCase("")){
                     sentMessageViewHolder.imageView.setVisibility(View.GONE);
                 }else {
                     Glide.with(context)
@@ -137,8 +138,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 receivedMessageViewHolder.note.setText(received_note);
                 receivedMessageViewHolder.time.setText(received_timeInString);
                 receivedMessageViewHolder.date.setText(received_dateInString);
-
-                if(received_chat.getImage()==null){
+                if(received_chat.getImage().equalsIgnoreCase("")){
                     receivedMessageViewHolder.imageView.setVisibility(View.GONE);
                 }else {
                     Glide.with(context)

@@ -4,7 +4,6 @@ package com.riseapps.riseapp.view.fragment;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.FeedsAdapter;
-import com.riseapps.riseapp.executor.ChatSync;
+import com.riseapps.riseapp.executor.FetchChatSummaries;
 import com.riseapps.riseapp.executor.Interface.ChatCallback;
 import com.riseapps.riseapp.model.DB.Chat_Entity;
 import com.riseapps.riseapp.model.DB.ChatSummary;
@@ -21,12 +20,9 @@ import com.riseapps.riseapp.view.activity.MainActivity;
 
 import java.util.ArrayList;
 
-import static com.riseapps.riseapp.Components.AppConstants.GET_CHAT_SUMMARIES;
 
+public class FeedsFragment extends Fragment implements ChatCallback {
 
-public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener,ChatCallback {
-
-    SwipeRefreshLayout swipeRefreshLayout;
     //ToggleShareDialog toggleShareDialog;
     RecyclerView recyclerView;
     ArrayList<ChatSummary> summaryList = new ArrayList<>();
@@ -43,20 +39,20 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feeds, container, false);
 
-        swipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
         empty_state = view.findViewById(R.id.empty_state);
-        swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView = view.findViewById(R.id.shared_reminder);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(feedsAdapter);
 
-        ChatSync chatSync=new ChatSync(((MainActivity)getActivity()).getMyapp().getDatabase(),GET_CHAT_SUMMARIES);
-        chatSync.setChatCallback((ChatCallback) this);
-        chatSync.execute();
-
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FetchChatSummaries fetchChatSummaries=new FetchChatSummaries(((MainActivity)getActivity()).getMyapp().getDatabase(),(ChatCallback)this);
+        fetchChatSummaries.execute();
     }
 
     public static FeedsFragment newInstance() {
@@ -64,16 +60,7 @@ public class FeedsFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     @Override
-    public void onRefresh() {
-        ChatSync chatSync=new ChatSync(((MainActivity)getActivity()).getMyapp().getDatabase(),GET_CHAT_SUMMARIES);
-        chatSync.setChatCallback((ChatCallback) this);
-        chatSync.execute();
-    }
-
-    @Override
     public void summariesFetched(ArrayList<ChatSummary> chatSummaries) {
-        if (swipeRefreshLayout.isRefreshing())
-            swipeRefreshLayout.setRefreshing(false);
         if(chatSummaries.size()!=0) {
             summaryList = chatSummaries;
             feedsAdapter = new FeedsAdapter(getContext(), summaryList);

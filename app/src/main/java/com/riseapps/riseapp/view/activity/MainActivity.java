@@ -143,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int pos = mViewPager.getCurrentItem();
                 if (pos == 0) {
                     Intent intent=new Intent(this, PickContacts.class);
-                    intent.putExtra("UID",currentUser.getUid());
                     startActivity(intent);
                 } else if (pos == 1) {
                     fabListener1.onFabClick();
@@ -158,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             currentUser = mAuth.getCurrentUser();
+            myapp.setUID(currentUser.getUid());
         }
         if(!sharedPreferenceSingleton.getSavedBoolean(this,"Cached_Contacts")) {
             ContactsSync contactsSync = new ContactsSync(this,getMyapp().getDatabase(),RESYNC_CONTACTS);

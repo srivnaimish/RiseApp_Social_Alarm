@@ -4,17 +4,17 @@
         <shape
             android:shape="rectangle">
             <solid android:color="#e0e0e0" />
-            <corners android:bottomLeftRadius="16dp"
-                android:bottomRightRadius="16dp"
+            <corners android:bottomLeftRadius="8dp"
+                android:bottomRightRadius="8dp"
                 android:topLeftRadius="0dp"
-                android:topRightRadius="16dp"/>
+                android:topRightRadius="4dp"/>
         </shape>
     </item>
-    <item android:right="1dp" android:left="1dp" android:top="1dp" android:bottom="1dp">
+    <item android:right="1dp" android:bottom="1dp">
         <shape
             android:shape="rectangle">
-            <corners android:bottomLeftRadius="16dp"
-                android:bottomRightRadius="16dp"
+            <corners android:bottomLeftRadius="8dp"
+                android:bottomRightRadius="8dp"
                 android:topLeftRadius="0dp"
                 android:topRightRadius="4dp"/>
             <solid android:color="?card_color" />

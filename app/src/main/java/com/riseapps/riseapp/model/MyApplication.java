@@ -12,6 +12,8 @@ import com.riseapps.riseapp.model.DB.MyDB;
 public class MyApplication extends MultiDexApplication {
     private MyDB database;
 
+    private String UID;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -20,5 +22,13 @@ public class MyApplication extends MultiDexApplication {
 
     public MyDB getDatabase() {
         return database;
+    }
+
+    public String getUID() {
+        return UID;
+    }
+
+    public void setUID(String UID) {
+        this.UID = UID;
     }
 }

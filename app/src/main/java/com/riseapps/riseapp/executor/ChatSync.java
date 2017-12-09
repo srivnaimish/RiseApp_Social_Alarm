@@ -35,13 +35,7 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
 
     private ArrayList<Contact_Entity> new_contacts;
 
-
-    public ChatSync(MyDB myDB,int choice) {     //for choice GET_CHAT_SUMMARIES
-        this.myDB=myDB;
-        this.choice=choice;
-    }
-
-    public ChatSync(int contact_id,MyDB myDB,int choice) {   // for choice GET_CHAT  & DELETE_CHAT
+    public ChatSync(int contact_id,MyDB myDB,int choice) {   // for choice  & DELETE_CHAT
         this.myDB=myDB;
         this.choice=choice;
         this.contact_id=contact_id;
@@ -61,12 +55,7 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         switch (choice){
-            case GET_CHAT_SUMMARIES:
-                getChatSummaries();
-                break;
-            case GET_CHAT:
-                getChatWithContact();
-                break;
+
             case INSERT_NEW_CHAT:
                 insertChatMessage();
                 break;
@@ -76,20 +65,6 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
         }
 
         return null;
-    }
-
-    private void getChatSummaries(){
-        ArrayList<ChatSummary> chatSummaries=(ArrayList<ChatSummary>) myDB.chatDao().getChatSummaries();
-        chatCallback.summariesFetched(chatSummaries);
-        Log.d("Chat Summaries","Successful "+chatSummaries.size());
-    }
-
-    private void getChatWithContact() {
-        myDB.chatDao().updateReadStatus(contact_id,true);
-
-        ArrayList<Chat_Entity> chat_entities=(ArrayList<Chat_Entity>) myDB.chatDao().getChatMessages(contact_id);
-        chatCallback.chatFetched(chat_entities);
-        Log.d("Chat Fetched","Successful "+chat_entities.size());
     }
 
     private void insertChatMessage(){
@@ -106,13 +81,10 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
             ChatSummary chatSummary=new ChatSummary();
             chatSummary.setChat_contact_id(contact.getId());
             chatSummary.setChat_contact_name(contact.getName());
+            chatSummary.setChat_contact_number(contact.getNumber());
             chatSummary.setRead(read);
+            myDB.chatDao().insertSummary(chatSummary);
 
-           // if(myDB.chatDao().searchSummary(contact_id)==0){
-                myDB.chatDao().insertSummary(chatSummary);
-           /* }else {
-                myDB.chatDao().updateSummaryRead(chatSummary);
-            }*/
         }
 
         Log.d("Insert","Successful");
