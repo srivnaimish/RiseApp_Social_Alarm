@@ -5,17 +5,8 @@ package com.riseapps.riseapp.model.Pojo;
  */
 
 public class ContactFetch {
-    private int id;
     private String contact_name;
-    private String phone;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private String contact_number;
 
     public String getContact_name() {
         return contact_name;
@@ -25,11 +16,11 @@ public class ContactFetch {
         this.contact_name = contact_name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getContact_number() {
+        return contact_number;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setContact_number(String contact_number) {
+        this.contact_number = contact_number;
     }
 }

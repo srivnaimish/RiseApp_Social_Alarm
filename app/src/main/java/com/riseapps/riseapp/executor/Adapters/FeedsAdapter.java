@@ -97,7 +97,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 name.setTypeface(name.getTypeface(), Typeface.NORMAL);
             }
             Intent intent=new Intent(context, ChatActivity.class);
-            intent.putExtra("contact_id",chatSummary.getChat_contact_id());
+            intent.putExtra("chat_id",chatSummary.getChat_contact_number());
             intent.putExtra("contact_number",chatSummary.getChat_contact_number());
             context.startActivity(intent);
 
@@ -110,7 +110,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     // continue with delete
-                    ChatSync chatSync=new ChatSync(chatSummary.getChat_contact_id(),((MyApplication)context.getApplicationContext()).getDatabase(),DELETE_CHAT);
+                    ChatSync chatSync=new ChatSync(chatSummary.getChat_contact_number(),((MyApplication)context.getApplicationContext()).getDatabase(),DELETE_CHAT);
                     chatSync.execute();
                     deleteItem(getAdapterPosition());
                 }

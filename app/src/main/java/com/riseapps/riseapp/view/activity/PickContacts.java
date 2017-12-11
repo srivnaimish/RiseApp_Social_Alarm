@@ -30,6 +30,7 @@ import com.riseapps.riseapp.view.fragment.ShareReminder;
 import java.util.ArrayList;
 
 import static com.riseapps.riseapp.Components.AppConstants.GET_CONTACTS_FROM_DB;
+import static com.riseapps.riseapp.Components.AppConstants.INSERT_CONTACTS_IN_DB;
 import static com.riseapps.riseapp.Components.AppConstants.RESYNC_CONTACTS;
 
 public class PickContacts extends AppCompatActivity implements ContactSelection, View.OnClickListener,ContactCallback {
@@ -174,7 +175,7 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
             recyclerView.setAdapter(contactsAdapter);
 
             if (restart_Async) {
-                ContactsSync contactsSync = new ContactsSync(getMyapp().getDatabase(), 2, contacts);
+                ContactsSync contactsSync = new ContactsSync(getMyapp().getDatabase(), INSERT_CONTACTS_IN_DB, contacts);
                 contactsSync.execute();
                 Toast.makeText(this, "Contacts synced", Toast.LENGTH_SHORT).show();
             }

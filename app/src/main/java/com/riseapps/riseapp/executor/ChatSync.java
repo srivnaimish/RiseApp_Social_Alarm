@@ -25,7 +25,7 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
     private ChatCallback chatCallback;
     private MyDB myDB;
     private int choice;
-    private int contact_id;
+    private String chat_id;
 
     private long timeInMillis;
     private String note;
@@ -35,10 +35,10 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
 
     private ArrayList<Contact_Entity> new_contacts;
 
-    public ChatSync(int contact_id,MyDB myDB,int choice) {   // for choice  & DELETE_CHAT
+    public ChatSync(String chat_id,MyDB myDB,int choice) {   // for choice  & DELETE_CHAT
         this.myDB=myDB;
         this.choice=choice;
-        this.contact_id=contact_id;
+        this.chat_id=chat_id;
     }
 
     public ChatSync(ArrayList<Contact_Entity> newContacts,long timeInMillis, String s, String s1, int i, boolean b, MyDB myDB, int choice) {   // for choice INSERT_NEW_CHAT
@@ -70,7 +70,7 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
     private void insertChatMessage(){
         for (Contact_Entity contact:new_contacts) {
             Chat_Entity chat_entity = new Chat_Entity();
-            chat_entity.setContact_id(contact.getId());
+            chat_entity.setChat_id(contact.getNumber());
             chat_entity.setContact_name(contact.getName());
             chat_entity.setTime(timeInMillis);
             chat_entity.setNote(note);
@@ -79,9 +79,8 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
             myDB.chatDao().insertChat(chat_entity);
 
             ChatSummary chatSummary=new ChatSummary();
-            chatSummary.setChat_contact_id(contact.getId());
-            chatSummary.setChat_contact_name(contact.getName());
             chatSummary.setChat_contact_number(contact.getNumber());
+            chatSummary.setChat_contact_name(contact.getName());
             chatSummary.setRead(read);
             myDB.chatDao().insertSummary(chatSummary);
 
@@ -91,8 +90,8 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
     }
 
     private void deleteChat(){
-        myDB.chatDao().deleteChat(contact_id);
-        myDB.chatDao().deleteSummary(contact_id);
+        myDB.chatDao().deleteChat(chat_id);
+        myDB.chatDao().deleteSummary(chat_id);
         Log.d("Delete","Successful");
     }
 

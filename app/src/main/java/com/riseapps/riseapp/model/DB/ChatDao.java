@@ -17,8 +17,8 @@ import java.util.List;
 public interface ChatDao {
 
     @Query("SELECT * FROM chat_entity " +
-            "WHERE chat_contact_id=:contact_id")
-    List<Chat_Entity> getChatMessages(int contact_id);
+            "WHERE chat_id=:chat_id")
+    List<Chat_Entity> getChatMessages(String chat_id);
 
     @Insert
     void insertChat(Chat_Entity chat_entity);
@@ -26,15 +26,15 @@ public interface ChatDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertSummary(ChatSummary chatSummary);
 
-    @Query("DELETE FROM chat_entity WHERE chat_contact_id=:contact_id")
-    public void deleteChat(int contact_id);
+    @Query("DELETE FROM chat_entity WHERE chat_id=:chat_id")
+    public void deleteChat(String chat_id);
 
-    @Query("DELETE FROM ChatSummary WHERE chat_contact_id=:contact_id")
-    public void deleteSummary(int contact_id);
+    @Query("DELETE FROM ChatSummary WHERE chat_contact_number=:chat_contact_number")
+    public void deleteSummary(String chat_contact_number);
 
     @Query("SELECT * FROM chatsummary")
     List<ChatSummary> getChatSummaries();
 
-    @Query("UPDATE chatsummary SET read_messages = :value  WHERE chat_contact_id = :contact_id")
-    void updateReadStatus(int contact_id,boolean value);
+    @Query("UPDATE chatsummary SET read_messages = :value  WHERE chat_contact_number = :chat_contact_number")
+    void updateReadStatus(String chat_contact_number,boolean value);
 }

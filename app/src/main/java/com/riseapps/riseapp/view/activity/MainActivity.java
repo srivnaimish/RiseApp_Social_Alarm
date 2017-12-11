@@ -31,6 +31,7 @@ import com.riseapps.riseapp.view.fragment.Settings;
 
 import java.util.ArrayList;
 
+import static com.riseapps.riseapp.Components.AppConstants.INSERT_CONTACTS_IN_DB;
 import static com.riseapps.riseapp.Components.AppConstants.RC_RINGTONE;
 import static com.riseapps.riseapp.Components.AppConstants.RESYNC_CONTACTS;
 
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sharedPreferenceSingleton.saveAs(this,"Cached_Contacts",true);
         if(restart_Async) {
             Toast.makeText(this, "Contacts synced", Toast.LENGTH_SHORT).show();
-            ContactsSync contactsSync = new ContactsSync(getMyapp().getDatabase(), 2, contacts);
+            ContactsSync contactsSync = new ContactsSync(getMyapp().getDatabase(), INSERT_CONTACTS_IN_DB, contacts);
             contactsSync.execute();
         }
     }

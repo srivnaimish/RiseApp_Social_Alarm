@@ -48,6 +48,7 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
         allContactsList=new ArrayList<>();
         riseappContacts=new ArrayList<>();
     }
+
     public ContactsSync(MyDB myDB,int choice,ArrayList<Contact_Entity> riseappContacts) {
         this.choice=choice;
         this.myDB=myDB;

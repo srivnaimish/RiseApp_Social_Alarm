@@ -17,18 +17,18 @@ public class FetchChat extends AsyncTask<Void, Void, ArrayList<Chat_Entity>> {
 
     private ChatCallback chatCallback;
     private MyDB myDB;
-    private int contact_id;
+    private String chat_id;
 
 
-    public FetchChat(int contact_id,MyDB myDB, ChatCallback chatCallback) {     //for choice GET_CHAT_SUMMARIES
-        this.contact_id=contact_id;
+    public FetchChat(String chat_id,MyDB myDB, ChatCallback chatCallback) {     //for choice GET_CHAT_SUMMARIES
+        this.chat_id=chat_id;
         this.myDB=myDB;
         this.chatCallback=chatCallback;
     }
 
     @Override
     protected ArrayList<Chat_Entity> doInBackground(Void... voids) {
-        ArrayList<Chat_Entity> chat_entities = (ArrayList<Chat_Entity>) myDB.chatDao().getChatMessages(contact_id);
+        ArrayList<Chat_Entity> chat_entities = (ArrayList<Chat_Entity>) myDB.chatDao().getChatMessages(chat_id);
         Log.d("Chat fetch","Successful "+ chat_entities.size());
         return chat_entities;
     }

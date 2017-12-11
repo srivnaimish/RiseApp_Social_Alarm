@@ -12,8 +12,8 @@ public class Chat_Entity {
     @PrimaryKey(autoGenerate = true)
     private int message_id;
 
-    @ColumnInfo(name = "chat_contact_id")
-    private int contact_id;
+    @ColumnInfo(name = "chat_id")
+    private String chat_id;
     @ColumnInfo(name = "chat_contact_name")
     private String contact_name;
     @ColumnInfo(name = "chat_time")
@@ -61,12 +61,12 @@ public class Chat_Entity {
         this.image = image;
     }
 
-    public int getContact_id() {
-        return contact_id;
+    public String getChat_id() {
+        return chat_id;
     }
 
-    public void setContact_id(int contact_id) {
-        this.contact_id = contact_id;
+    public void setChat_id(String chat_id) {
+        this.chat_id = chat_id;
     }
 
     public int getMessage_id() {

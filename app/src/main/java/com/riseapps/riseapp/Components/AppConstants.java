@@ -28,6 +28,7 @@ public class AppConstants {
 
     public static final int GET_CONTACTS_FROM_DB = 0;
     public static final int RESYNC_CONTACTS = 1;
+    public static final int INSERT_CONTACTS_IN_DB= 2;
 
     public static final int GET_CHAT_SUMMARIES=0;
     public static final int GET_CHAT=1;

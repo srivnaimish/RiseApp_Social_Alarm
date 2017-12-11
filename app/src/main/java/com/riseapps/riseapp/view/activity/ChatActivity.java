@@ -2,19 +2,16 @@ package com.riseapps.riseapp.view.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -35,9 +32,7 @@ import com.riseapps.riseapp.model.MyApplication;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import static com.riseapps.riseapp.Components.AppConstants.GET_CHAT;
 import static com.riseapps.riseapp.Components.AppConstants.INSERT_NEW_CHAT;
-import static com.riseapps.riseapp.Components.AppConstants.RECEIVED_MESSAGE;
 import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
 
 public class ChatActivity extends AppCompatActivity implements ChatCallback,View.OnClickListener{
@@ -50,7 +45,7 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback,View
     private ChatAdapter chatAdapter;
     private TextView initials,name;
     private Toolbar toolbar;
-    private int contact_id;
+    private String chat_id;
     private String contact_number;
     private ArrayList<Chat_Entity> chatList;
     private CardView hiddenCardView;
@@ -76,7 +71,7 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback,View
         name=findViewById(R.id.chat_title);
         recyclerView=findViewById(R.id.chat_messages);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        contact_id=getIntent().getIntExtra("contact_id",0);
+        chat_id=getIntent().getStringExtra("chat_id");
         contact_number=getIntent().getStringExtra("contact_number");
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +98,7 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback,View
     }
 
     private void getChat() {
-        FetchChat fetchChat=new FetchChat(contact_id,((MyApplication)getApplicationContext()).getDatabase(),this);
+        FetchChat fetchChat=new FetchChat(chat_id,((MyApplication)getApplicationContext()).getDatabase(),this);
         fetchChat.execute();
     }
 
