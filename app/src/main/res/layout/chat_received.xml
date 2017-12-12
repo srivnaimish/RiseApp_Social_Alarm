@@ -18,10 +18,11 @@
         card_view:cardElevation="1dp">-->
     <ImageView
         android:id="@+id/arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="1dp"
         app:srcCompat="@drawable/ic_received_arrow"
         />
 

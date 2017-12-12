@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -94,6 +96,8 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback,View
         send.setOnClickListener(this);
 
         getChat();
+
+        calendar=Calendar.getInstance();
 
     }
 
@@ -195,8 +199,18 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback,View
                 chat_entity.setNote(edit_note.getText().toString());
                 chat_entity.setImage(edit_image.getText().toString());
 
+                recyclerView.scrollToPosition(chatList.size()-1);
+
+                hiddenCardView.setVisibility(View.GONE);
+                edit_note.setText("");
+                edit_note.clearFocus();
+
                 chatList.add(chat_entity);
+                LayoutAnimationController controller =
+                        AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_bottom);
+                recyclerView.setLayoutAnimation(controller);
                 chatAdapter.notifyItemInserted(chatList.size()-1);
+                recyclerView.scheduleLayoutAnimation();
                 break;
         }
     }
