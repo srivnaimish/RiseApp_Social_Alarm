@@ -1,5 +1,7 @@
 package com.riseapps.riseapp.view.activity;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,8 @@ public class SplashActivity extends AppCompatActivity {
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        NotificationManager nManager = ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE));
+        nManager.cancelAll();
         if (sharedPreferenceSingleton.getSavedBoolean(this, "Logged")) {
             startActivity(new Intent(this, MainActivity.class));
             finish();

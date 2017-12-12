@@ -1,8 +1,10 @@
 package com.riseapps.riseapp.model.service;
 
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -29,6 +32,7 @@ import com.riseapps.riseapp.utils.NotificationUtils;
 import com.riseapps.riseapp.view.activity.MainActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static com.riseapps.riseapp.Components.AppConstants.RECEIVED_MESSAGE;
@@ -40,6 +44,13 @@ import static com.riseapps.riseapp.Components.AppConstants.RECEIVED_MESSAGE;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     String TAG = "FIREBASE Service";
     //Bitmap bitmap;
+    private LocalBroadcastManager broadcaster;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        broadcaster = LocalBroadcastManager.getInstance(this);
+    }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -54,6 +65,48 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         insertChatMessage(sender_no, sender_name, sender_phone, time, note, image);
 
+    }
+
+    private void insertChatMessage(int sender_no, String sender_name, String phone, long time, String note, String image) {
+        MyDB myDB = ((MyApplication) getApplicationContext()).getDatabase();
+
+        String name;
+        if (myDB.contactDao().isContactPresent(phone) == 0) {   //If phone not present in DB
+            String contactName=getContactNameByNumber(phone);
+            if(contactName!=null){  // If phone present in current phone contacts
+                name=contactName;
+            }else {     //If phone present nowhere
+                name=sender_name;
+            }
+        }else {     //if present fetch id and name
+            ContactFetch contactFetched= myDB.contactDao().getContact(phone);
+            name=contactFetched.getContact_name();
+        }
+        if(!appInForeGround()){
+            sendNotification(sender_no,name+" sent you a Reminder");
+        }
+
+        Chat_Entity chat_entity = new Chat_Entity();
+        chat_entity.setChat_id(phone);
+        chat_entity.setContact_name(name);
+        chat_entity.setTime(time);
+        chat_entity.setNote(note);
+        chat_entity.setImage(image);
+        chat_entity.setSent_or_recieved(RECEIVED_MESSAGE);
+        myDB.chatDao().insertChat(chat_entity);
+
+        ChatSummary chatSummary=new ChatSummary();
+        chatSummary.setChat_contact_name(name);
+        chatSummary.setChat_contact_number(phone);
+        chatSummary.setRead(false);
+        myDB.chatDao().insertSummary(chatSummary);
+
+        Intent intent = new Intent("Chat Update");
+        intent.putExtra("chat_id", phone);
+        intent.putExtra("time", time);
+        intent.putExtra("note", note);
+        intent.putExtra("image", image);
+        broadcaster.sendBroadcast(intent);
     }
 
     private void sendNotification(int notification_id, String title) {
@@ -89,39 +142,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
-    private void insertChatMessage(int sender_no, String sender_name, String phone, long time, String note, String image) {
-        MyDB myDB = ((MyApplication) getApplicationContext()).getDatabase();
-
-        String name;
-        if (myDB.contactDao().isContactPresent(phone) == 0) {   //If phone not present in DB
-            String contactName=getContactNameByNumber(phone);
-            if(contactName!=null){  // If phone present in current phone contacts
-                name=contactName;
-            }else {     //If phone present nowhere
-                name=sender_name;
-            }
-        }else {     //if present fetch id and name
-            ContactFetch contactFetched= myDB.contactDao().getContact(phone);
-            name=contactFetched.getContact_name();
-        }
-        sendNotification(sender_no,name+" sent you a Reminder");
-
-        Chat_Entity chat_entity = new Chat_Entity();
-        chat_entity.setChat_id(phone);
-        chat_entity.setContact_name(name);
-        chat_entity.setTime(time);
-        chat_entity.setNote(note);
-        chat_entity.setImage(image);
-        chat_entity.setSent_or_recieved(RECEIVED_MESSAGE);
-        myDB.chatDao().insertChat(chat_entity);
-
-        ChatSummary chatSummary=new ChatSummary();
-        chatSummary.setChat_contact_name(name);
-        chatSummary.setChat_contact_number(phone);
-        chatSummary.setRead(false);
-        myDB.chatDao().insertSummary(chatSummary);
-    }
-
     public String getContactNameByNumber(String number) {
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
         String name = null;
@@ -137,6 +157,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         return name;
+    }
+
+    public boolean appInForeGround(){
+        ActivityManager am = (ActivityManager) this
+                .getSystemService(ACTIVITY_SERVICE);
+
+        // get the info from the currently running task
+        List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
+
+        ComponentName componentInfo = taskInfo.get(0).topActivity;
+        if (componentInfo.getPackageName().equalsIgnoreCase("com.riseapps.riseapp")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

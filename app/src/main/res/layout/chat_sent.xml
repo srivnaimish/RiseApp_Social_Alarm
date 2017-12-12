@@ -12,7 +12,6 @@
         android:id="@+id/arrow"
         android:layout_width="8dp"
         android:layout_height="8dp"
-        android:layout_marginTop="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_sent_arrow" />
@@ -23,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/sent_layout"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="2dp"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?selectableItemBackgroundBorderless"

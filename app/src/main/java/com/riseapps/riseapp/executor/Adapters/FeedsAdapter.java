@@ -59,6 +59,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
         feedsViewHolder.chatSummary=chatSummary;
+
+        if(position==summaryList.size()-1){
+            feedsViewHolder.view.setVisibility(View.GONE);
+        }
     }
 
     public void deleteItem(int position){
@@ -77,6 +81,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private CardView cardView;
         private ImageView badge;
         private TextView name, initials;/*, image*/
+        private View view;
 
         public FeedsViewHolder(View itemView) {
             super(itemView);
@@ -86,6 +91,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             cardView=itemView.findViewById(R.id.feed_card);
             cardView.setOnClickListener(this);
             cardView.setOnLongClickListener(this);
+            view=itemView.findViewById(R.id.divider);
             //image = itemView.findViewById(R.id.image);
         }
 
@@ -98,7 +104,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
             Intent intent=new Intent(context, ChatActivity.class);
             intent.putExtra("chat_id",chatSummary.getChat_contact_number());
-            intent.putExtra("contact_number",chatSummary.getChat_contact_number());
+            intent.putExtra("contact_name",chatSummary.getChat_contact_name());
             context.startActivity(intent);
 
         }

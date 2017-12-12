@@ -4,11 +4,13 @@ package com.riseapps.riseapp.view.fragment;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Adapters.FeedsAdapter;
@@ -43,6 +45,9 @@ public class FeedsFragment extends Fragment implements ChatCallback {
         recyclerView = view.findViewById(R.id.shared_reminder);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setNestedScrollingEnabled(false);
+        /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                LinearLayoutManager.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);*/
         recyclerView.setAdapter(feedsAdapter);
 
         return view;

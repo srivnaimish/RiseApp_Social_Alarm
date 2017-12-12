@@ -11,9 +11,8 @@ import com.riseapps.riseapp.model.DB.ChatSummary;
 
 import java.util.ArrayList;
 
+import static com.riseapps.riseapp.Components.AppConstants.CLEAR_CHAT;
 import static com.riseapps.riseapp.Components.AppConstants.DELETE_CHAT;
-import static com.riseapps.riseapp.Components.AppConstants.GET_CHAT;
-import static com.riseapps.riseapp.Components.AppConstants.GET_CHAT_SUMMARIES;
 import static com.riseapps.riseapp.Components.AppConstants.INSERT_NEW_CHAT;
 
 /**
@@ -59,8 +58,13 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
             case INSERT_NEW_CHAT:
                 insertChatMessage();
                 break;
+
             case DELETE_CHAT:
-                deleteChat();
+                deleteChatAndSummary();
+                break;
+
+            case CLEAR_CHAT:
+                clearChat();
                 break;
         }
 
@@ -89,13 +93,14 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
         Log.d("Insert","Successful");
     }
 
-    private void deleteChat(){
+    private void deleteChatAndSummary(){
         myDB.chatDao().deleteChat(chat_id);
         myDB.chatDao().deleteSummary(chat_id);
         Log.d("Delete","Successful");
     }
 
-    public void setChatCallback(ChatCallback chatCallback) {
-        this.chatCallback = chatCallback;
+    private void clearChat(){
+        myDB.chatDao().deleteChat(chat_id);
     }
+
 }

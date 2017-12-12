@@ -51,33 +51,6 @@
         <activity android:name=".view.activity.PickContacts" />
         <activity android:name=".view.activity.ChatActivity"/>
 
-        <provider
-            android:name=".sync.StubProvider"
-            android:authorities="com.riseapps.riseapp.provider"
-            android:exported="false"
-            android:syncable="true"/>
-
-
-        <service
-            android:name=".sync.AuthenticatorService">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
-            </intent-filter>
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-        </service>
-
-        <service
-            android:name=".sync.SyncService"
-            android:exported="true"
-            android:process=":sync">
-            <intent-filter>
-                <action android:name="android.content.SyncAdapter"/>
-            </intent-filter>
-            <meta-data android:name="android.content.SyncAdapter"
-                android:resource="@xml/sync_adapter" />
-        </service>
     </application>
 
 

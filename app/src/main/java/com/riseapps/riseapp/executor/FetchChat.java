@@ -30,6 +30,7 @@ public class FetchChat extends AsyncTask<Void, Void, ArrayList<Chat_Entity>> {
     protected ArrayList<Chat_Entity> doInBackground(Void... voids) {
         ArrayList<Chat_Entity> chat_entities = (ArrayList<Chat_Entity>) myDB.chatDao().getChatMessages(chat_id);
         Log.d("Chat fetch","Successful "+ chat_entities.size());
+        myDB.chatDao().updateReadStatus(chat_id,true);
         return chat_entities;
     }
 

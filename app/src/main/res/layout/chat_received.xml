@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="8dp"
     android:paddingEnd="12dp"
     android:paddingStart="12dp">
 
@@ -22,7 +22,6 @@
         android:layout_height="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="1dp"
         app:srcCompat="@drawable/ic_received_arrow"
         />
 
@@ -32,7 +31,7 @@
         android:id="@+id/received_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="2dp"
         android:clickable="true"
         android:focusable="true"
         android:background="@drawable/received_background"
@@ -62,9 +61,10 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:fontFamily="sans-serif-light"
+            android:paddingEnd="4dp"
+            android:lineSpacingMultiplier="1.2"
             android:maxWidth="192dp"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image"
             tools:text="Gkjs dkcj sdkjc sdkcj sdkcj sdkcs jkls dlcksdlksdlk dslkc " />
@@ -87,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textStyle="italic|bold"
                 tools:text="18:30," />
 
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:fontFamily="sans-serif-thin"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textStyle="italic|bold"
                 tools:text="22-Jan-2017" />
         </LinearLayout>

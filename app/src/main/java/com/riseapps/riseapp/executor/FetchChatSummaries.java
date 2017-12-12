@@ -12,8 +12,6 @@ import com.riseapps.riseapp.model.DB.MyDB;
 import java.util.ArrayList;
 
 import static com.riseapps.riseapp.Components.AppConstants.DELETE_CHAT;
-import static com.riseapps.riseapp.Components.AppConstants.GET_CHAT;
-import static com.riseapps.riseapp.Components.AppConstants.GET_CHAT_SUMMARIES;
 import static com.riseapps.riseapp.Components.AppConstants.INSERT_NEW_CHAT;
 
 /**
