@@ -7,7 +7,8 @@
         android:layout_height="match_parent"
         android:background="?android:colorBackground"
         android:fitsSystemWindows="true"
-        tools:context="com.riseapps.riseapp.view.activity.ChatActivity">
+        tools:context=".view.ui.activity.ChatActivity"
+        android:id="@+id/background">
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
@@ -84,17 +85,13 @@
             android:layout_height="match_parent"
             android:animateLayoutChanges="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" >
-            <ImageView
-                android:id="@+id/chat_background"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"/>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/chat_messages"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="4dp"
-                android:layout_above="@id/card"/>
+                android:layout_above="@id/card"
+                android:layoutAnimation="@anim/layout_animation_from_bottom"/>
 
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/card"
@@ -104,13 +101,15 @@
                 card_view:cardCornerRadius="24dp"
                 card_view:cardElevation="1dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="12dp">
+                android:layout_toStartOf="@id/send_button"
+                android:layout_marginBottom="8dp">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
 
                     <LinearLayout
                         android:id="@+id/card_dialog"
@@ -119,7 +118,7 @@
                         android:orientation="vertical"
                         android:padding="16dp"
                         card_view:layout_constraintBottom_toTopOf="@id/edit_note"
-                        card_view:layout_constraintEnd_toStartOf="@+id/send"
+                        card_view:layout_constraintEnd_toEndOf="parent"
                         card_view:layout_constraintStart_toStartOf="parent"
                         card_view:layout_constraintTop_toTopOf="parent"
                         android:visibility="gone"
@@ -175,34 +174,43 @@
                         android:inputType="textMultiLine"
                         android:maxLength="1000"
                         android:maxLines="5"
+                        android:textColor="?android:textColorPrimary"
                         android:textSize="15sp"
                         card_view:layout_constraintBottom_toBottomOf="parent"
-                        card_view:layout_constraintEnd_toStartOf="@+id/send"
+                        card_view:layout_constraintEnd_toEndOf="parent"
                         card_view:layout_constraintStart_toStartOf="parent"
                         card_view:layout_constraintTop_toBottomOf="@id/card_dialog" />
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/send"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_margin="4dp"
-                        android:src="?colorPrimaryDark"
-                        app:civ_border_width="0dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/card_dialog"
-                        android:onClick="sendButton"/>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_send"
-                        app:layout_constraintBottom_toBottomOf="@id/send"
-                        app:layout_constraintEnd_toEndOf="@id/send"
-                        app:layout_constraintTop_toTopOf="@id/send"
-                        app:layout_constraintStart_toStartOf="@id/send"
-                        />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/send_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:onClick="sendButton"
+                android:layout_margin="12dp">
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="?colorPrimary"
+                    app:civ_border_width="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_send"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+            </android.support.constraint.ConstraintLayout>
+
         </RelativeLayout>
 
         <include layout="@layout/wallpaper_bottomsheet"/>

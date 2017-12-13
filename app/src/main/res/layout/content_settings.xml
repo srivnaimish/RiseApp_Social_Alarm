@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    tools:context="com.riseapps.riseapp.view.fragment.Settings"
+    tools:context=".view.ui.fragment.Settings"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout

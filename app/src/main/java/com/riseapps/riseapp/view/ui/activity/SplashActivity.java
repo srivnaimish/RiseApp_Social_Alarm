@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.view.activity;
+package com.riseapps.riseapp.view.ui.activity;
 
 import android.app.NotificationManager;
 import android.content.Context;

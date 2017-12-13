@@ -1,24 +1,26 @@
-package com.riseapps.riseapp.view.activity;
+package com.riseapps.riseapp.view.ui.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.widget.DatePicker;
@@ -30,12 +32,11 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
-import com.riseapps.riseapp.executor.Adapters.ChatAdapter;
+import com.riseapps.riseapp.executor.ChatViewModel;
+import com.riseapps.riseapp.view.Adapters.ChatAdapter;
 import com.riseapps.riseapp.executor.ChatSync;
-import com.riseapps.riseapp.executor.FetchChat;
 import com.riseapps.riseapp.executor.Interface.ChatCallback;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.Tasks;
@@ -47,14 +48,14 @@ import com.riseapps.riseapp.model.MyApplication;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import static com.riseapps.riseapp.Components.AppConstants.CLEAR_CHAT;
-import static com.riseapps.riseapp.Components.AppConstants.DELETE_CHAT;
 import static com.riseapps.riseapp.Components.AppConstants.INSERT_NEW_CHAT;
 import static com.riseapps.riseapp.Components.AppConstants.RECEIVED_MESSAGE;
 import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
 
-public class ChatActivity extends AppCompatActivity implements ChatCallback,Toolbar.OnMenuItemClickListener{
+public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener{
 
     private BottomSheetBehavior behavior;
     private EditText  edit_note, edit_image;
@@ -63,13 +64,14 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback,Tool
     private RecyclerView recyclerView;
     private ChatAdapter chatAdapter;
     private String chat_id;
-    private ArrayList<Chat_Entity> chatList=new ArrayList<>();
+    private ChatViewModel chatViewModel;
+    //private ArrayList<Chat_Entity> chatList=new ArrayList<>();
     private LinearLayout hiddenCardView;
     private Tasks tasks=new Tasks();
     private MyApplication myApplication;
     private String nameString;
 
-    private ImageView chat_background;
+    private CoordinatorLayout chat_background;
     private SharedPreferenceSingelton sharedPreferenceSingelton=new SharedPreferenceSingelton();
 
     @Override
@@ -99,7 +101,7 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback,Tool
         View bottomSheet = findViewById(R.id.bottom_sheet);
         behavior = BottomSheetBehavior.from(bottomSheet);
 
-        chat_background=findViewById(R.id.chat_background);
+        chat_background=findViewById(R.id.background);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         chat_id=getIntent().getStringExtra("chat_id");
@@ -117,31 +119,26 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback,Tool
         toolbar.inflateMenu(R.menu.chat_menu);
         toolbar.setOnMenuItemClickListener(this);
 
-        getChat();
+        chatAdapter=new ChatAdapter(this,new ArrayList<Chat_Entity>());
+        recyclerView.setAdapter(chatAdapter);
+
+        chatViewModel= ViewModelProviders.of(this).get(ChatViewModel.class);
+
+        chatViewModel.getChatList(myApplication.getDatabase(),chat_id).observe(ChatActivity.this, observer);
 
         calendar=Calendar.getInstance();
 
     }
 
-    private void getChat() {
-        FetchChat fetchChat=new FetchChat(chat_id,((MyApplication)getApplicationContext()).getDatabase(),this);
-        fetchChat.execute();
-    }
-
-    @Override
-    public void summariesFetched(ArrayList<ChatSummary> chatSummaries) {
-
-    }
-
-    @Override
-    public void chatFetched(ArrayList<Chat_Entity> chatList) {
-        if(chatList.size()>0) {
-            this.chatList = chatList;
-            chatAdapter = new ChatAdapter(this, chatList);
-            recyclerView.setAdapter(chatAdapter);
-            recyclerView.scrollToPosition(chatList.size() - 1);
+    Observer<List<Chat_Entity>> observer=new Observer<List<Chat_Entity>>() {
+        @Override
+        public void onChanged(@Nullable List<Chat_Entity> chat_entities) {
+            chatAdapter.addItems(chat_entities);
+            if(chat_entities.size()!=0)
+            recyclerView.scrollToPosition(chat_entities.size()-1);
         }
-    }
+    };
+
 
     public void openTimePicker(View view) {
         Calendar mcurrentTime = Calendar.getInstance();
@@ -210,14 +207,6 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback,Tool
         hiddenCardView.setVisibility(View.GONE);
         edit_note.setText("");
         edit_note.clearFocus();
-
-        chatList.add(chat_entity);
-        LayoutAnimationController controller =
-                AnimationUtils.loadLayoutAnimation(this, R.anim.layout_animation_from_bottom);
-        recyclerView.setLayoutAnimation(controller);
-        chatAdapter.notifyItemInserted(chatList.size()-1);
-        recyclerView.scheduleLayoutAnimation();
-        recyclerView.scrollToPosition(chatList.size()-1);
     }
 
     @Override
@@ -227,12 +216,8 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback,Tool
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
             case R.id.clear:
-                if(chatList.size()>0){
-                    chatList.clear();
-                    chatAdapter.notifyDataSetChanged();
-                    ChatSync chatSync=new ChatSync(chat_id,((MyApplication)getApplicationContext()).getDatabase(),CLEAR_CHAT);
-                    chatSync.execute();
-                }
+                ChatSync chatSync=new ChatSync(chat_id,((MyApplication)getApplicationContext()).getDatabase(),CLEAR_CHAT);
+                chatSync.execute();
                 break;
         }
         return true;
@@ -250,28 +235,28 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback,Tool
     public void setBackground(View view) {
         switch (view.getId()){
             case R.id.im1:
-                chat_background.setImageResource(R.drawable.background_1);
+                chat_background.setBackgroundColor(0);
                 sharedPreferenceSingelton.saveAs(this,"background",0);
 
                 break;
             case R.id.im2:
-                chat_background.setImageResource(R.drawable.background_2);
+                chat_background.setBackgroundColor(ContextCompat.getColor(this,R.color.color1));
                 sharedPreferenceSingelton.saveAs(this,"background",1);
                 break;
             case R.id.im3:
-                chat_background.setImageResource(R.drawable.background_3);
+                chat_background.setBackgroundColor(ContextCompat.getColor(this,R.color.color2));
                 sharedPreferenceSingelton.saveAs(this,"background",2);
                 break;
             case R.id.im4:
-                chat_background.setImageResource(R.drawable.background_4);
+                chat_background.setBackgroundColor(ContextCompat.getColor(this,R.color.color3));
                 sharedPreferenceSingelton.saveAs(this,"background",3);
                 break;
             case R.id.im5:
-                chat_background.setImageResource(R.drawable.background_5);
+                chat_background.setBackgroundColor(ContextCompat.getColor(this,R.color.color4));
                 sharedPreferenceSingelton.saveAs(this,"background",4);
                 break;
             case R.id.im6:
-                chat_background.setImageResource(R.drawable.background_6);
+                chat_background.setBackgroundColor(ContextCompat.getColor(this,R.color.color5));
                 sharedPreferenceSingelton.saveAs(this,"background",5);
                 break;
         }
@@ -281,50 +266,23 @@ public class ChatActivity extends AppCompatActivity implements ChatCallback,Tool
     protected void onStart() {
         super.onStart();
         int choice=sharedPreferenceSingelton.getSavedInt(this,"background");
-        if(choice==0){
-            chat_background.setImageResource(R.drawable.background_1);
-        }else if(choice==1){
-            chat_background.setImageResource(R.drawable.background_2);
+        if(choice==1){
+            chat_background.setBackgroundColor(ContextCompat.getColor(this,R.color.color1));
         }else if(choice==2){
-            chat_background.setImageResource(R.drawable.background_3);
+            chat_background.setBackgroundColor(ContextCompat.getColor(this,R.color.color2));
         }else if(choice==3){
-            chat_background.setImageResource(R.drawable.background_4);
+            chat_background.setBackgroundColor(ContextCompat.getColor(this,R.color.color3));
         }else if(choice==4){
-            chat_background.setImageResource(R.drawable.background_5);
+            chat_background.setBackgroundColor(ContextCompat.getColor(this,R.color.color4));
         }else if(choice==5){
-            chat_background.setImageResource(R.drawable.background_6);
+            chat_background.setBackgroundColor(ContextCompat.getColor(this,R.color.color5));
         }
-        LocalBroadcastManager.getInstance(this).registerReceiver((mMessageReceiver),
-                new IntentFilter("Chat Update")
-        );
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
     }
 
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String id=intent.getStringExtra("chat_id");
-            if(chat_id.equalsIgnoreCase(id)){
-                Chat_Entity chat_entity=new Chat_Entity();
-                chat_entity.setTime(intent.getLongExtra("time",0));
-                chat_entity.setNote(intent.getStringExtra("note"));
-                chat_entity.setImage(intent.getStringExtra("image"));
-                chat_entity.setSent_or_recieved(RECEIVED_MESSAGE);
-                chatList.add(chat_entity);
-                LayoutAnimationController controller =
-                        AnimationUtils.loadLayoutAnimation(ChatActivity.this, R.anim.layout_animation_from_bottom);
-                recyclerView.setLayoutAnimation(controller);
-                chatAdapter.notifyItemInserted(chatList.size()-1);
-                recyclerView.scheduleLayoutAnimation();
-                recyclerView.scrollToPosition(chatList.size()-1);
-
-            }
-        }
-    };
 
 }

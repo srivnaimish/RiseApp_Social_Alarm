@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.view.activity;
+package com.riseapps.riseapp.view.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.riseapps.riseapp.R;
-import com.riseapps.riseapp.executor.Adapters.ContactsAdapter;
+import com.riseapps.riseapp.view.Adapters.ContactsAdapter;
 import com.riseapps.riseapp.executor.ContactsSync;
 import com.riseapps.riseapp.executor.Interface.ContactCallback;
 import com.riseapps.riseapp.executor.Interface.ContactSelection;
@@ -25,7 +25,7 @@ import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.MyApplication;
-import com.riseapps.riseapp.view.fragment.ShareReminder;
+import com.riseapps.riseapp.view.ui.fragment.ShareReminder;
 
 import java.util.ArrayList;
 

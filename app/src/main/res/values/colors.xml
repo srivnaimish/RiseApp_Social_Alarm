@@ -12,12 +12,15 @@
     <color name="colorPrimaryDark1">#4f4891</color>
     <color name="textColorPrimary1">#636363</color>
     <color name="textColorSecondary1">#9E9E9E</color>
-    <color name="colorMainBackground1">#f7fbfd</color>
+    <color name="colorMainBackground1">#F5F5F5</color>
 
 
-    <color name="color1">#95a5a6</color>
-    <color name="color2">#e74c3c</color>
-    <color name="color3">#9b59b6</color>
-    <color name="color4">#2980b9</color>
-    <color name="color5">#ca2c68</color>
+    <color name="color0">#faf3dd</color>
+    <color name="color1">#bbbac6</color>
+    <color name="color2">#1c0f13</color>
+    <color name="color3">#bbada0</color>
+    <color name="color4">#32021f</color>
+    <color name="color5">#E68364</color>
+
+
 </resources>

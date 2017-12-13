@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.view.fragment;
+package com.riseapps.riseapp.view.ui.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.Tasks;
-import com.riseapps.riseapp.view.activity.MainActivity;
+import com.riseapps.riseapp.view.ui.activity.MainActivity;
 
 public class Settings extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 

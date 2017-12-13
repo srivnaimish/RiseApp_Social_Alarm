@@ -11,7 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 
 import com.riseapps.riseapp.R;
-import com.riseapps.riseapp.view.activity.MainActivity;
+import com.riseapps.riseapp.view.ui.activity.MainActivity;
 
 /**
  * Created by naimish on 25/9/17.

@@ -1,36 +1,21 @@
-package com.riseapps.riseapp.executor.Adapters;
+package com.riseapps.riseapp.view.Adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.DB.Chat_Entity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.concurrent.ExecutionException;
+import java.util.List;
 
 import static com.riseapps.riseapp.Components.AppConstants.RECEIVED_MESSAGE;
 import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
@@ -157,6 +142,11 @@ public class ChatAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return chatList.size();
+    }
+
+    public void addItems(List<Chat_Entity> chatList) {
+        this.chatList = (ArrayList<Chat_Entity>) chatList;
+        notifyDataSetChanged();
     }
 
     class SentMessageViewHolder extends RecyclerView.ViewHolder{

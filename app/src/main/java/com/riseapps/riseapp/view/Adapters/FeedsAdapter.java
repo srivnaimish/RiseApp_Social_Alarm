@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.executor.Adapters;
+package com.riseapps.riseapp.view.Adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,25 +7,25 @@ import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.ChatSync;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.model.DB.ChatSummary;
+import com.riseapps.riseapp.model.DB.Chat_Entity;
 import com.riseapps.riseapp.model.MyApplication;
-import com.riseapps.riseapp.view.activity.ChatActivity;
+import com.riseapps.riseapp.view.ui.activity.ChatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.riseapps.riseapp.Components.AppConstants.DELETE_CHAT;
+import static com.riseapps.riseapp.Components.AppConstants.UPDATE_SUMMARY;
 
 public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -70,6 +70,11 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void addItems(List<ChatSummary> summaryList) {
+        this.summaryList = (ArrayList<ChatSummary>) summaryList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return summaryList.size();
@@ -97,11 +102,8 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @Override
         public void onClick(View v) {
-            if(!chatSummary.getRead()){
-                chatSummary.setRead(true);
-                badge.setVisibility(View.GONE);
-                name.setTypeface(name.getTypeface(), Typeface.NORMAL);
-            }
+            ChatSync chatSync=new ChatSync(chatSummary.getChat_contact_number(),((MyApplication)context.getApplicationContext()).getDatabase(),UPDATE_SUMMARY);
+            chatSync.execute();
             Intent intent=new Intent(context, ChatActivity.class);
             intent.putExtra("chat_id",chatSummary.getChat_contact_number());
             intent.putExtra("contact_name",chatSummary.getChat_contact_name());
@@ -118,7 +120,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     // continue with delete
                     ChatSync chatSync=new ChatSync(chatSummary.getChat_contact_number(),((MyApplication)context.getApplicationContext()).getDatabase(),DELETE_CHAT);
                     chatSync.execute();
-                    deleteItem(getAdapterPosition());
+                    //deleteItem(getAdapterPosition());
                 }
             });
             alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

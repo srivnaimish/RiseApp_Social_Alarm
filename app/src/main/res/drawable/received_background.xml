@@ -6,5 +6,5 @@
         android:bottomRightRadius="4dp"
         android:topLeftRadius="0dp"
         android:topRightRadius="4dp" />
-    <solid android:color="?card_color" />
+    <solid android:color="?received_message_color" />
 </shape>

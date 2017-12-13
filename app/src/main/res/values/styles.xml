@@ -14,6 +14,7 @@
         <item name="iconDual">#ffffff</item>
         <item name="backgroundDual">@color/colorMainBackground</item>
         <item name="card_color">@color/colorPrimary</item>
+        <item name="received_message_color">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
@@ -29,6 +30,7 @@
         <item name="iconDual">@color/colorPrimary1</item>
         <item name="backgroundDual">@color/colorMainBackground1</item>
         <item name="card_color">@android:color/white</item>
+        <item name="received_message_color">@color/color0</item>
     </style>
 
     <style name="DialogAnimation">

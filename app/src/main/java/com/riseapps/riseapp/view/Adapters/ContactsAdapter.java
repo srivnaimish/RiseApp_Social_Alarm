@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.executor.Adapters;
+package com.riseapps.riseapp.view.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;

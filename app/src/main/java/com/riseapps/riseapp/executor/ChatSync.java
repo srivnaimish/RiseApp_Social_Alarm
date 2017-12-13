@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import static com.riseapps.riseapp.Components.AppConstants.CLEAR_CHAT;
 import static com.riseapps.riseapp.Components.AppConstants.DELETE_CHAT;
 import static com.riseapps.riseapp.Components.AppConstants.INSERT_NEW_CHAT;
+import static com.riseapps.riseapp.Components.AppConstants.UPDATE_SUMMARY;
 
 /**
  * Created by naimish on 29/11/17.
@@ -34,7 +35,7 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
 
     private ArrayList<Contact_Entity> new_contacts;
 
-    public ChatSync(String chat_id,MyDB myDB,int choice) {   // for choice  & DELETE_CHAT
+    public ChatSync(String chat_id,MyDB myDB,int choice) {
         this.myDB=myDB;
         this.choice=choice;
         this.chat_id=chat_id;
@@ -65,6 +66,10 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
 
             case CLEAR_CHAT:
                 clearChat();
+                break;
+
+            case UPDATE_SUMMARY:
+                updateSummary();
                 break;
         }
 
@@ -101,6 +106,10 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
 
     private void clearChat(){
         myDB.chatDao().deleteChat(chat_id);
+    }
+
+    private void updateSummary() {
+        myDB.chatDao().updateReadStatus(chat_id,true);
     }
 
 }

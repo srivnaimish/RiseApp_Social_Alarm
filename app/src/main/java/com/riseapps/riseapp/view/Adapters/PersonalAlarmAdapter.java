@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.executor.Adapters;
+package com.riseapps.riseapp.view.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +26,7 @@ import com.riseapps.riseapp.executor.Interface.RingtonePicker;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.Pojo.PersonalAlarm;
-import com.riseapps.riseapp.view.activity.MainActivity;
+import com.riseapps.riseapp.view.ui.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;

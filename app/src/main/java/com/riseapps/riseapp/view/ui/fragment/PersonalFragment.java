@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.view.fragment;
+package com.riseapps.riseapp.view.ui.fragment;
 
 
 import android.app.TimePickerDialog;
@@ -15,14 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
 import com.riseapps.riseapp.R;
-import com.riseapps.riseapp.executor.Adapters.PersonalAlarmAdapter;
+import com.riseapps.riseapp.view.Adapters.PersonalAlarmAdapter;
 import com.riseapps.riseapp.executor.AlarmCreator;
 
 import com.riseapps.riseapp.executor.Interface.FabListener;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.Pojo.PersonalAlarm;
-import com.riseapps.riseapp.view.activity.MainActivity;
+import com.riseapps.riseapp.view.ui.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;

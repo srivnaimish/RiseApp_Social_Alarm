@@ -4,8 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.riseapps.riseapp.view.activity.MathWake;
-import com.riseapps.riseapp.view.activity.SimpleWake;
+import com.riseapps.riseapp.view.ui.activity.MathWake;
+import com.riseapps.riseapp.view.ui.activity.SimpleWake;
 
 /**
  * Created by naimish on 2/11/17.

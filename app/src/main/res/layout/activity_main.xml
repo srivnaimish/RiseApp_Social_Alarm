@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.riseapps.riseapp.view.activity.MainActivity"
+    tools:context=".view.ui.activity.MainActivity"
     android:id="@+id/main_background"
     >
     <RelativeLayout

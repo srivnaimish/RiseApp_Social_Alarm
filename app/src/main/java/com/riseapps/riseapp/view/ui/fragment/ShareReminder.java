@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.view.fragment;
+package com.riseapps.riseapp.view.ui.fragment;
 
 
 import android.app.DatePickerDialog;
@@ -26,7 +26,7 @@ import com.riseapps.riseapp.executor.ChatSync;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 
-import com.riseapps.riseapp.view.activity.PickContacts;
+import com.riseapps.riseapp.view.ui.activity.PickContacts;
 
 import java.util.ArrayList;
 import java.util.Calendar;

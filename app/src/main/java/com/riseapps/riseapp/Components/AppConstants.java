@@ -33,6 +33,7 @@ public class AppConstants {
     public static final int INSERT_NEW_CHAT=0;
     public static final int DELETE_CHAT=1;
     public static final int CLEAR_CHAT=2;
+    public static final int UPDATE_SUMMARY=3;
 
     public static final int SENT_MESSAGE=0;
     public static final int RECEIVED_MESSAGE =1;
@@ -118,5 +119,10 @@ public class AppConstants {
         });
     }
 
+    public static final String[] backgrounds={"https://cdn.pixabay.com/photo/2014/06/22/05/49/rose-374318_640.jpg",
+    "https://cdn.pixabay.com/photo/2016/07/05/16/53/leaf-1498985_640.jpg",
+    "https://cdn.pixabay.com/photo/2016/08/21/23/29/lake-1611044_640.jpg",
+    "https://cdn.pixabay.com/photo/2017/12/08/11/06/lime-3005556_640.jpg",
+    "https://cdn.pixabay.com/photo/2017/12/05/05/34/gifts-2998593_640.jpg"};
 
 }

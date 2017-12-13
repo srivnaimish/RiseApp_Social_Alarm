@@ -21,17 +21,14 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.riseapps.riseapp.R;
-import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.model.DB.ChatSummary;
 import com.riseapps.riseapp.model.DB.Chat_Entity;
-import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.DB.MyDB;
 import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.model.Pojo.ContactFetch;
 import com.riseapps.riseapp.utils.NotificationUtils;
-import com.riseapps.riseapp.view.activity.MainActivity;
+import com.riseapps.riseapp.view.ui.activity.MainActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -100,13 +97,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         chatSummary.setChat_contact_number(phone);
         chatSummary.setRead(false);
         myDB.chatDao().insertSummary(chatSummary);
-
+/*
         Intent intent = new Intent("Chat Update");
         intent.putExtra("chat_id", phone);
         intent.putExtra("time", time);
         intent.putExtra("note", note);
         intent.putExtra("image", image);
-        broadcaster.sendBroadcast(intent);
+        broadcaster.sendBroadcast(intent);*/
     }
 
     private void sendNotification(int notification_id, String title) {

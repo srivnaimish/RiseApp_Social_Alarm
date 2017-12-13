@@ -1,36 +1,34 @@
-package com.riseapps.riseapp.view.fragment;
+package com.riseapps.riseapp.view.ui.fragment;
 
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.riseapps.riseapp.R;
-import com.riseapps.riseapp.executor.Adapters.FeedsAdapter;
-import com.riseapps.riseapp.executor.FetchChatSummaries;
-import com.riseapps.riseapp.executor.Interface.ChatCallback;
-import com.riseapps.riseapp.model.DB.Chat_Entity;
+import com.riseapps.riseapp.executor.SummaryViewModel;
+import com.riseapps.riseapp.view.Adapters.FeedsAdapter;
 import com.riseapps.riseapp.model.DB.ChatSummary;
-import com.riseapps.riseapp.view.activity.MainActivity;
+import com.riseapps.riseapp.view.ui.activity.MainActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class FeedsFragment extends Fragment implements ChatCallback {
+public class FeedsFragment extends Fragment {
 
-    //ToggleShareDialog toggleShareDialog;
     RecyclerView recyclerView;
-    ArrayList<ChatSummary> summaryList = new ArrayList<>();
     FeedsAdapter feedsAdapter;
     private ConstraintLayout empty_state;
-
+    private SummaryViewModel summaryViewModel;
     public FeedsFragment() {
         // Required empty public constructor
     }
@@ -48,39 +46,32 @@ public class FeedsFragment extends Fragment implements ChatCallback {
         /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);*/
+        feedsAdapter=new FeedsAdapter(getContext(),new ArrayList<ChatSummary>());
         recyclerView.setAdapter(feedsAdapter);
+
+        summaryViewModel= ViewModelProviders.of(this).get(SummaryViewModel.class);
+
+        summaryViewModel.getSummaryList(((MainActivity)getActivity()).getMyapp().getDatabase()).observe(FeedsFragment.this, observer);
 
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        FetchChatSummaries fetchChatSummaries=new FetchChatSummaries(((MainActivity)getActivity()).getMyapp().getDatabase(),(ChatCallback)this);
-        fetchChatSummaries.execute();
-    }
+    Observer<List<ChatSummary>> observer=new Observer<List<ChatSummary>>() {
+        @Override
+        public void onChanged(@Nullable List<ChatSummary> summaryList) {
+            feedsAdapter.addItems(summaryList);
+            if(summaryList.size()>0) {
+                empty_state.setVisibility(View.GONE);
+            }else {
+                empty_state.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 
     public static FeedsFragment newInstance() {
         return new FeedsFragment();
     }
 
-    @Override
-    public void summariesFetched(ArrayList<ChatSummary> chatSummaries) {
-        if(chatSummaries.size()!=0) {
-            summaryList = chatSummaries;
-            feedsAdapter = new FeedsAdapter(getContext(), summaryList);
-            recyclerView.setAdapter(feedsAdapter);
-
-            empty_state.setVisibility(View.GONE);
-        }else {
-            empty_state.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void chatFetched(ArrayList<Chat_Entity> chatList) {
-
-    }
 }
 
 

@@ -61,12 +61,6 @@ public class Tasks {
         return "" + s.charAt(0);
     }
 
-    public int getRandomColor() {
-        int colors[] = {R.color.color1, R.color.color2, R.color.color3, R.color.color4, R.color.color5};
-        Random random = new Random();
-        return colors[random.nextInt(5)];
-    }
-
     public int getCurrentTheme(Context context) {
         if (sharedPreferenceSingelton.getSavedInt(context, "Theme") == 1)
             return 1;

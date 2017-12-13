@@ -1,18 +1,11 @@
-package com.riseapps.riseapp.executor.Adapters;
+package com.riseapps.riseapp.view.Adapters;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
-import com.riseapps.riseapp.R;
-import com.riseapps.riseapp.view.fragment.FeedsFragment;
-import com.riseapps.riseapp.view.fragment.PersonalFragment;
-import com.riseapps.riseapp.view.fragment.Settings;
+import com.riseapps.riseapp.view.ui.fragment.FeedsFragment;
+import com.riseapps.riseapp.view.ui.fragment.PersonalFragment;
 
 /**
  * Created by naimish on 31/10/17.
