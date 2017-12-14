@@ -15,6 +15,7 @@ import com.riseapps.riseapp.executor.Interface.ContactSelection;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ContactsAdapter extends RecyclerView.Adapter {
@@ -47,7 +48,11 @@ public class ContactsAdapter extends RecyclerView.Adapter {
         else
             ((ContactsViewHolder) holder).status.setVisibility(View.GONE);
         ((ContactsViewHolder) holder).contact = contact;
+    }
 
+    public void addItems(List<Contact_Entity> contactList) {
+        this.contacts = (ArrayList<Contact_Entity>) contactList;
+        notifyDataSetChanged();
     }
 
 

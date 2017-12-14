@@ -1,16 +1,17 @@
 <resources>
     <string name="app_name">RiseApp</string>
-    <string name="personal">Personal</string>
-    <string name="shared">Shared</string>
-    <string name="weather">Weather</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="off">Off</string>
     <string name="on">On</string>
-    <string name="settings">Settings</string>
-    <string name="facebook_app_id">480651608986548</string>
-    <string name="fb_login_protocol_scheme">fb480651608986548</string>
 
+    <string name="walkthrough_heading_1">Send reminders to others</string>
+    <string name="walkthrough_subheading_1">You can send reminders to other people by simply selecting a reminder time,date and reminder note.</string>
+
+    <string name="walkthrough_heading_2">Add an alarm for yourself</string>
+    <string name="walkthrough_subheading_2">Wake up to your own personal alarm by either swiping or by doing some math.</string>
+
+    <string name="walkthrough_heading_3">Permission to access your contacts</string>
+    <string name="walkthrough_subheading_3">We don\'t save your contacts or your chats.We only need access to show you which of your contacts are using RiseApp.</string>
 
 </resources>

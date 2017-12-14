@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.executor;
+package com.riseapps.riseapp.viewModel;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;

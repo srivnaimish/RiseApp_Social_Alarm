@@ -1,5 +1,6 @@
 package com.riseapps.riseapp.model.DB;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
@@ -17,10 +18,10 @@ import java.util.List;
 public interface ContactDao {
 
     @Query("SELECT * FROM contact_entity")
-    List<Contact_Entity> getAll();
+    LiveData<List<Contact_Entity>> getAll();
 
     @Insert
-    void insertFeed(Contact_Entity contact_entity);
+    void insertFeed(List<Contact_Entity> contact_entities);
 
     @Query("DELETE FROM contact_entity")
     public void clearContacts();

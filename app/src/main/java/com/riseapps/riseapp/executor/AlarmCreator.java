@@ -9,6 +9,7 @@ import android.os.Build;
 
 import com.riseapps.riseapp.model.Pojo.PersonalAlarm;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -34,6 +35,7 @@ public class AlarmCreator {
 
         Intent intent = new Intent(context, AlarmReciever.class);
         intent.putExtra("ID", id);
+        intent.putExtra("Type",0);
         PendingIntent pi = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         assert alarmManager != null;
@@ -49,14 +51,23 @@ public class AlarmCreator {
 
         Intent intent = new Intent(context, AlarmReciever.class);
         intent.putExtra("ID", id);
+        intent.putExtra("Type",0);
         PendingIntent pi = PendingIntent.getBroadcast(context, id, intent, 0);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         alarmManager.cancel(pi);
     }
 
-    public void setNewReminder(Context context, long alarmTimeInMillis, int id) {
+    public void setNewReminder(Context context, long alarmTimeInMillis, int id,String sender,String note,String image) {
+        ArrayList<String> details=new ArrayList<>();
+
+        details.add(sender);
+        details.add(note);
+        details.add(image);
 
         Intent intent = new Intent(context, AlarmReciever.class);
+        intent.putExtra("Type",1);
+        intent.putExtra("Details",details);
+
         PendingIntent pi = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         assert alarmManager != null;

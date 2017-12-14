@@ -17,16 +17,18 @@ import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.executor.AlarmCreator;
 import com.riseapps.riseapp.model.DB.ChatSummary;
 import com.riseapps.riseapp.model.DB.Chat_Entity;
 import com.riseapps.riseapp.model.DB.MyDB;
 import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.model.Pojo.ContactFetch;
-import com.riseapps.riseapp.utils.NotificationUtils;
+import com.riseapps.riseapp.Components.NotificationUtils;
 import com.riseapps.riseapp.view.ui.activity.MainActivity;
 
 import java.util.List;
@@ -84,12 +86,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         Chat_Entity chat_entity = new Chat_Entity();
+        chat_entity.setMessage_id((int) System.currentTimeMillis());
         chat_entity.setChat_id(phone);
         chat_entity.setContact_name(name);
         chat_entity.setTime(time);
         chat_entity.setNote(note);
         chat_entity.setImage(image);
         chat_entity.setSent_or_recieved(RECEIVED_MESSAGE);
+        chat_entity.setRead(false);
         myDB.chatDao().insertChat(chat_entity);
 
         ChatSummary chatSummary=new ChatSummary();
@@ -97,19 +101,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         chatSummary.setChat_contact_number(phone);
         chatSummary.setRead(false);
         myDB.chatDao().insertSummary(chatSummary);
-/*
-        Intent intent = new Intent("Chat Update");
-        intent.putExtra("chat_id", phone);
-        intent.putExtra("time", time);
-        intent.putExtra("note", note);
-        intent.putExtra("image", image);
-        broadcaster.sendBroadcast(intent);*/
+
+        new AlarmCreator().setNewReminder(this,time,chat_entity.getMessage_id(),name,note,image);
+
     }
 
     private void sendNotification(int notification_id, String title) {
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         if (Build.VERSION.SDK_INT >= 26) {
-            NotificationUtils mNotificationUtils = new NotificationUtils(this);
+            NotificationUtils mNotificationUtils = new NotificationUtils(this,0);
             Notification.Builder nb = mNotificationUtils.
                     getChannelNotification(title, largeIcon);
             mNotificationUtils.getManager().notify(notification_id, nb.build());
@@ -160,7 +160,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         ActivityManager am = (ActivityManager) this
                 .getSystemService(ACTIVITY_SERVICE);
 
-        // get the info from the currently running task
         List<ActivityManager.RunningTaskInfo> taskInfo = am.getRunningTasks(1);
 
         ComponentName componentInfo = taskInfo.get(0).topActivity;

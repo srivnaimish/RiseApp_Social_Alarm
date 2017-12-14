@@ -1,28 +1,30 @@
 package com.riseapps.riseapp.viewModel;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
 
 import com.riseapps.riseapp.model.DB.Chat_Entity;
+import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.DB.MyDB;
-import com.riseapps.riseapp.model.MyApplication;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by naimish on 13/12/17.
  */
 
-public class ChatViewModel extends ViewModel {
+public class ContactsViewModel extends ViewModel {
 
-    private LiveData<List<Chat_Entity>> chatList;
+    private LiveData<List<Contact_Entity>> contactList;
 
-    public LiveData<List<Chat_Entity>> getChatList(MyDB myDB,String chat_id) {
-        chatList = myDB.chatDao().getChatMessages(chat_id);
-        return chatList;
+    public LiveData<List<Contact_Entity>> getContactList(MyDB myDB) {
+        contactList = myDB.contactDao().getAll();
+        return contactList;
+    }
+
+    public ArrayList<Contact_Entity> getContacts() {
+        return (ArrayList<Contact_Entity>) contactList.getValue();
     }
 
 }

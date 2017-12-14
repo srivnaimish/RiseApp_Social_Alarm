@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.riseapps.riseapp.R;
-import com.riseapps.riseapp.executor.SummaryViewModel;
+import com.riseapps.riseapp.viewModel.SummaryViewModel;
 import com.riseapps.riseapp.view.Adapters.FeedsAdapter;
 import com.riseapps.riseapp.model.DB.ChatSummary;
 import com.riseapps.riseapp.view.ui.activity.MainActivity;

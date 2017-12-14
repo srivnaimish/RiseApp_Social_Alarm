@@ -41,7 +41,7 @@
             app:tabGravity="fill"
             app:layout_scrollFlags="scroll|enterAlways"
             app:tabIndicatorColor="?colorAccent"
-            app:tabIndicatorHeight="2dp"
+            app:tabIndicatorHeight="4dp"
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextAppearance="@style/TextAppearance.AppCompat.Body1"
             app:tabTextColor="@android:color/white"/>

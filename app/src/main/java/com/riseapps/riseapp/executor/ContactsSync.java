@@ -2,6 +2,7 @@ package com.riseapps.riseapp.executor;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -18,6 +19,7 @@ import com.riseapps.riseapp.model.Pojo.Server.ContactsResponse;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.concurrent.Executor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,42 +36,25 @@ import static com.riseapps.riseapp.Components.AppConstants.RESYNC_CONTACTS;
 
 public class ContactsSync extends AsyncTask<Void, Void, Void> {
 
-    private int choice;
     private MyDB myDB;
-    private ContactCallback contactCallback;
-    private WeakReference<Activity> activity;
+    private ContentResolver contentResolver;
     private ArrayList<Contact_Entity> allContactsList,riseappContacts;     //Fetch all feeds
     private Tasks tasks=new Tasks();
 
-    public ContactsSync(Activity activity,MyDB myDB,int choice) {
-        this.choice=choice;
+    public ContactsSync(ContentResolver contentResolver, MyDB myDB) {
         this.myDB=myDB;
-        this.activity=new WeakReference<Activity>(activity);
+        this.contentResolver=contentResolver;
         allContactsList=new ArrayList<>();
         riseappContacts=new ArrayList<>();
     }
 
-    public ContactsSync(MyDB myDB,int choice,ArrayList<Contact_Entity> riseappContacts) {
-        this.choice=choice;
-        this.myDB=myDB;
-        this.riseappContacts=riseappContacts;
-    }
-
     @Override
     protected Void doInBackground(Void... voids) {
-        if(choice==GET_CONTACTS_FROM_DB){
-            getDbContacts();
-        }else if(choice==RESYNC_CONTACTS){
-            getContacts();
-        }else {
-            insertIntoDb();
-        }
+        getContacts();
         return null;
     }
 
     private void getContacts() {     //Fetch all Contacts from phone
-
-        myDB.contactDao().clearContacts();
 
         Uri CONTENT_URI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         String sortOrder = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY + " COLLATE LOCALIZED ASC";
@@ -80,8 +65,7 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
 
         ArrayList<String> numberList=new ArrayList<>();
 
-        ContentResolver cr = activity.get().getContentResolver();
-        Cursor data = cr.query(CONTENT_URI, PROJECTION, null, null, sortOrder);
+        Cursor data = contentResolver.query(CONTENT_URI, PROJECTION, null, null, sortOrder);
         while (data.moveToNext()) {
             String name = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY));
             String number = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
@@ -89,6 +73,8 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
             numberList.add(number);     //get number list to send to server for verification
         }
         data.close();
+
+        myDB.contactDao().clearContacts();
 
         getRiseAppContacts(numberList);
 
@@ -112,7 +98,6 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
             public void onResponse(Call<ContactsResponse> call, retrofit2.Response<ContactsResponse> response) {
                 ContactsResponse resp = response.body();
                 assert resp != null;
-                Log.d("Contacts",resp.getMessage());
                 if(resp.getMessage().equalsIgnoreCase("Fetched")){
                     boolean[] myContacts=resp.getResult();
                     for(int i=0;i<myContacts.length;i++){
@@ -122,9 +107,17 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
                             riseappContacts.add(contact);
                         }
                     }
-                    contactCallback.onSuccessfulFetch(riseappContacts,true);
-                }else {
-                    contactCallback.onUnsuccessfulFetch();
+                    if(ContactsSync.this.getStatus()==Status.FINISHED) {
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                myDB.contactDao().insertFeed(riseappContacts);
+                            }
+                        });
+                    }else {
+                        myDB.contactDao().insertFeed(riseappContacts);
+                    }
+
                 }
             }
 
@@ -132,21 +125,6 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
             public void onFailure(Call<ContactsResponse> call, Throwable t) {
             }
         });
-
     }
 
-    private void getDbContacts(){
-        contactCallback.onSuccessfulFetch((ArrayList<Contact_Entity>) myDB.contactDao().getAll(),false);
-        //contactCallback.onSuccessfulFetch();
-    }
-
-    private void insertIntoDb(){
-        for (Contact_Entity contact:riseappContacts) {
-            myDB.contactDao().insertFeed(contact);
-        }
-    }
-
-    public void setContactCallback(ContactCallback contactCallback) {
-        this.contactCallback = contactCallback;
-    }
 }

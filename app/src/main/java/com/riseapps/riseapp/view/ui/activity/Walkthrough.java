@@ -9,11 +9,15 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,6 +59,7 @@ public class Walkthrough extends AppCompatActivity {
     private EditText editText;
     private ImageView initial_background;
     private TextView initials;
+    private int[] buttons={R.id.b1,R.id.b2,R.id.b3};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,12 +69,39 @@ public class Walkthrough extends AppCompatActivity {
         editText=findViewById(R.id.edit_name);
         initial_background=findViewById(R.id.bell);
         initials=findViewById(R.id.initials);
+        ViewPager viewPager = findViewById(R.id.viewpager);
+        findViewById(buttons[0]).setSelected(true);
+        viewPager.setAdapter(new CustomViewPagerAdapter());
+        viewPager.setOffscreenPageLimit(2);
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i=0;i<3;i++){
+                    findViewById(buttons[i]).setSelected(false);
+                }
+                findViewById(buttons[position]).setSelected(true);
+                if(position==2){
+                    checkPermission();
+                    findViewById(R.id.start).setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        checkPermission();
     }
 
     public void checkPermission() {
@@ -214,6 +246,49 @@ public class Walkthrough extends AppCompatActivity {
         sharedPreferenceSingleton.saveAs(this, "Logged", true);
         sharedPreferenceSingleton.saveAs(this,"Name",editText.getText().toString());
         startActivity(new Intent(this, MainActivity.class));
+        overridePendingTransition(R.anim.view_enter,R.anim.view_exit);
         finish();
+    }
+
+    private class CustomViewPagerAdapter extends PagerAdapter{
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
+
+        @Override
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+            return view == ((View)object);
+        }
+
+        @NonNull
+        @Override
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+            View view = getLayoutInflater().inflate(R.layout.pageritem, container, false);
+            ImageView displayImage = (ImageView)view.findViewById(R.id.image);
+            TextView heading = (TextView)view.findViewById(R.id.heading);
+            TextView subheading = (TextView)view.findViewById(R.id.subheading);
+            switch (position){
+                case 0:
+                    displayImage.setImageResource(R.drawable.ic_walkthrough1);
+                    heading.setText(getString(R.string.walkthrough_heading_1));
+                    subheading.setText(getString(R.string.walkthrough_subheading_1));
+                    break;
+                case 1:
+                    displayImage.setImageResource(R.drawable.ic_no_alarm);
+                    heading.setText(getString(R.string.walkthrough_heading_2));
+                    subheading.setText(getString(R.string.walkthrough_subheading_2));
+                    break;
+                case 2:
+                    displayImage.setImageResource(R.drawable.ic_walkthrough3);
+                    heading.setText(getString(R.string.walkthrough_heading_3));
+                    subheading.setText(getString(R.string.walkthrough_subheading_3));
+                    break;
+            }
+
+            container.addView(view);
+            return view;
+        }
     }
 }

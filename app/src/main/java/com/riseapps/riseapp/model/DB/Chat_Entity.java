@@ -9,7 +9,7 @@ import android.arch.persistence.room.PrimaryKey;
  */
 @Entity
 public class Chat_Entity {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private int message_id;
 
     @ColumnInfo(name = "chat_id")
@@ -24,6 +24,8 @@ public class Chat_Entity {
     private String image;
     @ColumnInfo(name = "sent_or_recieved")
     private int sent_or_recieved;
+    @ColumnInfo(name = "read")
+    private boolean read;
 
     public Chat_Entity() {
 
@@ -83,5 +85,13 @@ public class Chat_Entity {
 
     public void setSent_or_recieved(int sent_or_recieved) {
         this.sent_or_recieved = sent_or_recieved;
+    }
+
+    public boolean isRead() {
+        return read;
+    }
+
+    public void setRead(boolean read) {
+        this.read = read;
     }
 }

@@ -1,4 +1,4 @@
-package com.riseapps.riseapp.executor;
+package com.riseapps.riseapp.viewModel;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;

@@ -1,8 +1,12 @@
 package com.riseapps.riseapp.view.ui.activity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -10,6 +14,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +24,7 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.executor.SyncReciever;
 import com.riseapps.riseapp.view.Adapters.SectionPagerAdapter;
 import com.riseapps.riseapp.executor.ContactsSync;
 import com.riseapps.riseapp.executor.Interface.ContactCallback;
@@ -30,12 +37,13 @@ import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.view.ui.fragment.Settings;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static com.riseapps.riseapp.Components.AppConstants.INSERT_CONTACTS_IN_DB;
 import static com.riseapps.riseapp.Components.AppConstants.RC_RINGTONE;
 import static com.riseapps.riseapp.Components.AppConstants.RESYNC_CONTACTS;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,ContactCallback {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "SIGN IN";
     private ViewPager mViewPager;
@@ -77,13 +85,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onMenuItemClick(MenuItem item) {
                 Settings settings = new Settings();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 ft.replace(R.id.main_background, settings, "Settings");
                 ft.addToBackStack(null);
                 ft.commit();
                 return false;
             }
         });
-        // mViewPager.setPageTransformer(true, new ZoomOutPageTransformer());
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -145,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (pos == 0) {
                     Intent intent=new Intent(this, PickContacts.class);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.view_enter,R.anim.view_exit);
                 } else if (pos == 1) {
                     fabListener1.onFabClick();
                 }
@@ -161,10 +170,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             myapp.setUID(currentUser.getUid());
         }
         if(!sharedPreferenceSingleton.getSavedBoolean(this,"Cached_Contacts")) {
-            ContactsSync contactsSync = new ContactsSync(this,getMyapp().getDatabase(),RESYNC_CONTACTS);
-            contactsSync.setContactCallback((ContactCallback) this);
+            ContactsSync contactsSync = new ContactsSync(getContentResolver(),getMyapp().getDatabase());
             contactsSync.execute();
+            Log.d("MainActivity","Syncing");
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 9);
 
+            AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, SyncReciever.class);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 123, intent, 0);
+
+            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, alarmIntent);
+
+            sharedPreferenceSingleton.saveAs(this,"Cached_Contacts",true);
         }
     }
 
@@ -179,21 +199,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public MyApplication getMyapp() {
         return myapp;
-    }
-
-    @Override
-    public void onSuccessfulFetch(ArrayList<Contact_Entity> contacts,boolean restart_Async) {
-        sharedPreferenceSingleton.saveAs(this,"Cached_Contacts",true);
-        if(restart_Async) {
-            Toast.makeText(this, "Contacts synced", Toast.LENGTH_SHORT).show();
-            ContactsSync contactsSync = new ContactsSync(getMyapp().getDatabase(), INSERT_CONTACTS_IN_DB, contacts);
-            contactsSync.execute();
-        }
-    }
-
-    @Override
-    public void onUnsuccessfulFetch() {
-        Toast.makeText(this, "Error Fetching contacts", Toast.LENGTH_SHORT).show();
     }
 
     @Override
