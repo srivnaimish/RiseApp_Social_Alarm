@@ -38,4 +38,12 @@ public interface ChatDao {
 
     @Query("UPDATE chatsummary SET read_messages = :value  WHERE chat_contact_number = :chat_contact_number")
     void updateReadStatus(String chat_contact_number,boolean value);
+
+    @Query("SELECT * FROM chat_entity " +
+            "WHERE read=:read AND chat_time<:currentTime ORDER BY chat_time DESC")
+    List<Chat_Entity> getReminders(boolean read,long currentTime);
+
+    @Query("UPDATE chat_entity SET read = :value  WHERE message_id = :message_id")
+    void updateReminderRead(String message_id,boolean value);
+
 }

@@ -176,7 +176,7 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             Toast.makeText(ChatActivity.this, "Enter a valid time and date", Toast.LENGTH_SHORT).show();
             return;
         } else if (edit_note.getText().toString().length() == 0) {
-            Toast.makeText(ChatActivity.this, "Enter a reminder note", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ChatActivity.this, "Enter a reminder_row note", Toast.LENGTH_SHORT).show();
             return;
         }
 

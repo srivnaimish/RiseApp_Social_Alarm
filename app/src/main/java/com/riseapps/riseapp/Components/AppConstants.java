@@ -4,13 +4,18 @@ import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Network.RequestInterface;
 import com.riseapps.riseapp.model.Pojo.Server.Message;
 import com.riseapps.riseapp.model.Pojo.Server.MessageRequest;
 import com.riseapps.riseapp.model.Pojo.Server.ServerResponse;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +53,10 @@ public class AppConstants {
     public static final String REMINDER = "reminder";
     public static final String GET_CONTACTS = "GET_CONTACTS";
 
+/*
     public static final String BASE_URL = "http://riseapp.000webhostapp.com/";
+*/
+public static final String BASE_URL = "http://192.168.29.153/";
 
     public void sendReminder(String sender, ArrayList<String> Recipients, long Time, String Note, String ImageURL) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -63,6 +71,7 @@ public class AppConstants {
 
         Message message = new Message(sender, Recipients, Time, Note, ImageURL);
         messageRequest.setMessage(message);
+
         Call<ServerResponse> response = requestInterface.chat(messageRequest);
         response.enqueue(new Callback<ServerResponse>() {
             @Override
@@ -96,9 +105,13 @@ public class AppConstants {
 
         ArrayList<String> Recipients=new ArrayList<>();
         Recipients.add(Recipient);
-
         Message message = new Message(sender, Recipients, Time, Note, ImageURL);
         messageRequest.setMessage(message);
+
+        Gson gson = new GsonBuilder().create();
+        String json = gson.toJson(messageRequest);
+        Log.d("Request",json);
+
         Call<ServerResponse> response = requestInterface.chat(messageRequest);
         response.enqueue(new Callback<ServerResponse>() {
             @Override
@@ -115,6 +128,8 @@ public class AppConstants {
             @Override
             public void onFailure(Call<ServerResponse> call, Throwable t) {
                 // Snackbar.make(get, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+                Log.d(REMINDER,t.getLocalizedMessage());
+
             }
         });
     }

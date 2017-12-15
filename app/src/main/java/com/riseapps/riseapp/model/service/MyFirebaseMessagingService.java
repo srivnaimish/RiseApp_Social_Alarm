@@ -17,6 +17,7 @@ import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -53,7 +54,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
         Map<String, String> data = remoteMessage.getData();
         int sender_no = Integer.parseInt(data.get("Sender Index"));
         String sender_name = data.get("Sender Name");

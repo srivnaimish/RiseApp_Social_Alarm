@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -14,12 +13,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,21 +24,16 @@ import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.SyncReciever;
 import com.riseapps.riseapp.view.Adapters.SectionPagerAdapter;
 import com.riseapps.riseapp.executor.ContactsSync;
-import com.riseapps.riseapp.executor.Interface.ContactCallback;
 import com.riseapps.riseapp.executor.Interface.FabListener;
 import com.riseapps.riseapp.executor.Interface.RingtonePicker;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.Tasks;
-import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.view.ui.fragment.Settings;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
-import static com.riseapps.riseapp.Components.AppConstants.INSERT_CONTACTS_IN_DB;
 import static com.riseapps.riseapp.Components.AppConstants.RC_RINGTONE;
-import static com.riseapps.riseapp.Components.AppConstants.RESYNC_CONTACTS;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

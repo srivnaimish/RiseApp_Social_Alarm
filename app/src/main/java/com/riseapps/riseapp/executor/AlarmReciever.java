@@ -74,8 +74,8 @@ public class AlarmReciever extends BroadcastReceiver {
             mBuilder.setPriority(Notification.PRIORITY_HIGH);
             mBuilder.setGroupSummary(true);
             mBuilder.setAutoCancel(true);
-            mBuilder.setContentTitle("RiseApp Reminder");
-            mBuilder.setContentText("Read the reminder");
+            mBuilder.setContentTitle(details.get(0)+" said...");
+            mBuilder.setContentText("Read the full Reminder");
             mBuilder.setOngoing(false);
             mBuilder.setSound(defaultSoundUri);
             mBuilder.setSmallIcon(R.drawable.ic_add_alarm);

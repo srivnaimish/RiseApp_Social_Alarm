@@ -102,7 +102,7 @@ public class ShareReminder extends Fragment implements View.OnClickListener {
                     Toast.makeText(getContext(), "Enter a valid time and date", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (edit_note.getText().toString().length() == 0) {
-                    Toast.makeText(getContext(), "Enter a reminder note", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Enter a reminder_row note", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

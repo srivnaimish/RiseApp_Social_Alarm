@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "c7e7ae4613334c34593d660e2b177a74",
+    "identityHash": "e61dc79a9770044adc4f470019b39cc2",
     "entities": [
       {
         "tableName": "Contact_Entity",
@@ -44,7 +44,7 @@
       },
       {
         "tableName": "Chat_Entity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`message_id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `chat_id` TEXT, `chat_contact_name` TEXT, `chat_time` INTEGER NOT NULL, `chat_note` TEXT, `chat_image` TEXT, `sent_or_recieved` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`message_id` INTEGER NOT NULL, `chat_id` TEXT, `chat_contact_name` TEXT, `chat_time` INTEGER NOT NULL, `chat_note` TEXT, `chat_image` TEXT, `sent_or_recieved` INTEGER NOT NULL, `read` INTEGER NOT NULL, PRIMARY KEY(`message_id`))",
         "fields": [
           {
             "fieldPath": "message_id",
@@ -87,13 +87,19 @@
             "columnName": "sent_or_recieved",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "read",
+            "columnName": "read",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
             "message_id"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
@@ -133,7 +139,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"c7e7ae4613334c34593d660e2b177a74\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e61dc79a9770044adc4f470019b39cc2\")"
     ]
   }
 }

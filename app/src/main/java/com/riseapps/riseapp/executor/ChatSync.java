@@ -3,7 +3,6 @@ package com.riseapps.riseapp.executor;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.riseapps.riseapp.executor.Interface.ChatCallback;
 import com.riseapps.riseapp.model.DB.Chat_Entity;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.DB.MyDB;
@@ -22,7 +21,6 @@ import static com.riseapps.riseapp.Components.AppConstants.UPDATE_SUMMARY;
 
 public class ChatSync extends AsyncTask<Void, Void, Void> {
 
-    private ChatCallback chatCallback;
     private MyDB myDB;
     private int choice;
     private String chat_id;
@@ -79,12 +77,14 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
     private void insertChatMessage(){
         for (Contact_Entity contact:new_contacts) {
             Chat_Entity chat_entity = new Chat_Entity();
+            chat_entity.setMessage_id((int) System.currentTimeMillis());
             chat_entity.setChat_id(contact.getNumber());
             chat_entity.setContact_name(contact.getName());
             chat_entity.setTime(timeInMillis);
             chat_entity.setNote(note);
             chat_entity.setImage(image);
             chat_entity.setSent_or_recieved(sent_or_recieved);
+            chat_entity.setRead(true);
             myDB.chatDao().insertChat(chat_entity);
 
             ChatSummary chatSummary=new ChatSummary();

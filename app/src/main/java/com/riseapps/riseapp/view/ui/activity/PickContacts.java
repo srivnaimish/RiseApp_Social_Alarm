@@ -17,27 +17,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.view.Adapters.ContactsAdapter;
 import com.riseapps.riseapp.executor.ContactsSync;
-import com.riseapps.riseapp.executor.Interface.ContactCallback;
 import com.riseapps.riseapp.executor.Interface.ContactSelection;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.view.ui.fragment.ShareReminder;
-import com.riseapps.riseapp.viewModel.ChatViewModel;
 import com.riseapps.riseapp.viewModel.ContactsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.riseapps.riseapp.Components.AppConstants.GET_CONTACTS_FROM_DB;
-import static com.riseapps.riseapp.Components.AppConstants.INSERT_CONTACTS_IN_DB;
-import static com.riseapps.riseapp.Components.AppConstants.RESYNC_CONTACTS;
 
 public class PickContacts extends AppCompatActivity implements ContactSelection, View.OnClickListener {
 
