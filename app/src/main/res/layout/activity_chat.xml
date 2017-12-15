@@ -89,7 +89,7 @@
                 android:id="@+id/chat_messages"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="8dp"
                 android:layout_above="@id/card"
                 android:layoutAnimation="@anim/layout_animation_from_bottom"/>
 
