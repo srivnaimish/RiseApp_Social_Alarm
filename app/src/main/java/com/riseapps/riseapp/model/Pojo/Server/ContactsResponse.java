@@ -7,19 +7,19 @@ import java.util.ArrayList;
  */
 
 public class ContactsResponse {
-    private boolean[] result;
+    private String[] result;
     private String message;
 
-    public ContactsResponse(boolean[] result, String message) {
+    public ContactsResponse(String[] result, String message) {
         this.result = result;
         this.message = message;
     }
 
-    public boolean[] getResult() {
+    public String[] getResult() {
         return result;
     }
 
-    public void setResult(boolean[] result) {
+    public void setResult(String[] result) {
         this.result = result;
     }
 

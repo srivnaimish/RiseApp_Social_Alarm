@@ -5,11 +5,14 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
+import android.util.Log;
 
+import com.google.gson.Gson;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.executor.Network.RequestInterface;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.DB.MyDB;
+import com.riseapps.riseapp.model.Pojo.ContactFetch;
 import com.riseapps.riseapp.model.Pojo.Server.ContactRequest;
 import com.riseapps.riseapp.model.Pojo.Server.ContactsResponse;
 
@@ -30,7 +33,8 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
 
     private MyDB myDB;
     private ContentResolver contentResolver;
-    private ArrayList<Contact_Entity> allContactsList,riseappContacts;     //Fetch all feeds
+    private ArrayList<Contact_Entity> riseappContacts;     //Fetch all feeds
+    private ArrayList<ContactFetch> allContactsList;
     private Tasks tasks=new Tasks();
 
     public ContactsSync(ContentResolver contentResolver, MyDB myDB) {
@@ -61,7 +65,7 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
         while (data.moveToNext()) {
             String name = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY));
             String number = data.getString(data.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            allContactsList.add(new Contact_Entity(null,name, number,false));     // fetch all contacts from phone
+            allContactsList.add(new ContactFetch(name, number));     // fetch all contacts from phone
             numberList.add(number);     //get number list to send to server for verification
         }
         data.close();
@@ -84,6 +88,10 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
         contactRequest.setOperation(GET_CONTACTS);
         contactRequest.setPhones(numberList);
 
+        Gson gson = new Gson();
+        String json = gson.toJson(contactRequest);
+        Log.d("contacts",json);
+
         Call<ContactsResponse> response = requestInterface.contacts(contactRequest);
         response.enqueue(new Callback<ContactsResponse>() {
             @Override
@@ -91,12 +99,16 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
                 ContactsResponse resp = response.body();
                 assert resp != null;
                 if(resp.getMessage().equalsIgnoreCase("Fetched")){
-                    boolean[] myContacts=resp.getResult();
+                    String[] myContacts=resp.getResult();
                     for(int i=0;i<myContacts.length;i++){
-                        if(myContacts[i]){
-                            Contact_Entity contact=allContactsList.get(i);
-                            contact.setInitials(tasks.getInitial(allContactsList.get(i).getName()));
-                            riseappContacts.add(contact);
+                        //Log.d("Contact",myContacts[i]+"");
+                        if(myContacts[i]!=null){
+                            Contact_Entity contact_entity=new Contact_Entity();
+                            contact_entity.setInitials(tasks.getInitial(allContactsList.get(i).getContact_name()));
+                            contact_entity.setName(allContactsList.get(i).getContact_name());
+                            contact_entity.setNumber(myContacts[i]);
+                            contact_entity.setSelection(false);
+                            riseappContacts.add(contact_entity);
                         }
                     }
                     if(ContactsSync.this.getStatus()==Status.FINISHED) {
@@ -109,7 +121,6 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
                     }else {
                         myDB.contactDao().insertFeed(riseappContacts);
                     }
-
                 }
             }
 

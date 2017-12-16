@@ -83,10 +83,10 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId()==R.id.sync){
+                    loading_screen.setVisibility(View.VISIBLE);
                     ContactsSync contactsSync = new ContactsSync(getContentResolver(),getMyapp().getDatabase());
                     contactsSync.execute();
                     Log.d("PickContact","Syncing");
-                    loading_screen.setVisibility(View.VISIBLE);
                 }
                 return true;
             }
