@@ -59,6 +59,7 @@
         android:onClick="startVerification"
         android:padding="16dp"
         android:text="Verify Number"
+        android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -72,10 +73,8 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="6dp"
         android:clickable="true"
         android:focusable="true"
-        card_view:cardCornerRadius="3dp"
         card_view:cardElevation="3dp"
         card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintEnd_toEndOf="parent"
@@ -111,6 +110,7 @@
                 android:layout_margin="8dp"
                 android:textColor="@android:color/white"
                 android:textSize="50sp"
+                android:fontFamily="@font/semi_bold"
                 app:layout_constraintBottom_toBottomOf="@+id/bell"
                 app:layout_constraintEnd_toEndOf="@+id/bell"
                 app:layout_constraintStart_toStartOf="@+id/bell"
@@ -136,8 +136,6 @@
                     android:layout_height="wrap_content"
                     android:hint="Your Name"
                     android:padding="8dp"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-light"
                      />
             </android.support.design.widget.TextInputLayout>
 

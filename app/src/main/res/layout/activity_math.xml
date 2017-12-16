@@ -17,46 +17,54 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/n7"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:background="?colorPrimary"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:text="7"
-            android:textSize="24sp"
-            android:layout_marginStart="1dp" />
-
-        <Button
-            android:id="@+id/n8"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:background="?colorPrimary"
-            android:layout_weight="0.25"
-            android:text="8"
-            android:textSize="24sp"
-            android:layout_marginStart="1dp" />
-
-        <Button
             android:id="@+id/n9"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:background="?colorPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:text="9"
+            android:fontFamily="@font/semi_bold"
+            android:textColor="@android:color/white"
             android:textSize="24sp"
             android:layout_marginStart="1dp" />
 
         <Button
-            android:id="@+id/n0"
+            android:id="@+id/n3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:background="?colorPrimary"
             android:layout_weight="0.25"
-            android:text="0"
+            android:text="3"
+            android:fontFamily="@font/semi_bold"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:layout_marginStart="1dp" />
+
+        <Button
+            android:id="@+id/n7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="?colorPrimary"
+            android:layout_weight="0.25"
+            android:textColor="@android:color/white"
+            android:text="7"
+            android:fontFamily="@font/semi_bold"
+            android:textSize="24sp"
+            android:layout_marginStart="1dp" />
+
+        <Button
+            android:id="@+id/n6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:background="?colorPrimary"
+            android:layout_weight="0.25"
+            android:textColor="@android:color/white"
+            android:text="6"
+            android:fontFamily="@font/semi_bold"
             android:textSize="24sp"
             android:layout_marginStart="1dp" />
     </LinearLayout>
@@ -72,35 +80,41 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/n4"
+            android:id="@+id/n2"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:background="?colorPrimary"
-            android:text="4"
+            android:text="2"
+            android:fontFamily="@font/semi_bold"
+            android:textColor="@android:color/white"
             android:textSize="24sp"
             android:layout_marginStart="1dp" />
 
         <Button
-            android:id="@+id/n5"
+            android:id="@+id/n1"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:background="?colorPrimary"
-            android:text="5"
+            android:textColor="@android:color/white"
+            android:text="1"
+            android:fontFamily="@font/semi_bold"
             android:textSize="24sp"
             android:layout_marginStart="1dp" />
 
         <Button
-            android:id="@+id/n6"
+            android:id="@+id/n0"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:background="?colorPrimary"
-            android:text="6"
+            android:textColor="@android:color/white"
+            android:text="0"
+            android:fontFamily="@font/semi_bold"
             android:textSize="24sp"
             android:layout_marginStart="1dp" />
 
@@ -111,7 +125,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:background="?colorPrimary"
+            android:textColor="@android:color/white"
             android:layout_marginStart="1dp"
+            android:fontFamily="@font/semi_bold"
             android:text="C"
             android:textSize="24sp" />
     </LinearLayout>
@@ -127,36 +143,42 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/n1"
+            android:id="@+id/n5"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
             android:layout_weight="0.25"
             android:background="?colorPrimary"
-            android:text="1"
+            android:textColor="@android:color/white"
+            android:text="5"
+            android:fontFamily="@font/semi_bold"
             android:textSize="24sp" />
 
         <Button
-            android:id="@+id/n2"
+            android:id="@+id/n4"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
             android:layout_weight="0.25"
             android:background="?colorPrimary"
-            android:text="2"
+            android:textColor="@android:color/white"
+            android:text="4"
+            android:fontFamily="@font/semi_bold"
             android:textSize="24sp" />
 
         <Button
-            android:id="@+id/n3"
+            android:id="@+id/n8"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
             android:layout_weight="0.25"
             android:background="?colorPrimary"
-            android:text="3"
+            android:textColor="@android:color/white"
+            android:text="8"
+            android:fontFamily="@font/semi_bold"
             android:textSize="24sp" />
 
         <Button
@@ -166,9 +188,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
             android:layout_weight="0.25"
+            android:textColor="@android:color/white"
             android:background="?colorPrimary"
-            android:fontFamily="sans-serif-light"
-            android:text="Bcksp"
+            android:text="Bck"
+            android:fontFamily="@font/semi_bold"
             android:textAllCaps="false"
             android:textSize="24sp" />
     </LinearLayout>
@@ -201,11 +224,12 @@
         android:id="@+id/ans"
         android:layout_width="0dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="70dp"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"
         android:background="@drawable/email_edit"
         android:gravity="center"
+        android:textColor="@android:color/white"
         android:textSize="50sp"
         app:layout_constraintBottom_toTopOf="@+id/row_1"
         app:layout_constraintEnd_toStartOf="@id/snooze"
@@ -229,7 +253,7 @@
             android:id="@+id/number1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/light"
             android:textColor="?android:textColorPrimary"
             android:textSize="50sp"
             tools:text="14" />
@@ -240,7 +264,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/light"
             android:textColor="?android:textColorPrimary"
             android:textSize="40sp"
             android:text="+" />
@@ -250,10 +274,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/light"
             android:textColor="?android:textColorPrimary"
             android:textSize="50sp"
             tools:text="14" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="?android:textColorSecondary"
+        android:textSize="12sp"
+        android:text="Swipe left to submit answer and stop alarm"
+        app:layout_constraintEnd_toEndOf="@+id/ans"
+        app:layout_constraintStart_toStartOf="@+id/ans"
+        app:layout_constraintTop_toBottomOf="@+id/ans" />
 
 </android.support.constraint.ConstraintLayout>

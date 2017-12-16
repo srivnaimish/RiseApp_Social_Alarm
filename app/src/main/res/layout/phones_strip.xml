@@ -24,9 +24,9 @@
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="naimish.victory"
+            tools:text="Papa"
             android:textColor="@android:color/white"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/semi_bold"
             android:textSize="15sp"
             />
 

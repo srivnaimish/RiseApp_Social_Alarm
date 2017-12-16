@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:text="Chat Background"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="?android:textColorSecondary"/>
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

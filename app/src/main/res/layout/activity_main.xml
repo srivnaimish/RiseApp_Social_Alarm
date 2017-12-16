@@ -27,10 +27,9 @@
                 android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:text="Toolbar Title" />
+                android:textSize="18sp"
+                android:text="@string/app_name"/>
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
@@ -41,10 +40,12 @@
             app:tabGravity="fill"
             app:layout_scrollFlags="scroll|enterAlways"
             app:tabIndicatorColor="?colorAccent"
-            app:tabIndicatorHeight="4dp"
+            app:tabIndicatorHeight="2dp"
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:tabTextColor="@android:color/white"/>
+            app:tabTextColor="@android:color/white"
+            app:tabPaddingBottom="4dp"
+            />
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager

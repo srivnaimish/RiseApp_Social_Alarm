@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,8 +15,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private MyApplication myapp;
     private TextView toolbar_title;
     private Toolbar toolbar;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         myapp = (MyApplication) getApplicationContext();
 
-        TabLayout tabLayout = findViewById(R.id.tablayout);
+        tabLayout = findViewById(R.id.tablayout);
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(this);
         toolbar_title=findViewById(R.id.toolbar_title);
@@ -88,11 +94,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if(position==0){
-                    toolbar_title.setText("Messages");
-                }else if(position==1){
-                    toolbar_title.setText("Personal Alarms");
-                }
             }
 
             @Override
@@ -115,16 +116,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         tabLayout.setupWithViewPager(mViewPager);
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            int iconId = -1;
-            switch (i) {
-                case 0:
-                    iconId = R.drawable.menu_feeds;
-                    break;
-                case 1:
-                    iconId = R.drawable.menu_alarm;
-                    break;
-            }
-            tabLayout.getTabAt(i).setIcon(iconId);
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            tab.setCustomView(getTabView(i));
         }
     }
 
@@ -199,5 +192,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             getSupportFragmentManager().popBackStackImmediate();
         else
         super.onBackPressed();
+    }
+
+    public View getTabView(int position) {
+        View tab = LayoutInflater.from(MainActivity.this).inflate(R.layout.customtab, null);
+        TextView tv = (TextView) tab.findViewById(R.id.tab_text);
+        if(position==0) {
+            tv.setText("Messages");
+        }
+        else {
+            tv.setText("Alarms");
+        }
+        return tab;
     }
 }

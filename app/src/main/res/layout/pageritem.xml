@@ -29,11 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="75dp"
-            android:fontFamily="sans-serif-thin"
             android:textAllCaps="true"
-            android:textColor="@android:color/black"
+            android:textColor="?android:textColorPrimary"
             android:textSize="16sp"
-            android:textStyle="bold"
             tools:text="Send reminders to others" />
 
         <TextView
@@ -43,6 +41,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="26dp"
             android:textAlignment="center"
+            android:fontFamily="@font/light"
+            android:textColor="?android:textColorSecondary"
             android:textSize="14sp"
             android:lineSpacingMultiplier="1.2"
             tools:text="You can send reminders to other people by simply selecting a reminder time,date and reminder note." />

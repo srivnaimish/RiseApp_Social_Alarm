@@ -47,6 +47,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             tools:text="NS"
+            android:fontFamily="@font/semi_bold"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/bell"
@@ -69,15 +70,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Naimish Srivastava"
-                android:fontFamily="sans-serif-light"
-                android:textStyle="bold"/>
+                android:fontFamily="@font/regular"
+                android:textStyle="bold"
+                android:textColor="?android:textColorPrimary"/>
             <TextView
                 android:id="@+id/phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="+918272478273"
-                android:fontFamily="sans-serif-light"
-                android:layout_marginTop="4dp"/>
+                android:fontFamily="@font/regular"
+                android:layout_marginTop="4dp"
+                android:textColor="?android:textColorSecondary"/>
         </LinearLayout>
 
 

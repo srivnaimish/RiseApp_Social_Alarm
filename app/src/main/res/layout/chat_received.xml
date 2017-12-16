@@ -43,7 +43,7 @@
 
             <TextView
                 android:id="@+id/note"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="8dp"
@@ -51,7 +51,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:lineSpacingMultiplier="1.2"
-                android:maxWidth="192dp"
+                android:fontFamily="@font/regular"
                 android:textColor="?android:textColorPrimary"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labor re et dolore magna aliqua. Ut enim ad minim veniam" />
 
@@ -71,7 +71,7 @@
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/light"
             android:textColor="?android:textColorSecondary"
             android:textSize="12sp"
             tools:text="18:30," />
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/light"
             android:textColor="?android:textColorSecondary"
             android:textSize="12sp"
             tools:text="22-Jan-2017" />

@@ -104,6 +104,10 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public void onClick(View v) {
             ChatSync chatSync=new ChatSync(chatSummary.getChat_contact_number(),((MyApplication)context.getApplicationContext()).getDatabase(),UPDATE_SUMMARY);
             chatSync.execute();
+            if(badge.getVisibility()==View.VISIBLE){
+                badge.setVisibility(View.GONE);
+                name.setTypeface(name.getTypeface(), Typeface.NORMAL);
+            }
             Intent intent=new Intent(context, ChatActivity.class);
             intent.putExtra("chat_id",chatSummary.getChat_contact_number());
             intent.putExtra("contact_name",chatSummary.getChat_contact_name());

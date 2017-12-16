@@ -75,7 +75,7 @@
                         app:layout_constraintBottom_toBottomOf="@+id/bell"
                         app:layout_constraintStart_toEndOf="@+id/bell"
                         app:layout_constraintTop_toTopOf="@+id/bell"
-                        tools:text="@string/app_name" />
+                        tools:text="@string/app_name"/>
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
@@ -137,6 +137,7 @@
                                 android:drawableStart="@drawable/ic_time"
                                 android:hint="09.00am"
                                 android:textSize="13sp"
+                                android:fontFamily="@font/light"
                                 android:onClick="openTimePicker"/>
 
                             <TextView
@@ -147,6 +148,7 @@
                                 android:drawablePadding="8dp"
                                 android:drawableStart="@drawable/ic_calendar"
                                 android:hint="22/11/2013"
+                                android:fontFamily="@font/light"
                                 android:textSize="13sp"
                                 android:onClick="openDatePicker"/>
                         </LinearLayout>
@@ -157,6 +159,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:hint="Image Url(Option)"
+                            android:fontFamily="@font/light"
                             android:textSize="13sp"
                             android:singleLine="true"/>
 
