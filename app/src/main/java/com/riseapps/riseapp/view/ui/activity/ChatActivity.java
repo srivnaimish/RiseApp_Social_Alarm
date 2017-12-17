@@ -18,11 +18,14 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.viewModel.ChatViewModel;
@@ -76,7 +79,7 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         ImageButton back = findViewById(R.id.back);
-        TextView initials = findViewById(R.id.initials);
+        //TextView initials = findViewById(R.id.initials);
         TextView name = findViewById(R.id.chat_title);
         recyclerView=findViewById(R.id.chat_messages);
 
@@ -95,7 +98,17 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         chat_id=getIntent().getStringExtra("chat_id");
         nameString=getIntent().getStringExtra("contact_name");
         name.setText(nameString);
-        initials.setText(tasks.getInitial(nameString));
+
+        ImageView profile_pic=findViewById(R.id.profile_pic);
+        Glide.with(this)
+                .load(AppConstants.getProfileImage(chat_id))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .dontAnimate()
+                .error(R.drawable.default_user)
+                .placeholder(R.drawable.default_user)
+                .centerCrop()
+                .into(profile_pic);
+        //initials.setText(tasks.getInitial(nameString));
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

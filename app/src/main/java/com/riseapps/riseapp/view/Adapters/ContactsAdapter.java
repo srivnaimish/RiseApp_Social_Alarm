@@ -8,8 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Interface.ContactSelection;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
@@ -42,11 +46,21 @@ public class ContactsAdapter extends RecyclerView.Adapter {
         Contact_Entity contact = contacts.get(position);
         ((ContactsViewHolder) holder).name.setText(contact.getName());
         ((ContactsViewHolder) holder).phone.setText(contact.getNumber());
-        ((ContactsViewHolder) holder).initials.setText(contact.getInitials());
+        //((ContactsViewHolder) holder).initials.setText(contact.getInitials());
         if (contact.isSelection())
             ((ContactsViewHolder) holder).status.setVisibility(View.VISIBLE);
         else
             ((ContactsViewHolder) holder).status.setVisibility(View.GONE);
+
+        Glide.with(c)
+                .load(AppConstants.getProfileImage(contact.getNumber()))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .dontAnimate()
+                .error(R.drawable.default_user)
+                .placeholder(R.drawable.default_user)
+                .centerCrop()
+                .into(((ContactsViewHolder) holder).pic);
+
         ((ContactsViewHolder) holder).contact = contact;
     }
 
@@ -64,16 +78,17 @@ public class ContactsAdapter extends RecyclerView.Adapter {
     private class ContactsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Contact_Entity contact;
         CardView cardView;
-        TextView initials, name, phone;
+        TextView  name, phone;
         ImageButton status;
+        ImageView pic;
 
         public ContactsViewHolder(View itemView, Context c) {
             super(itemView);
             cardView = itemView.findViewById(R.id.contact_card);
-            initials = itemView.findViewById(R.id.initials);
             name = itemView.findViewById(R.id.name);
             phone = itemView.findViewById(R.id.phone);
             status = itemView.findViewById(R.id.selected_state);
+            pic=itemView.findViewById(R.id.pic);
             cardView.setOnClickListener(this);
         }
 

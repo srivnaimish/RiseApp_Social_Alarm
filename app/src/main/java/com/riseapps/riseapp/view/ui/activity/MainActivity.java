@@ -4,10 +4,11 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
+import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
@@ -15,13 +16,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,11 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public FloatingActionButton fab;
     private SharedPreferenceSingelton sharedPreferenceSingleton = new SharedPreferenceSingelton();
     private Tasks tasks = new Tasks();
-    private FabListener fabListener1, fabListener2;
+    private FabListener fabListener1;
     private MyApplication myapp;
-    private TextView toolbar_title;
-    private Toolbar toolbar;
-    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,15 +63,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         myapp = (MyApplication) getApplicationContext();
 
-        tabLayout = findViewById(R.id.tablayout);
+        TabLayout tabLayout = findViewById(R.id.tablayout);
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(this);
-        toolbar_title=findViewById(R.id.toolbar_title);
 
         SectionPagerAdapter mSectionsPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.viewpager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        toolbar=findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
 
         toolbar.inflateMenu(R.menu.main_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -120,7 +115,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             tab.setCustomView(getTabView(i));
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

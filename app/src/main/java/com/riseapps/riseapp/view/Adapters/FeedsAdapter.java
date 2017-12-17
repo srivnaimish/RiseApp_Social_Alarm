@@ -13,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.ChatSync;
 import com.riseapps.riseapp.executor.Tasks;
@@ -58,6 +61,15 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             feedsViewHolder.name.setTypeface(feedsViewHolder.name.getTypeface(), Typeface.BOLD);
         }
 
+        Glide.with(context)
+                .load(AppConstants.getProfileImage(chatSummary.getChat_contact_number()))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .dontAnimate()
+                .error(R.drawable.default_user)
+                .placeholder(R.drawable.default_user)
+                .centerCrop()
+                .into(feedsViewHolder.pic);
+
         feedsViewHolder.mssg.setText(chatSummary.getChat_last_message());
         feedsViewHolder.chatSummary=chatSummary;
 
@@ -85,7 +97,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         private ChatSummary chatSummary;
         private CardView cardView;
-        private ImageView badge;
+        private ImageView badge,pic;
         private TextView name,mssg, initials;/*, image*/
         private View view;
 
@@ -99,6 +111,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             cardView.setOnClickListener(this);
             cardView.setOnLongClickListener(this);
             view=itemView.findViewById(R.id.divider);
+            pic=itemView.findViewById(R.id.pic);
             //image = itemView.findViewById(R.id.image);
         }
 

@@ -30,6 +30,7 @@ public class AppConstants {
 
     public static final int RC_SIGN_IN = 9001;
     public static final int RC_RINGTONE = 101;
+    public static final int RC_GALLERY = 100;
 
     public static final int GET_CONTACTS_FROM_DB = 0;
     public static final int RESYNC_CONTACTS = 1;
@@ -139,5 +140,9 @@ public static final String BASE_URL = "http://192.168.29.153/";
     "https://cdn.pixabay.com/photo/2016/08/21/23/29/lake-1611044_640.jpg",
     "https://cdn.pixabay.com/photo/2017/12/08/11/06/lime-3005556_640.jpg",
     "https://cdn.pixabay.com/photo/2017/12/05/05/34/gifts-2998593_640.jpg"};
+
+    public static String getProfileImage(String number){
+        return BASE_URL+"/RiseApp/dp/"+number+".jpg";
+    }
 
 }
