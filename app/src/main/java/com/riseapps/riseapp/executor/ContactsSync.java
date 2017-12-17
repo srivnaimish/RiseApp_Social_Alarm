@@ -101,13 +101,11 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
                 if(resp.getMessage().equalsIgnoreCase("Fetched")){
                     String[] myContacts=resp.getResult();
                     for(int i=0;i<myContacts.length;i++){
-                        //Log.d("Contact",myContacts[i]+"");
                         if(myContacts[i]!=null){
-                            Contact_Entity contact_entity=new Contact_Entity();
-                            contact_entity.setInitials(tasks.getInitial(allContactsList.get(i).getContact_name()));
-                            contact_entity.setName(allContactsList.get(i).getContact_name());
-                            contact_entity.setNumber(myContacts[i]);
-                            contact_entity.setSelection(false);
+                            Contact_Entity contact_entity=new Contact_Entity(tasks.getInitial(allContactsList.get(i).getContact_name()),
+                                    allContactsList.get(i).getContact_name(),
+                                    myContacts[i],
+                                    false);
                             riseappContacts.add(contact_entity);
                         }
                     }

@@ -110,7 +110,7 @@ public class PersonalFragment extends Fragment {
                 empty_state.setVisibility(View.GONE);
 
             }
-        }, hour, minute, true);
+        }, hour, minute, false);
         mTimePicker.show();
     }
 

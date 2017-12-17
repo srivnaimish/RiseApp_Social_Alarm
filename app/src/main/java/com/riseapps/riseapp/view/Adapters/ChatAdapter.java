@@ -110,7 +110,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 long received_time=received_chat.getTime();
                 Calendar received_calendar=Calendar.getInstance();
                 received_calendar.setTimeInMillis(received_time);
-                received_timeInString=timeToView.getTimeAsText(received_calendar.get(Calendar.HOUR_OF_DAY),received_calendar.get(Calendar.MINUTE));
+                received_timeInString=timeToView.getTimeAsText(received_calendar.get(Calendar.HOUR),received_calendar.get(Calendar.MINUTE));
 
                 int received_am_pm=received_calendar.get(Calendar.AM_PM);
                 if(received_am_pm == Calendar.AM)

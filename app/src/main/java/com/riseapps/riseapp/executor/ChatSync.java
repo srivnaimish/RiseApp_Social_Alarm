@@ -91,10 +91,10 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
             chatSummary.setChat_contact_number(contact.getNumber());
             chatSummary.setChat_contact_name(contact.getName());
             chatSummary.setRead(read);
+            chatSummary.setChat_last_message(note);
+
             myDB.chatDao().insertSummary(chatSummary);
-
         }
-
         Log.d("Insert","Successful");
     }
 

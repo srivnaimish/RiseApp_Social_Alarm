@@ -63,12 +63,17 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
 
         Calendar calendar = alarm.getCalendar();
 
-        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int hour = calendar.get(Calendar.HOUR);
         int minutes = calendar.get(Calendar.MINUTE);
-        Log.d("TAG", System.currentTimeMillis() + "\n" + alarm.getAlarmTimeInMillis());
-        ((PersonalAlarmHolder) holder).time.setText(timeToView.getTimeAsText(hour, minutes));
+        int am_pm=calendar.get(Calendar.AM_PM);
+        String time=timeToView.getTimeAsText(hour,minutes);
+        ((PersonalAlarmHolder) holder).time.setText(time);
+        if(am_pm == Calendar.AM)
+            ((PersonalAlarmHolder) holder).am_pm.setText("am");
+        else
+            ((PersonalAlarmHolder) holder).am_pm.setText("pm");
+
         ((PersonalAlarmHolder) holder).day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
-        //((PersonalAlarmHolder) holder).sound.setText(alarm.getTone().toString());
         if (alarm.isVibrate()) {
             ((PersonalAlarmHolder) holder).vibrate.setText(R.string.on);
         } else
@@ -109,7 +114,7 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
         CardView alarmCard;
 
 
-        TextView time, day;
+        TextView time, day,am_pm;
         Switch aSwitch;
         CheckBox repeat;
         Button[] repeat_days = new Button[7];
@@ -126,6 +131,7 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
             this.ctx = context;
             time = (TextView) v.findViewById(R.id.time);
             day = v.findViewById(R.id.next_trigger_day);
+            am_pm=v.findViewById(R.id.am_pm);
             aSwitch = v.findViewById(R.id.aSwitch);
             repeat = v.findViewById(R.id.repeat);
 

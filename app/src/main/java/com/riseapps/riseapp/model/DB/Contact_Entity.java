@@ -23,8 +23,6 @@ public class Contact_Entity {
     @ColumnInfo(name = "contact_selection")
     private boolean selection;
 
-    public Contact_Entity(){}
-
     public Contact_Entity(String initials, String name, @NonNull String number, boolean selection) {
         this.initials = initials;
         this.name = name;

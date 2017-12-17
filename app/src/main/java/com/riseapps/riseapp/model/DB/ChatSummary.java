@@ -20,6 +20,9 @@ public class ChatSummary {
     @ColumnInfo(name = "read_messages")
     private boolean read;
 
+    @ColumnInfo(name = "last_message")
+    private String chat_last_message;
+
     public ChatSummary(){}
 
     public String getChat_contact_name() {
@@ -44,5 +47,13 @@ public class ChatSummary {
 
     public void setChat_contact_number(String chat_contact_number) {
         this.chat_contact_number = chat_contact_number;
+    }
+
+    public String getChat_last_message() {
+        return chat_last_message;
+    }
+
+    public void setChat_last_message(String chat_last_message) {
+        this.chat_last_message = chat_last_message;
     }
 }

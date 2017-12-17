@@ -58,6 +58,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             feedsViewHolder.name.setTypeface(feedsViewHolder.name.getTypeface(), Typeface.BOLD);
         }
 
+        feedsViewHolder.mssg.setText(chatSummary.getChat_last_message());
         feedsViewHolder.chatSummary=chatSummary;
 
         if(position==summaryList.size()-1){
@@ -85,13 +86,14 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private ChatSummary chatSummary;
         private CardView cardView;
         private ImageView badge;
-        private TextView name, initials;/*, image*/
+        private TextView name,mssg, initials;/*, image*/
         private View view;
 
         public FeedsViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.contact_name);
             initials = itemView.findViewById(R.id.initials);
+            mssg=itemView.findViewById(R.id.contact_mssg);
             badge=itemView.findViewById(R.id.badge);
             cardView=itemView.findViewById(R.id.feed_card);
             cardView.setOnClickListener(this);
