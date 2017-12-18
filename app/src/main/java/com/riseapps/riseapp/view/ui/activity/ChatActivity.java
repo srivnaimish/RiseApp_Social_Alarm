@@ -102,7 +102,6 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         ImageView profile_pic=findViewById(R.id.profile_pic);
         Glide.with(this)
                 .load(AppConstants.getProfileImage(chat_id))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .dontAnimate()
                 .error(R.drawable.default_user)
                 .placeholder(R.drawable.default_user)
@@ -196,7 +195,7 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         new AppConstants().sendReminderToSingleUser(myApplication.getUID(), chat_id, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
 
         ArrayList<Contact_Entity> contact_entities=new ArrayList<>();
-        contact_entities.add(new Contact_Entity(tasks.getInitial(nameString),nameString,chat_id,true));
+        contact_entities.add(new Contact_Entity(nameString,chat_id,true));
         ChatSync chatSync=new ChatSync(contact_entities,calendar.getTimeInMillis(),edit_note.getText().toString(),edit_image.getText().toString(),SENT_MESSAGE,true,myApplication.getDatabase(),INSERT_NEW_CHAT);
         chatSync.execute();
 

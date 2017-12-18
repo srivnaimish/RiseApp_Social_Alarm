@@ -54,7 +54,6 @@ public class ContactsAdapter extends RecyclerView.Adapter {
 
         Glide.with(c)
                 .load(AppConstants.getProfileImage(contact.getNumber()))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .dontAnimate()
                 .error(R.drawable.default_user)
                 .placeholder(R.drawable.default_user)

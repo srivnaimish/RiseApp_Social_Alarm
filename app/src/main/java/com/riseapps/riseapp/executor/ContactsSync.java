@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.util.Log;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.executor.Network.RequestInterface;
@@ -91,7 +92,6 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
         Gson gson = new Gson();
         String json = gson.toJson(contactRequest);
         Log.d("contacts",json);
-
         Call<ContactsResponse> response = requestInterface.contacts(contactRequest);
         response.enqueue(new Callback<ContactsResponse>() {
             @Override
@@ -101,12 +101,14 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
                 if(resp.getMessage().equalsIgnoreCase("Fetched")){
                     String[] myContacts=resp.getResult();
                     for(int i=0;i<myContacts.length;i++){
-                        if(myContacts[i]!=null){
-                            Contact_Entity contact_entity=new Contact_Entity(tasks.getInitial(allContactsList.get(i).getContact_name()),
+                        if(myContacts[i]!=null && !myContacts[i].equalsIgnoreCase(" ")){
+                            String[] details=myContacts[i].split("\\s+");
+                            Contact_Entity contact_entity=new Contact_Entity(
                                     allContactsList.get(i).getContact_name(),
-                                    myContacts[i],
+                                    details[0],
                                     false);
                             riseappContacts.add(contact_entity);
+                            FirebaseMessaging.getInstance().subscribeToTopic(details[1]);
                         }
                     }
                     if(ContactsSync.this.getStatus()==Status.FINISHED) {

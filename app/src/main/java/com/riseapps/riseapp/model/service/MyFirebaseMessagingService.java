@@ -20,10 +20,12 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.AlarmCreator;
+import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.model.DB.ChatSummary;
 import com.riseapps.riseapp.model.DB.Chat_Entity;
 import com.riseapps.riseapp.model.DB.MyDB;
@@ -44,25 +46,40 @@ import static com.riseapps.riseapp.Components.AppConstants.RECEIVED_MESSAGE;
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     String TAG = "FIREBASE Service";
     //Bitmap bitmap;
-    private LocalBroadcastManager broadcaster;
+    SharedPreferenceSingelton sharedPreferenceSingelton;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        broadcaster = LocalBroadcastManager.getInstance(this);
     }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Map<String, String> data = remoteMessage.getData();
-        int sender_no = Integer.parseInt(data.get("Sender Index"));
-        String sender_name = data.get("Sender Name");
-        String sender_phone = data.get("Sender Phone");
-        long time = Long.parseLong(data.get("Time"));
-        String note = data.get("Note");
-        String image = data.get("Image");
 
-        insertChatMessage(sender_no, sender_name, sender_phone, time, note, image);
+        String type = data.get("Type");
+        if(type.equalsIgnoreCase("clear")){
+
+            /*
+            Glide.get(this).clearDiskCache();
+            if(appInForeGround()){
+                ((MyApplication)getApplicationContext()).clearMemory();
+            }else {
+                sharedPreferenceSingelton=new SharedPreferenceSingelton();
+                sharedPreferenceSingelton.saveAs(this,"Clear",true);
+            }
+
+            Log.d("Cache","Cleared");*/
+        }else {
+            int sender_no = Integer.parseInt(data.get("Sender Index"));
+            String sender_name = data.get("Sender Name");
+            String sender_phone = data.get("Sender Phone");
+            long time = Long.parseLong(data.get("Time"));
+            String note = data.get("Note");
+            String image = data.get("Image");
+
+            insertChatMessage(sender_no, sender_name, sender_phone, time, note, image);
+        }
 
     }
 

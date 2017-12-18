@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -19,6 +20,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,7 +28,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.signature.StringSignature;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Network.RequestInterface;
@@ -65,7 +70,7 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
     FirebaseUser firebaseUser;
     Switch theme_switch;
     CardView method_card, rate, share, theme;
-
+    RelativeLayout loading;
     ImageButton edit_pic;
 
 
@@ -85,6 +90,7 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
         theme = view.findViewById(R.id.setting_theme);
         method_card = view.findViewById(R.id.setting_alarm_method);
         edit_pic = view.findViewById(R.id.edit_pic);
+        loading=view.findViewById(R.id.loading_pic);
 
         method_card.setOnClickListener(this);
         edit_pic.setOnClickListener(this);
@@ -107,7 +113,6 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
         Glide.with(getContext())
                 .load(AppConstants.getProfileImage(firebaseUser.getPhoneNumber()))
                 .dontAnimate()
-                .skipMemoryCache(true)
                 .placeholder(R.drawable.default_user)
                 .error(R.drawable.default_user)
                 .centerCrop()
@@ -202,6 +207,7 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
         try {
             if (requestCode == RC_GALLERY && resultCode == RESULT_OK && null != data) {
 
+                loading.setVisibility(View.VISIBLE);
                 // Get the Image from data
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -215,8 +221,6 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
                 Glide.with(getContext())
                         .load(mediaPath)
                         .dontAnimate()
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
                         .error(R.drawable.default_user)
                         .centerCrop()
                         .into(pic);
@@ -244,7 +248,7 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
         // Parsing any Media type file
         RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("file", firebaseUser.getPhoneNumber()+".jpg", requestBody);
-        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), firebaseUser.getPhoneNumber()+".jpg"+extension);
+        RequestBody filename = RequestBody.create(MediaType.parse("text/plain"), firebaseUser.getPhoneNumber()+".jpg");
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AppConstants.BASE_URL)
@@ -266,15 +270,17 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
                     }
                 } else {
                     assert serverResponse != null;
-                    Log.v("Response", serverResponse.toString());
+//                    Log.v("Response", serverResponse.toString());
                 }
+                loading.setVisibility(View.GONE);
                 //progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<ServerResponse> call, Throwable t) {
-
+                loading.setVisibility(View.GONE);
             }
         });
+
     }
 }

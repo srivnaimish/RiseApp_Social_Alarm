@@ -148,6 +148,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             currentUser = mAuth.getCurrentUser();
             myapp.setUID(currentUser.getUid());
         }
+
+        if(sharedPreferenceSingleton.getSavedBoolean(this,"Clear")){
+            myapp.clearMemory();
+            sharedPreferenceSingleton.saveAs(this,"Cache",false);
+        }
+
         if(!sharedPreferenceSingleton.getSavedBoolean(this,"Cached_Contacts")) {
             ContactsSync contactsSync = new ContactsSync(getContentResolver(),getMyapp().getDatabase());
             contactsSync.execute();

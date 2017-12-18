@@ -230,8 +230,8 @@ public class Walkthrough extends AppCompatActivity {
             public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
                 ServerResponse resp = response.body();
                 assert resp != null;
-                gotoMain();
                 Toast.makeText(Walkthrough.this, resp.getMessage(), Toast.LENGTH_SHORT).show();
+                gotoMain();
             }
 
             @Override

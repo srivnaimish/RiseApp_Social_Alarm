@@ -14,28 +14,16 @@ public class Contact_Entity {
     @NonNull @PrimaryKey @ColumnInfo(name = "contact_number")
     private String number;
 
-    @ColumnInfo(name = "contact_initials")
-    private String initials;
-
     @ColumnInfo(name = "contact_name")
     private String name;
 
     @ColumnInfo(name = "contact_selection")
     private boolean selection;
 
-    public Contact_Entity(String initials, String name, @NonNull String number, boolean selection) {
-        this.initials = initials;
+    public Contact_Entity( String name, @NonNull String number, boolean selection) {
         this.name = name;
         this.number = number;
         this.selection = selection;
-    }
-
-    public String getInitials() {
-        return initials;
-    }
-
-    public void setInitials(String initials) {
-        this.initials = initials;
     }
 
     public String getName() {

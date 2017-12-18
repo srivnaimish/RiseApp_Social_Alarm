@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDexApplication;
 
+import com.bumptech.glide.Glide;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.executor.SyncReciever;
 import com.riseapps.riseapp.model.DB.MyDB;
@@ -38,5 +39,9 @@ public class MyApplication extends MultiDexApplication {
 
     public void setUID(String UID) {
         this.UID = UID;
+    }
+
+    public void clearMemory(){
+        Glide.get(this).getBitmapPool();
     }
 }
