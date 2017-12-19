@@ -3,9 +3,9 @@
     <item android:state_checked="true">
         <shape android:shape="rectangle" android:visible="true" android:dither="true">
             <corners android:radius="13dp" />
-            <solid android:color="?colorPrimary" />
+            <solid android:color="@color/colorAccent" />
             <size android:width="27dp" android:height="27dp" />
-            <stroke android:width="2dp" android:color="@color/colorAccent" />
+            <stroke android:width="2dp" android:color="#EEEEEE" />
         </shape>
     </item>
     <item android:state_checked="false">
@@ -13,7 +13,7 @@
             <solid android:color="?colorPrimary" />
             <corners android:radius="13dp" />
             <size android:width="27dp" android:height="27dp" />
-            <stroke android:width="2dp" android:color="?backgroundDual" />
+            <stroke android:width="2dp" android:color="#EEEEEE" />
         </shape>
     </item>
 </selector>

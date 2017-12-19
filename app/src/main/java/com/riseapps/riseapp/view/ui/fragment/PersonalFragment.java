@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -51,6 +52,9 @@ public class PersonalFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_personal, container, false);
 
         recyclerView = view.findViewById(R.id.personal_alarms);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                LinearLayoutManager.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
         empty_state = view.findViewById(R.id.empty_state);
         ArrayList<PersonalAlarm> alarms = tasks.getPersonalAlarms(getContext());
         if (alarms != null) {

@@ -2,8 +2,5 @@
 <resources>
     <declare-styleable name="dual">
         <attr name="iconDual" format="color" />
-        <attr name="backgroundDual" format="color" />
-        <attr name="card_color" format="color" />
-        <attr name="received_message_color" format="color"/>
     </declare-styleable>
 </resources>

@@ -15,8 +15,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.view.Adapters.ContactsAdapter;
@@ -47,21 +50,23 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
     private MyApplication myapp;
     private SharedPreferenceSingelton sharedPreferenceSingleton=new SharedPreferenceSingelton();
     private Toolbar toolbar;
-    private ConstraintLayout empty_state;
+    TextView toolbar_title;
+    private LinearLayout empty_state;
     private Button invite;
     private RelativeLayout loading_screen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (tasks.getCurrentTheme(this) == 0) {
+       /* if (tasks.getCurrentTheme(this) == 0) {
             setTheme(R.style.AppTheme2);
         } else {
             setTheme(R.style.AppTheme);
-        }
+        }*/
         setContentView(R.layout.activity_pick_contacts);
         UID=getMyapp().getUID();
         toolbar=findViewById(R.id.toolbar);
+        toolbar_title=findViewById(R.id.toolbar_title);
         empty_state=findViewById(R.id.empty_state);
         loading_screen=findViewById(R.id.loading_screen);
         invite=findViewById(R.id.invite);
@@ -114,7 +119,7 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
                 empty_state.setVisibility(View.GONE);
             }
             selected_positions.clear();
-            toolbar.setTitle("Select Contacts");
+            toolbar_title.setText("Select Contacts");
             done.hide();
         }
     };
@@ -124,7 +129,7 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
     public void onContactSelected(boolean selected, int position) {
         if (selected) {
             selected_positions.add(position);
-            toolbar.setTitle(selected_positions.size() + " contacts selected");
+            toolbar_title.setText(selected_positions.size() + " contacts selected");
             //selected_count.setText(selected_positions.size() + " contacts selected");
             done.show();
         } else {
@@ -132,10 +137,10 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
             selected_positions.remove(value);
             if (selected_positions.size() == 0) {
                 //selected_count.setText("Select Contacts to remind");
-                toolbar.setTitle("Select Contacts");
+                toolbar_title.setText("Select Contacts");
                 done.hide();
             } else {
-                toolbar.setTitle(selected_positions.size() + " contacts selected");
+                toolbar_title.setText(selected_positions.size() + " contacts selected");
                 //selected_count.setText(selected_positions.size() + " contacts selected");
             }
         }
@@ -146,12 +151,14 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
         if(v.getId()==R.id.button_done) {
             ShareReminder shareReminder = new ShareReminder();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             ft.replace(R.id.background, shareReminder, "SharedReminder");
             ft.addToBackStack(null);
+            toolbar.setVisibility(View.GONE);
             ft.commit();
             done.hide();
         }else if(v.getId()==R.id.invite){
-            String message = "Let's share reminders with each others .\n\nhttps://play.google.com/store/apps/details?id=com.riseapps.riseapp";
+            String message = "I am inviting you to install RiseApp.\n\nhttps://play.google.com/store/apps/details?id=com.riseapps.riseapp";
             Intent share = new Intent(Intent.ACTION_SEND);
             share.setType("text/plain");
             share.putExtra(Intent.EXTRA_TEXT, message);

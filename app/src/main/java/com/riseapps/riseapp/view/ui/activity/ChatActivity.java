@@ -67,17 +67,17 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (tasks.getCurrentTheme(this) == 0) {
+        /*if (tasks.getCurrentTheme(this) == 0) {
             setTheme(R.style.AppTheme2);
         } else {
             setTheme(R.style.AppTheme);
-        }
+        }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
         myApplication= (MyApplication) getApplicationContext();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar_chat);
         ImageButton back = findViewById(R.id.back);
         //TextView initials = findViewById(R.id.initials);
         TextView name = findViewById(R.id.chat_title);
@@ -116,6 +116,7 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             }
         });
 
+        toolbar.setTitle("Chat");
         toolbar.inflateMenu(R.menu.chat_menu);
         toolbar.setOnMenuItemClickListener(this);
 

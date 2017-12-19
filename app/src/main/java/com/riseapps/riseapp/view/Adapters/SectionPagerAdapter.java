@@ -13,7 +13,7 @@ import com.riseapps.riseapp.view.ui.fragment.PersonalFragment;
 
 public class SectionPagerAdapter extends FragmentPagerAdapter {
 
-     private String tabTitles[] = new String[]{"Messages", "Personal"};
+     private String tabTitles[] = new String[]{"Reminders", "Alarms"};
 
     public SectionPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -35,9 +35,5 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
         return 2;
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return tabTitles[position];
-    }
 
 }

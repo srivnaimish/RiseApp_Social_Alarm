@@ -53,11 +53,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (tasks.getCurrentTheme(this) == 0) {
+        /*if (tasks.getCurrentTheme(this) == 0) {
             setTheme(R.style.AppTheme2);
         } else {
             setTheme(R.style.AppTheme);
-        }
+        }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -110,10 +110,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         tabLayout.setupWithViewPager(mViewPager);
-        for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = tabLayout.getTabAt(i);
-            tab.setCustomView(getTabView(i));
-        }
+        tabLayout.getTabAt(0).setIcon(R.drawable.tab_chat);
+        tabLayout.getTabAt(1).setIcon(R.drawable.ic_time);
+
     }
 
     @Override
@@ -194,15 +193,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onBackPressed();
     }
 
-    public View getTabView(int position) {
-        View tab = LayoutInflater.from(MainActivity.this).inflate(R.layout.customtab, null);
-        TextView tv = (TextView) tab.findViewById(R.id.tab_text);
-        if(position==0) {
-            tv.setText("Messages");
-        }
-        else {
-            tv.setText("Alarms");
-        }
-        return tab;
-    }
 }

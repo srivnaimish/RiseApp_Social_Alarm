@@ -3,55 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?android:colorBackground">
+    android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:background="?colorPrimary"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="Send Group Reminder"
-            android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@id/closeFragment"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textColor="@android:color/white"/>
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
 
-        <ImageButton
-            android:id="@+id/closeFragment"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/ripple"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_close" />
-
-        <ImageButton
-            android:id="@+id/send"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/ripple"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_send"
-            />
-
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?iconDual"
+                android:textSize="18sp"
+                android:text="Send Group Reminder" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="0dp"
@@ -59,7 +34,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+        app:layout_constraintTop_toBottomOf="@+id/app_bar"
+        android:background="?colorPrimary">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -72,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="24dp"
                 android:text="Selected Contacts"
                 android:textSize="15sp"
                 android:textColor="?android:textColorSecondary"
@@ -175,7 +151,7 @@
                 android:hint="Eg- Happy birthday Henry!"
                 android:maxLength="1000"
                 android:textColor="?android:textColorPrimary"
-                android:textColorHint="?android:textColorSecondary"
+                android:textColorHint="#757575"
                 android:inputType="textMultiLine"
                 android:imeOptions="actionDone"
                 android:padding="16dp"
@@ -223,7 +199,7 @@
                 android:padding="16dp"
                 android:textSize="14sp"
                 android:textColor="?android:textColorPrimary"
-                android:textColorHint="?android:textColorSecondary"
+                android:textColorHint="#757575"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textView5"
                 app:layout_constraintBottom_toBottomOf="parent"/>

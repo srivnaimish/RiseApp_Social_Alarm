@@ -154,7 +154,7 @@ public class Walkthrough extends AppCompatActivity {
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
-                        .setTheme(R.style.AppTheme2)
+                        .setTheme(R.style.AppTheme)
                         .setAvailableProviders(
                                 Collections.singletonList(
                                         new AuthUI.IdpConfig.Builder(AuthUI.PHONE_VERIFICATION_PROVIDER).build()

@@ -40,11 +40,11 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (tasks.getCurrentTheme(this) == 0) {
+        /*if (tasks.getCurrentTheme(this) == 0) {
             setTheme(R.style.AppTheme2);
         } else {
             setTheme(R.style.AppTheme);
-        }
+        }*/
         super.onCreate(savedInstanceState);
 
         int id = getIntent().getIntExtra("ID", 0);
@@ -68,12 +68,12 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener 
             if (repeat_days[timeToView.getCurrentDay()]) {
                 setContentView(R.layout.activity_math);
                 ringAlarmToday();
-                Toast.makeText(this, "today is set\nAlso Setting for tomorrow", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Alarm Ringing", Toast.LENGTH_SHORT).show();
                 alarmTimeInMillis = alarmTimeInMillis + (1000 * 60 * 60 * 24);
                 alarmCreator.setNewAlarm(this, alarmTimeInMillis, id);
                 personalAlarms.get(pos).setAlarmTimeInMillis(alarmTimeInMillis);
             } else {
-                Toast.makeText(this, "today is not set\nSetting for tomorrow", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "today is not set\nSetting for tomorrow", Toast.LENGTH_SHORT).show();
                 alarmTimeInMillis = alarmTimeInMillis + (1000 * 60 * 60 * 24);
                 alarmCreator.setNewAlarm(this, alarmTimeInMillis, id);
                 personalAlarms.get(pos).setAlarmTimeInMillis(alarmTimeInMillis);
@@ -82,13 +82,14 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener 
         } else {
             setContentView(R.layout.activity_math);
             ringAlarmToday();
-            Toast.makeText(this, "today is set", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Alarm Ringing", Toast.LENGTH_SHORT).show();
         }
 
     }
 
     @Override
     public void onBackPressed() {
+        Toast.makeText(this, "Not Allowed", Toast.LENGTH_SHORT).show();
     }
 
     @Override

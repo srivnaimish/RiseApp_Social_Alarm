@@ -8,11 +8,11 @@
     <color name="colorAccent">#ff9800</color>
     <color name="colorMainBackground">#1E1E28</color>
 
-    <color name="colorPrimary1">#0c0c0c</color>
+    <color name="colorPrimary1">#FFFFFF</color>
     <color name="colorPrimaryDark1">#000</color>
     <color name="textColorPrimary1">#212121</color>
     <color name="textColorSecondary1">#424242</color>
-    <color name="colorMainBackground1">#F5F5F5</color>
+    <color name="colorMainBackground1">#FFFFFF</color>
 
 
     <color name="color0">#faf3dd</color>

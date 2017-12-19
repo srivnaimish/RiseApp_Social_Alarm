@@ -16,11 +16,11 @@ public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (new Tasks().getCurrentTheme(this) == 0) {
+        /*if (new Tasks().getCurrentTheme(this) == 0) {
             setTheme(R.style.AppTheme2);
         } else {
             setTheme(R.style.AppTheme);
-        }
+        }*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         NotificationManager nManager = ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE));

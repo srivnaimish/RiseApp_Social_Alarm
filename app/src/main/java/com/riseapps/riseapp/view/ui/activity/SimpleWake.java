@@ -1,5 +1,7 @@
 package com.riseapps.riseapp.view.ui.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -9,9 +11,14 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +36,6 @@ import java.util.Calendar;
 
 public class SimpleWake extends AppCompatActivity {
 
-    ImageView drag_button;
     int pos = 0;
     MediaPlayer mediaPlayer;
     private SharedPreferenceSingelton sharedPreferenceSingelton = new SharedPreferenceSingelton();
@@ -38,17 +44,19 @@ public class SimpleWake extends AppCompatActivity {
     private Tasks tasks = new Tasks();
     private TimeToView timeToView = new TimeToView();
     private AlarmCreator alarmCreator = new AlarmCreator();
+    private int id;
+    private RelativeLayout hidden;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (tasks.getCurrentTheme(this) == 0) {
+        /*if (tasks.getCurrentTheme(this) == 0) {
             setTheme(R.style.AppTheme2);
         } else {
             setTheme(R.style.AppTheme);
-        }
+        }*/
         super.onCreate(savedInstanceState);
 
-        int id = getIntent().getIntExtra("ID", 0);
+        id = getIntent().getIntExtra("ID", 0);
         ArrayList<PersonalAlarm> alarms = tasks.getPersonalAlarms(this);
         if (alarms != null) {
             personalAlarms = alarms;
@@ -69,12 +77,12 @@ public class SimpleWake extends AppCompatActivity {
             if (repeat_days[timeToView.getCurrentDay()]) {
                 setContentView(R.layout.activity_simple_wake);
                 ringAlarmToday();
-                Toast.makeText(this, "today is set\nAlso Setting for tomorrow", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Alarm Ringing", Toast.LENGTH_SHORT).show();
                 alarmTimeInMillis = alarmTimeInMillis + (1000 * 60 * 60 * 24);
                 alarmCreator.setNewAlarm(this, alarmTimeInMillis, id);
                 personalAlarms.get(pos).setAlarmTimeInMillis(alarmTimeInMillis);
             } else {
-                Toast.makeText(this, "today is not set\nSetting for tomorrow", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, "today is not set\nSetting for tomorrow", Toast.LENGTH_SHORT).show();
                 alarmTimeInMillis = alarmTimeInMillis + (1000 * 60 * 60 * 24);
                 alarmCreator.setNewAlarm(this, alarmTimeInMillis, id);
                 personalAlarms.get(pos).setAlarmTimeInMillis(alarmTimeInMillis);
@@ -83,10 +91,10 @@ public class SimpleWake extends AppCompatActivity {
         } else {
             setContentView(R.layout.activity_simple_wake);
             ringAlarmToday();
-            Toast.makeText(this, "today is set", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Alarm Ringing", Toast.LENGTH_SHORT).show();
         }
 
-
+        hidden=findViewById(R.id.hidden);
         /*Uri alert = Uri.parse("DEFAULT_SOUND");
         mediaPlayer = new MediaPlayer();
         //Log.d("Tone",defRingtone);
@@ -166,7 +174,6 @@ public class SimpleWake extends AppCompatActivity {
     }
 
     public void ringAlarmToday() {
-        drag_button = findViewById(R.id.drag_button);
         time = findViewById(R.id.time);
         Calendar calendar = personalAlarms.get(pos).getCalendar();
         String timeString = new TimeToView().getTimeAsText(calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
@@ -175,22 +182,43 @@ public class SimpleWake extends AppCompatActivity {
             vibrate();
 
         ringTone();
-        drag_button.setOnTouchListener(new OnSwipeTouchListener(SimpleWake.this) {
-            public void onSwipeRight() {
+    }
 
-                //Snooze
-            }
+    public void stopAlarm(View view) {
+        if (!personalAlarms.get(pos).isRepeat()) {
+            personalAlarms.get(pos).setStatus(false);
+            //new AlarmCreator().setNewAlarm(SimpleWake.this,personalAlarms.get(pos).getAlarmTimeInMillis(),personalAlarms.get(pos).getId());
+        }
+        exitActivityWithCircular(view);
+    }
 
-            public void onSwipeLeft() {
-                if (!personalAlarms.get(pos).isRepeat()) {
-                    personalAlarms.get(pos).setStatus(false);
-                    //new AlarmCreator().setNewAlarm(SimpleWake.this,personalAlarms.get(pos).getAlarmTimeInMillis(),personalAlarms.get(pos).getId());
+    public void snoozeAlarm(View view) {
+        long time = System.currentTimeMillis() + (1000 * 60 * 5);
+        alarmCreator.setNewAlarm(this, time, id);
+        exitActivityWithCircular(view);
+    }
+
+    public void exitActivityWithCircular(View view){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            hidden.setVisibility(View.VISIBLE);
+            int centerX = (view.getLeft()+view.getRight())/2;
+            int centerY = (view.getTop()+view.getBottom()) / 2;
+
+            int startRadius = 0;
+            int endRadius = Math.max(hidden.getWidth(), hidden.getHeight());
+            Animator anim =
+                    ViewAnimationUtils.createCircularReveal(hidden, centerX, centerY, startRadius, endRadius);
+
+            anim.setDuration(400);
+            anim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    finish();
                 }
-                finish();
-                //stop
-            }
-
-        });
+            });
+            anim.start();
+        }
     }
 }
 

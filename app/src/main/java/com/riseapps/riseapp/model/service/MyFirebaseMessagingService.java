@@ -59,8 +59,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         String type = data.get("Type");
         if(type.equalsIgnoreCase("clear")){
-
-            /*
             Glide.get(this).clearDiskCache();
             if(appInForeGround()){
                 ((MyApplication)getApplicationContext()).clearMemory();
@@ -69,7 +67,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 sharedPreferenceSingelton.saveAs(this,"Clear",true);
             }
 
-            Log.d("Cache","Cleared");*/
+            Log.d("Cache","Cleared");
         }else {
             int sender_no = Integer.parseInt(data.get("Sender Index"));
             String sender_name = data.get("Sender Name");

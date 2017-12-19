@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -38,26 +40,33 @@ import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
  * Created by naimish on 4/11/17.
  */
 
-public class ShareReminder extends Fragment implements View.OnClickListener {
+public class ShareReminder extends Fragment implements View.OnClickListener, Toolbar.OnMenuItemClickListener {
 
-    ImageButton closeFragment, send;
+    /*ImageButton closeFragment, send;*/
     FlexboxLayout linearLayout;
     EditText  edit_note, edit_image;
     TextView time, date;
     ArrayList<String> phones = new ArrayList<>();
     private Calendar calendar;
     ArrayList<Contact_Entity> selected_Contacts;
+    Toolbar toolbar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_send, container, false);
         calendar = Calendar.getInstance();
 
-        closeFragment = view.findViewById(R.id.closeFragment);
-        send = view.findViewById(R.id.send);
+        toolbar=view.findViewById(R.id.toolbar);
 
-        send.setOnClickListener(this);
-        closeFragment.setOnClickListener(this);
+        toolbar.inflateMenu(R.menu.group);
+        toolbar.setOnMenuItemClickListener(this);
+        toolbar.setNavigationIcon(R.drawable.ic_close);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+            }
+        });
         linearLayout = view.findViewById(R.id.linearLayout);
 
         edit_note = view.findViewById(R.id.edit_note);
@@ -92,25 +101,6 @@ public class ShareReminder extends Fragment implements View.OnClickListener {
 
             case R.id.date_pick:
                 openDatePicker();
-                break;
-
-            case R.id.closeFragment:
-                getActivity().finish();
-                break;
-            case R.id.send:
-                if (time.getText().toString().length() == 0 || date.getText().toString().length() == 0) {
-                    Toast.makeText(getContext(), "Enter a valid time and date", Toast.LENGTH_SHORT).show();
-                    return;
-                } else if (edit_note.getText().toString().length() == 0) {
-                    Toast.makeText(getContext(), "Enter a reminder_row note", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                new AppConstants().sendReminder(((PickContacts)getActivity()).getUID(), phones, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
-
-                ChatSync chatSync=new ChatSync(selected_Contacts,calendar.getTimeInMillis(),edit_note.getText().toString(),edit_image.getText().toString(),SENT_MESSAGE,true,((PickContacts)getActivity()).getMyapp().getDatabase(),INSERT_NEW_CHAT);
-                chatSync.execute();
-                getActivity().finish();
                 break;
 
         }
@@ -176,6 +166,25 @@ public class ShareReminder extends Fragment implements View.OnClickListener {
         dpDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         dpDialog.show();
 
+    }
+
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        if(item.getItemId()==R.id.group){
+            if (time.getText().toString().length() == 0 || date.getText().toString().length() == 0) {
+                Toast.makeText(getContext(), "Enter a valid time and date", Toast.LENGTH_SHORT).show();
+            } else if (edit_note.getText().toString().length() == 0) {
+                Toast.makeText(getContext(), "Enter a reminder_row note", Toast.LENGTH_SHORT).show();
+            }
+
+            new AppConstants().sendReminder(((PickContacts)getActivity()).getUID(), phones, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
+
+            ChatSync chatSync=new ChatSync(selected_Contacts,calendar.getTimeInMillis(),edit_note.getText().toString(),edit_image.getText().toString(),SENT_MESSAGE,true,((PickContacts)getActivity()).getMyapp().getDatabase(),INSERT_NEW_CHAT);
+            chatSync.execute();
+            getActivity().finish();
+        }
+        return true;
     }
 
 

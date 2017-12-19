@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackgroundBorderless"
-    card_view:cardBackgroundColor="?card_color"
+    card_view:cardBackgroundColor="?colorPrimary"
     card_view:cardCornerRadius="0dp"
     card_view:cardElevation="0dp"
     android:layout_marginEnd="2dp"
@@ -33,7 +33,8 @@
             android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/default_user"/>
 
         <!--<TextView
             android:id="@+id/initials"

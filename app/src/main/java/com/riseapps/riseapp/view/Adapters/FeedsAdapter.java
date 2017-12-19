@@ -55,7 +55,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         ChatSummary chatSummary=summaryList.get(position);
         String name=chatSummary.getChat_contact_name();
         feedsViewHolder.name.setText(name);
-        feedsViewHolder.initials.setText(tasks.getInitial(name));
         if(!chatSummary.getRead()){
             feedsViewHolder.badge.setVisibility(View.VISIBLE);
             feedsViewHolder.name.setTypeface(feedsViewHolder.name.getTypeface(), Typeface.BOLD);
@@ -63,7 +62,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         Glide.with(context)
                 .load(AppConstants.getProfileImage(chatSummary.getChat_contact_number()))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .dontAnimate()
                 .error(R.drawable.default_user)
                 .placeholder(R.drawable.default_user)

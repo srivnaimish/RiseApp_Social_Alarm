@@ -5,118 +5,52 @@
     android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.ui.activity.PickContacts">
+    tools:context=".view.ui.activity.PickContacts"
+    android:background="#f5f5f5">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Select Contacts"
-        app:titleTextColor="@android:color/white"
-        app:titleTextAppearance="@style/TextAppearance.AppCompat.Menu" />
+        app:elevation="0dp"
+        android:animateLayoutChanges="true">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/contacts"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginEnd="2dp"
-        android:layout_marginStart="2dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/button_done"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        app:fabSize="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_check"
-        android:visibility="invisible"/>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/empty_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-
-        <ImageView
-            android:id="@+id/im1"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/ll"
-            app:srcCompat="@drawable/menu_feeds"
-            app:layout_constraintVertical_chainStyle="spread"/>
-
-        <LinearLayout
-            android:id="@+id/ll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/im1"
-            app:layout_constraintBottom_toBottomOf="parent">
             <TextView
-                android:id="@+id/text"
+                android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Invite family &amp; friends to RiseApp"
-                android:textStyle="bold"
-                android:textSize="18sp"/>
-
-            <Button
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="12dp"
-                android:text="Invite"
-                android:textSize="16sp"
-                android:id="@+id/invite"
-                android:textAllCaps="false" />
-        </LinearLayout>
-
-    </android.support.constraint.ConstraintLayout>
+                android:textColor="?iconDual"
+                android:textSize="18sp"
+                tools:text="@string/app_name" />
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
         android:id="@+id/loading_screen"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:alpha="0.7"
+        android:background="#000"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="#000"
-        android:alpha="0.9"
-        android:visibility="gone">
+        app:layout_constraintTop_toTopOf="parent">
+
         <ProgressBar
             android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -126,7 +60,78 @@
             android:layout_marginTop="30dp"
             android:text="Syncing Contacts"
             android:textColor="@android:color/white"
-            android:textSize="26sp" />
+            android:textSize="18sp" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/empty_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <ImageView
+        android:id="@+id/im1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:srcCompat="@drawable/sharing" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textColor="?android:textColorPrimary"
+        android:fontFamily="@font/light"
+        android:text="Invite family &amp; friends to RiseApp"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/invite"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:text="Invite"
+        android:textAllCaps="false"
+        android:textSize="16sp" />
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/button_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:elevation="6dp"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_check" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/contacts"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        />
 
 </android.support.constraint.ConstraintLayout>

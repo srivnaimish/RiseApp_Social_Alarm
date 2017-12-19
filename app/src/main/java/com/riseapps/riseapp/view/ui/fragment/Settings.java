@@ -54,7 +54,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static android.app.Activity.RESULT_OK;
 import static com.riseapps.riseapp.Components.AppConstants.RC_GALLERY;
 
-public class Settings extends Fragment implements View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+public class Settings extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "AUTH";
     private SharedPreferenceSingelton sharedPreferenceSingleton = new SharedPreferenceSingelton();
@@ -64,12 +64,11 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
         return new Settings();
     }
 
-    Tasks tasks = new Tasks();
     ImageView pic, method;
     TextView name, phone;
     FirebaseUser firebaseUser;
-    Switch theme_switch;
-    CardView method_card, rate, share, theme;
+    //Switch theme_switch;
+    CardView method_card, rate, share;
     RelativeLayout loading;
     ImageButton edit_pic;
 
@@ -86,8 +85,8 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
         phone = view.findViewById(R.id.phone);
         share = view.findViewById(R.id.setting_share);
         rate = view.findViewById(R.id.setting_rate);
-        theme_switch = view.findViewById(R.id.setting_theme_switch);
-        theme = view.findViewById(R.id.setting_theme);
+        //theme_switch = view.findViewById(R.id.setting_theme_switch);
+        //theme = view.findViewById(R.id.setting_theme);
         method_card = view.findViewById(R.id.setting_alarm_method);
         edit_pic = view.findViewById(R.id.edit_pic);
         loading=view.findViewById(R.id.loading_pic);
@@ -96,12 +95,12 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
         edit_pic.setOnClickListener(this);
         share.setOnClickListener(this);
         rate.setOnClickListener(this);
-        theme.setOnClickListener(this);
-        theme_switch.setOnCheckedChangeListener(this);
+        //theme.setOnClickListener(this);
+       // theme_switch.setOnCheckedChangeListener(this);
 
-        if (tasks.getCurrentTheme(getContext()) == 1) {
+        /*if (tasks.getCurrentTheme(getContext()) == 1) {
             theme_switch.setChecked(true);
-        }
+        }*/
 
         assert ((MainActivity)getActivity()) != null;
         firebaseUser = ((MainActivity)getActivity()).currentUser;
@@ -162,11 +161,16 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
             case R.id.setting_rate:
                 break;
             case R.id.setting_share:
+                String message = "Checkout RiseApp.Simplest way to send reminders to people.\n\nhttps://play.google.com/store/apps/details?id=com.riseapps.riseapp";
+                Intent share = new Intent(Intent.ACTION_SEND);
+                share.setType("text/plain");
+                share.putExtra(Intent.EXTRA_TEXT, message);
+                startActivity(Intent.createChooser(share, "Invite via.."));
                 break;
-            case R.id.setting_theme:
+            /*case R.id.setting_theme:
                 theme_switch.toggle();
                 restartApp();
-                break;
+                break;*/
 
             case R.id.edit_pic:
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK,
@@ -176,7 +180,7 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
 
         }
     }
-
+/*
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
@@ -184,16 +188,16 @@ public class Settings extends Fragment implements View.OnClickListener, Compound
         } else
             sharedPreferenceSingleton.saveAs(getContext(), "Theme", 0);
         //restartApp();
-    }
+    }*/
 
-    public void restartApp() {
+    /*public void restartApp() {
         Intent i = getActivity().getBaseContext().getPackageManager().
                 getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
         assert i != null;
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
-    }
+    }*/
 
     @Override
     public void onDestroy() {

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?colorPrimary">
 
     <LinearLayout
         android:id="@+id/empty_state"
@@ -13,11 +14,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintVertical_bias="0.4">
 
         <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             app:srcCompat="@drawable/ic_no_alarm"
             android:layout_gravity="center" />
 
@@ -26,11 +28,10 @@
             android:layout_height="wrap_content"
             android:text="Set up a new alarm"
             android:layout_gravity="center"
-            android:fontFamily="@font/light"
-            android:textColor="?android:textColorPrimary"
-            android:textStyle="bold"
+            android:fontFamily="@font/regular"
+            android:textColor="?android:textColorSecondary"
             android:layout_marginTop="16dp"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
 
