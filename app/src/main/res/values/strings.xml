@@ -6,12 +6,12 @@
     <string name="on">On</string>
 
     <string name="walkthrough_heading_1">Send reminders to others</string>
-    <string name="walkthrough_subheading_1">You can send reminders to other people by simply selecting a reminder time,date and reminder note.</string>
+    <string name="walkthrough_subheading_1">Remind Bob to bring the groceries at 5pm or jog Alice\'s memory to water the plants at 4pm.</string>
 
     <string name="walkthrough_heading_2">Add an alarm for yourself</string>
-    <string name="walkthrough_subheading_2">Wake up to your own personal alarm by either swiping or by doing some math.</string>
+    <string name="walkthrough_subheading_2">Simplest way to set and manage alarms.</string>
 
     <string name="walkthrough_heading_3">Permission to access your contacts</string>
-    <string name="walkthrough_subheading_3">We don\'t save your contacts or your chats.We only need access to show you which of your contacts are using RiseApp.</string>
+    <string name="walkthrough_subheading_3">Contacts access helps us sync your RiseApp Contacts.\n</string>
 
 </resources>

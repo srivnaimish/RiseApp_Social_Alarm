@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.riseapps.riseapp.R;
@@ -22,15 +23,20 @@ public class SplashActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }*/
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
         NotificationManager nManager = ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE));
         nManager.cancelAll();
-        if (sharedPreferenceSingleton.getSavedBoolean(this, "Logged")) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        } else {
-            startActivity(new Intent(this, Walkthrough.class));
-            finish();
-        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (sharedPreferenceSingleton.getSavedBoolean(SplashActivity.this, "Logged")) {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                } else {
+                    startActivity(new Intent(SplashActivity.this, Walkthrough.class));
+                    finish();
+                }
+            }
+        },1200);
+
     }
 }

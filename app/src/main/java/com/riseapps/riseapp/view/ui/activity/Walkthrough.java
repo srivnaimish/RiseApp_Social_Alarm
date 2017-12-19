@@ -276,7 +276,7 @@ public class Walkthrough extends AppCompatActivity {
                     subheading.setText(getString(R.string.walkthrough_subheading_1));
                     break;
                 case 1:
-                    displayImage.setImageResource(R.drawable.ic_no_alarm);
+                    displayImage.setImageResource(R.drawable.ic_time);
                     heading.setText(getString(R.string.walkthrough_heading_2));
                     subheading.setText(getString(R.string.walkthrough_subheading_2));
                     break;

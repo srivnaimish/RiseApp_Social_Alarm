@@ -1,6 +1,8 @@
 package com.riseapps.riseapp.view.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,11 +17,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.executor.ChatSync;
 import com.riseapps.riseapp.executor.Interface.ContactSelection;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
+import com.riseapps.riseapp.model.MyApplication;
+import com.riseapps.riseapp.view.ui.activity.ChatActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.riseapps.riseapp.Components.AppConstants.UPDATE_SUMMARY;
 
 
 public class ContactsAdapter extends RecyclerView.Adapter {
@@ -27,6 +34,7 @@ public class ContactsAdapter extends RecyclerView.Adapter {
     private ArrayList<Contact_Entity> contacts;
     private Context c;
     private ContactSelection contactSelection;
+    private int count=0;
 
 
     public ContactsAdapter(Context context, ArrayList<Contact_Entity> contacts) {
@@ -38,7 +46,7 @@ public class ContactsAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_row, parent, false);
-        return new ContactsViewHolder(view, c);
+        return new ContactsViewHolder(view);
     }
 
     @Override
@@ -74,14 +82,14 @@ public class ContactsAdapter extends RecyclerView.Adapter {
         return contacts.size();
     }
 
-    private class ContactsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class ContactsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
         Contact_Entity contact;
         CardView cardView;
         TextView  name, phone;
         ImageButton status;
         ImageView pic;
 
-        public ContactsViewHolder(View itemView, Context c) {
+        public ContactsViewHolder(View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.contact_card);
             name = itemView.findViewById(R.id.name);
@@ -89,22 +97,51 @@ public class ContactsAdapter extends RecyclerView.Adapter {
             status = itemView.findViewById(R.id.selected_state);
             pic=itemView.findViewById(R.id.pic);
             cardView.setOnClickListener(this);
+            cardView.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             if (v.getId() == cardView.getId()) {
-                if (contact.isSelection()) {
-                    contact.setSelection(false);
-                    status.setVisibility(View.GONE);
-                    contactSelection.onContactSelected(false, getAdapterPosition());
-                } else {
-                    contact.setSelection(true);
-                    status.setVisibility(View.VISIBLE);
-                    status.startAnimation(AnimationUtils.loadAnimation(c, R.anim.selection));
-                    contactSelection.onContactSelected(true, getAdapterPosition());
+                if(count>0) {
+                    if (contact.isSelection()) {
+                        contact.setSelection(false);
+                        status.setVisibility(View.GONE);
+                        contactSelection.onContactSelected(false, getAdapterPosition());
+                        count--;
+                    } else {
+                        contact.setSelection(true);
+                        status.setVisibility(View.VISIBLE);
+                        status.startAnimation(AnimationUtils.loadAnimation(c, R.anim.selection));
+                        contactSelection.onContactSelected(true, getAdapterPosition());
+                        count++;
+                    }
+                }else {
+                    ChatSync chatSync=new ChatSync(phone.getText().toString(),((MyApplication)c.getApplicationContext()).getDatabase(),UPDATE_SUMMARY);
+                    chatSync.execute();
+                    Intent intent=new Intent(c, ChatActivity.class);
+                    intent.putExtra("chat_id",phone.getText().toString());
+                    intent.putExtra("contact_name",name.getText().toString());
+                    c.startActivity(intent);
                 }
             }
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            if (contact.isSelection()) {
+                contact.setSelection(false);
+                status.setVisibility(View.GONE);
+                contactSelection.onContactSelected(false, getAdapterPosition());
+                count--;
+            } else {
+                contact.setSelection(true);
+                status.setVisibility(View.VISIBLE);
+                status.startAnimation(AnimationUtils.loadAnimation(c, R.anim.selection));
+                contactSelection.onContactSelected(true, getAdapterPosition());
+                count++;
+            }
+            return true;
         }
     }
 

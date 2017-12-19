@@ -21,7 +21,8 @@
         <receiver android:name=".executor.AlarmReciever" />
 
         <activity android:name=".view.ui.activity.SimpleWake" />
-        <activity android:name=".view.ui.activity.SplashActivity">
+        <activity android:name=".view.ui.activity.SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
