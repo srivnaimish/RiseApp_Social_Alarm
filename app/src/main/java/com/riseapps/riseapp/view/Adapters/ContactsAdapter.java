@@ -2,7 +2,10 @@ package com.riseapps.riseapp.view.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +22,7 @@ import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.ChatSync;
 import com.riseapps.riseapp.executor.Interface.ContactSelection;
+import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.view.ui.activity.ChatActivity;
@@ -35,6 +39,9 @@ public class ContactsAdapter extends RecyclerView.Adapter {
     private Context c;
     private ContactSelection contactSelection;
     private int count=0;
+    private Tasks tasks=new Tasks();
+    private int colorSelected = Color.LTGRAY;
+    private int colorNormal = Color.WHITE;
 
 
     public ContactsAdapter(Context context, ArrayList<Contact_Entity> contacts) {
@@ -52,21 +59,24 @@ public class ContactsAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Contact_Entity contact = contacts.get(position);
-        ((ContactsViewHolder) holder).name.setText(contact.getName());
-        ((ContactsViewHolder) holder).phone.setText(contact.getNumber());
-        //((ContactsViewHolder) holder).initials.setText(contact.getInitials());
+        ContactsViewHolder contactsViewHolder=((ContactsViewHolder) holder);
+        String name=contact.getName();
+        contactsViewHolder.name.setText(name);
+        contactsViewHolder.phone.setText(contact.getNumber());
+        contactsViewHolder.initials.setText(tasks.getInitial(name));
         if (contact.isSelection())
-            ((ContactsViewHolder) holder).status.setVisibility(View.VISIBLE);
+            contactsViewHolder.status.setVisibility(View.VISIBLE);
         else
-            ((ContactsViewHolder) holder).status.setVisibility(View.GONE);
+            contactsViewHolder.status.setVisibility(View.GONE);
 
-        Glide.with(c)
+        /*Glide.with(c)
                 .load(AppConstants.getProfileImage(contact.getNumber()))
                 .dontAnimate()
                 .error(R.drawable.default_user)
                 .placeholder(R.drawable.default_user)
                 .centerCrop()
-                .into(((ContactsViewHolder) holder).pic);
+                .into(((ContactsViewHolder) holder).pic);*/
+        contactsViewHolder.cardView.setCardBackgroundColor(contact.isSelection() ? colorSelected : colorNormal);
 
         ((ContactsViewHolder) holder).contact = contact;
     }
@@ -85,7 +95,7 @@ public class ContactsAdapter extends RecyclerView.Adapter {
     private class ContactsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
         Contact_Entity contact;
         CardView cardView;
-        TextView  name, phone;
+        TextView  name,initials, phone;
         ImageButton status;
         ImageView pic;
 
@@ -94,6 +104,7 @@ public class ContactsAdapter extends RecyclerView.Adapter {
             cardView = itemView.findViewById(R.id.contact_card);
             name = itemView.findViewById(R.id.name);
             phone = itemView.findViewById(R.id.phone);
+            initials=itemView.findViewById(R.id.initials);
             status = itemView.findViewById(R.id.selected_state);
             pic=itemView.findViewById(R.id.pic);
             cardView.setOnClickListener(this);
@@ -116,6 +127,7 @@ public class ContactsAdapter extends RecyclerView.Adapter {
                         contactSelection.onContactSelected(true, getAdapterPosition());
                         count++;
                     }
+                    cardView.setCardBackgroundColor(contact.isSelection() ? colorSelected : colorNormal);
                 }else {
                     ChatSync chatSync=new ChatSync(phone.getText().toString(),((MyApplication)c.getApplicationContext()).getDatabase(),UPDATE_SUMMARY);
                     chatSync.execute();
@@ -141,6 +153,7 @@ public class ContactsAdapter extends RecyclerView.Adapter {
                 contactSelection.onContactSelected(true, getAdapterPosition());
                 count++;
             }
+            cardView.setCardBackgroundColor(contact.isSelection() ? colorSelected : colorNormal);
             return true;
         }
     }

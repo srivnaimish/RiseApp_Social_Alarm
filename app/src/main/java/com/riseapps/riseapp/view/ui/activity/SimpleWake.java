@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -95,23 +96,6 @@ public class SimpleWake extends AppCompatActivity {
         }
 
         hidden=findViewById(R.id.hidden);
-        /*Uri alert = Uri.parse("DEFAULT_SOUND");
-        mediaPlayer = new MediaPlayer();
-        //Log.d("Tone",defRingtone);
-        try {
-            mediaPlayer.setDataSource(this, alert);
-            AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-            audioManager.setStreamVolume(AudioManager.STREAM_ALARM, 15, 0);
-            if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
-                mediaPlayer.setLooping(true);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
 
     }
 
@@ -209,12 +193,17 @@ public class SimpleWake extends AppCompatActivity {
             Animator anim =
                     ViewAnimationUtils.createCircularReveal(hidden, centerX, centerY, startRadius, endRadius);
 
-            anim.setDuration(400);
+            anim.setDuration(200);
             anim.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
-                    finish();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    },1200);
                 }
             });
             anim.start();

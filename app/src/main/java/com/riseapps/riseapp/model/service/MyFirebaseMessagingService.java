@@ -57,7 +57,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Map<String, String> data = remoteMessage.getData();
 
-        String type = data.get("Type");
+        /*String type = data.get("Type");
         if(type.equalsIgnoreCase("clear")){
             Glide.get(this).clearDiskCache();
             if(appInForeGround()){
@@ -68,7 +68,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             }
 
             Log.d("Cache","Cleared");
-        }else {
+        }else {*/
             int sender_no = Integer.parseInt(data.get("Sender Index"));
             String sender_name = data.get("Sender Name");
             String sender_phone = data.get("Sender Phone");
@@ -77,7 +77,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String image = data.get("Image");
 
             insertChatMessage(sender_no, sender_name, sender_phone, time, note, image);
-        }
+        //}
 
     }
 
@@ -143,7 +143,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mBuilder.setContentText(title);
             mBuilder.setOngoing(false);
             mBuilder.setSound(defaultSoundUri);
-            mBuilder.setSmallIcon(R.drawable.ic_add_alarm);
+            mBuilder.setSmallIcon(R.drawable.ic_notification);
             mBuilder.setLargeIcon(largeIcon);
             mBuilder.setVibrate(new long[]{100, 100});
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

@@ -13,9 +13,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.executor.ChatSync;
 import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.DB.Chat_Entity;
+import com.riseapps.riseapp.model.MyApplication;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -23,6 +25,7 @@ import java.util.List;
 
 import static com.riseapps.riseapp.Components.AppConstants.RECEIVED_MESSAGE;
 import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
+import static com.riseapps.riseapp.Components.AppConstants.UPDATE_PENDING;
 
 /**
  * Created by naimish on 2/12/17.
@@ -30,15 +33,15 @@ import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
 
 public class ReminderAdapter extends RecyclerView.Adapter {
 
-    private ArrayList<Chat_Entity> chatList;
+    private ArrayList<Chat_Entity> reminderList;
     private Context context;
     private TimeToView timeToView=new TimeToView();
     private Tasks tasks=new Tasks();
 
 
-    public ReminderAdapter(Context context, ArrayList<Chat_Entity> chatList){
+    public ReminderAdapter(Context context, ArrayList<Chat_Entity> reminderList){
         this.context=context;
-        this.chatList=chatList;
+        this.reminderList=reminderList;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class ReminderAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ReminderViewHolder reminderViewHolder= (ReminderViewHolder) holder;
-        Chat_Entity reminder=chatList.get(position);
+        Chat_Entity reminder=reminderList.get(position);
         String note=reminder.getNote();
 
         String time="";
@@ -89,9 +92,19 @@ public class ReminderAdapter extends RecyclerView.Adapter {
 
     }
 
+    public void deleteItem(int position){
+        reminderList.remove(position);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
-        return chatList.size();
+        return reminderList.size();
+    }
+
+    public void addItems(List<Chat_Entity> reminderList) {
+        this.reminderList = (ArrayList<Chat_Entity>) reminderList;
+        notifyDataSetChanged();
     }
 
     class ReminderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -121,7 +134,9 @@ public class ReminderAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View view) {
-            Toast.makeText(context, "Delete", Toast.LENGTH_SHORT).show();
+            ChatSync chatSync=new ChatSync(chat_entity.getMessage_id(),((MyApplication)context.getApplicationContext()).getDatabase(),UPDATE_PENDING);
+            chatSync.execute();
+            deleteItem(getAdapterPosition());
         }
     }
 

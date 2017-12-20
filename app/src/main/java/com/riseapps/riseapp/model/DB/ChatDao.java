@@ -41,9 +41,13 @@ public interface ChatDao {
 
     @Query("SELECT * FROM chat_entity " +
             "WHERE read=:read AND chat_time<:currentTime ORDER BY chat_time DESC")
-    List<Chat_Entity> getReminders(boolean read,long currentTime);
+    LiveData<List<Chat_Entity>> getPendingReminders(boolean read,long currentTime);
+
+    @Query("SELECT * FROM chat_entity " +
+            "WHERE read=:read AND chat_time<=:endTime AND chat_time>=:startTime ORDER BY chat_time ASC")
+    LiveData<List<Chat_Entity>> getTodaysReminders(boolean read,long startTime,long endTime);
 
     @Query("UPDATE chat_entity SET read = :value  WHERE message_id = :message_id")
-    void updateReminderRead(String message_id,boolean value);
+    void updatePendingStatus(int message_id,boolean value);
 
 }

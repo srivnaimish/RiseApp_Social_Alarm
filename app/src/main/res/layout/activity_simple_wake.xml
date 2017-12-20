@@ -122,12 +122,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="?iconDual"
-        android:visibility="gone">
+        android:visibility="invisible">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
-            tools:text="Alarm Stopped"
+            android:text="Alarm Stopped"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:textSize="36sp"

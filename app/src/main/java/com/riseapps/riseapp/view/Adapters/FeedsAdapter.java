@@ -60,13 +60,15 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             feedsViewHolder.name.setTypeface(feedsViewHolder.name.getTypeface(), Typeface.BOLD);
         }
 
-        Glide.with(context)
+        feedsViewHolder.initials.setText(tasks.getInitial(name));
+
+        /*Glide.with(context)
                 .load(AppConstants.getProfileImage(chatSummary.getChat_contact_number()))
                 .dontAnimate()
                 .error(R.drawable.default_user)
                 .placeholder(R.drawable.default_user)
                 .centerCrop()
-                .into(feedsViewHolder.pic);
+                .into(feedsViewHolder.pic);*/
 
         feedsViewHolder.mssg.setText(chatSummary.getChat_last_message());
         feedsViewHolder.chatSummary=chatSummary;

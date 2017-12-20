@@ -48,7 +48,6 @@
 
         <receiver android:name=".executor.SyncReciever" />
 
-        <activity android:name=".view.ui.activity.ReminderActivity" />
     </application>
 
 </manifest>

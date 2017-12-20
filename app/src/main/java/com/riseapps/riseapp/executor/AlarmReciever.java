@@ -17,7 +17,6 @@ import com.riseapps.riseapp.Components.NotificationUtils;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.view.ui.activity.MainActivity;
 import com.riseapps.riseapp.view.ui.activity.MathWake;
-import com.riseapps.riseapp.view.ui.activity.ReminderActivity;
 import com.riseapps.riseapp.view.ui.activity.SimpleWake;
 
 import java.util.ArrayList;
@@ -65,7 +64,8 @@ public class AlarmReciever extends BroadcastReceiver {
             if (details.get(2) != null)
                 bigText.setSummaryText("See Image");
 
-            Intent i = new Intent(context, ReminderActivity.class);
+            Intent i = new Intent(context, MainActivity.class);
+            i.putExtra("Reminder Clicked",true);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -78,7 +78,7 @@ public class AlarmReciever extends BroadcastReceiver {
             mBuilder.setContentText("Read the full Reminder");
             mBuilder.setOngoing(false);
             mBuilder.setSound(defaultSoundUri);
-            mBuilder.setSmallIcon(R.drawable.ic_add_alarm);
+            mBuilder.setSmallIcon(R.drawable.ic_notification);
             mBuilder.setLargeIcon(largeIcon);
             mBuilder.setStyle(bigText);
             mBuilder.setVibrate(new long[]{80, 80});

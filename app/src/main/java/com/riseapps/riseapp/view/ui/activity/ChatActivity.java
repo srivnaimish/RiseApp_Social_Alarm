@@ -79,7 +79,7 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
         Toolbar toolbar = findViewById(R.id.toolbar_chat);
         ImageButton back = findViewById(R.id.back);
-        //TextView initials = findViewById(R.id.initials);
+        TextView initials = findViewById(R.id.initials);
         TextView name = findViewById(R.id.chat_title);
         recyclerView=findViewById(R.id.chat_messages);
 
@@ -99,15 +99,15 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         nameString=getIntent().getStringExtra("contact_name");
         name.setText(nameString);
 
-        ImageView profile_pic=findViewById(R.id.profile_pic);
+        /*ImageView profile_pic=findViewById(R.id.profile_pic);
         Glide.with(this)
                 .load(AppConstants.getProfileImage(chat_id))
                 .dontAnimate()
                 .error(R.drawable.default_user)
                 .placeholder(R.drawable.default_user)
                 .centerCrop()
-                .into(profile_pic);
-        //initials.setText(tasks.getInitial(nameString));
+                .into(profile_pic);*/
+        initials.setText(tasks.getInitial(nameString));
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override

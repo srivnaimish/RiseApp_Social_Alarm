@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.riseapps.riseapp.view.ui.fragment.FeedsFragment;
+import com.riseapps.riseapp.view.ui.fragment.PendingReminders;
 import com.riseapps.riseapp.view.ui.fragment.PersonalFragment;
 
 /**
@@ -23,16 +24,19 @@ public class SectionPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return FeedsFragment.newInstance();
+                return PendingReminders.newInstance();
             case 1:
+                return FeedsFragment.newInstance();
+            case 2:
                 return PersonalFragment.newInstance();
+
         }
-        return PersonalFragment.newInstance();
+        return FeedsFragment.newInstance();
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
 

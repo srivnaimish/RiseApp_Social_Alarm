@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import static com.riseapps.riseapp.Components.AppConstants.CLEAR_CHAT;
 import static com.riseapps.riseapp.Components.AppConstants.DELETE_CHAT;
 import static com.riseapps.riseapp.Components.AppConstants.INSERT_NEW_CHAT;
+import static com.riseapps.riseapp.Components.AppConstants.UPDATE_PENDING;
 import static com.riseapps.riseapp.Components.AppConstants.UPDATE_SUMMARY;
 
 /**
@@ -30,6 +31,8 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
     private String image;
     private int sent_or_recieved;
     private boolean read;
+
+    private int message_id;
 
     private ArrayList<Contact_Entity> new_contacts;
 
@@ -50,6 +53,12 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
         this.read=b;
     }
 
+    public ChatSync(int message_id,MyDB myDB,int choice) {
+        this.myDB=myDB;
+        this.choice=choice;
+        this.message_id=message_id;
+    }
+
     @Override
     protected Void doInBackground(Void... voids) {
         switch (choice){
@@ -68,6 +77,9 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
 
             case UPDATE_SUMMARY:
                 updateSummary();
+                break;
+
+            case UPDATE_PENDING:
                 break;
         }
 
@@ -111,5 +123,10 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
     private void updateSummary() {
         myDB.chatDao().updateReadStatus(chat_id,true);
     }
+
+    private void updatePending() {
+        myDB.chatDao().updatePendingStatus(message_id,true);
+    }
+
 
 }

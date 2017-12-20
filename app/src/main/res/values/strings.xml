@@ -14,4 +14,10 @@
     <string name="walkthrough_heading_3">Permission to access your contacts</string>
     <string name="walkthrough_subheading_3">Contacts access helps us sync your RiseApp Contacts.\n</string>
 
+
+    <string name="pending">Pending</string>
+    <string name="todays">Today</string>
+
+
+
 </resources>

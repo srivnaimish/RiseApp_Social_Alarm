@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Tasks tasks = new Tasks();
     private FabListener fabListener1;
     private MyApplication myapp;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,19 +72,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SectionPagerAdapter mSectionsPagerAdapter = new SectionPagerAdapter(getSupportFragmentManager());
         mViewPager = findViewById(R.id.viewpager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-        Toolbar toolbar = findViewById(R.id.toolbar);
 
-        toolbar.inflateMenu(R.menu.main_menu);
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        boolean reminder_clicked=getIntent().getBooleanExtra("Reminder Clicked",false);
+        if(!reminder_clicked)
+        mViewPager.setCurrentItem(1);
+        toolbar = findViewById(R.id.toolbar);
+
+        toolbar.setNavigationIcon(R.drawable.settings);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
+            public void onClick(View view) {
                 Settings settings = new Settings();
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 ft.replace(R.id.main_background, settings, "Settings");
                 ft.addToBackStack(null);
                 ft.commit();
-                return false;
             }
         });
 
@@ -93,12 +98,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 1) {
+                if (position == 2) {
                     fab.setImageResource(R.drawable.ic_add_alarm);
                     fab.show();
-                } else if (position == 0) {
+                } else if (position == 1) {
                     fab.setImageResource(R.drawable.ic_quill);
                     fab.show();
+                } else {
+                    fab.hide();
                 }
 
             }
@@ -110,8 +117,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.tab_chat);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_time);
+        tabLayout.getTabAt(0).setIcon(R.drawable.ic_pending);
+        tabLayout.getTabAt(1).setIcon(R.drawable.tab_chat);
+        tabLayout.getTabAt(2).setIcon(R.drawable.ic_time);
 
     }
 
@@ -128,11 +136,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.fab:
                 int pos = mViewPager.getCurrentItem();
-                if (pos == 0) {
+                if (pos == 1) {
                     Intent intent=new Intent(this, PickContacts.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.view_enter,R.anim.view_exit);
-                } else if (pos == 1) {
+                } else if (pos == 2) {
                     fabListener1.onFabClick();
                 }
                 break;
@@ -157,17 +165,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ContactsSync contactsSync = new ContactsSync(getContentResolver(),getMyapp().getDatabase());
             contactsSync.execute();
             Log.d("MainActivity","Syncing");
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 9);
-
-            AlarmManager alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(this, SyncReciever.class);
-            PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 123, intent, 0);
-
-            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY, alarmIntent);
-
             sharedPreferenceSingleton.saveAs(this,"Cached_Contacts",true);
         }
     }

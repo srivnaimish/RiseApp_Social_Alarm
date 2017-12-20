@@ -9,11 +9,9 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.support.v4.app.NotificationCompat;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.view.ui.activity.MainActivity;
-import com.riseapps.riseapp.view.ui.activity.ReminderActivity;
 
 import java.util.ArrayList;
 
@@ -87,14 +85,14 @@ public class NotificationUtils extends ContextWrapper {
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle("You have new reminders")
                 .setContentText(title)
-                .setSmallIcon(R.drawable.ic_add_alarm)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(largeIcon)
                 .setAutoCancel(true)
                 .setChannelId(ANDROID_CHANNEL_ID);
     }
 
     public Notification.Builder getReminderNotification(ArrayList<String> details, Bitmap largeIcon) {
-        Intent i = new Intent(this, ReminderActivity.class);
+        Intent i = new Intent(this, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 2, i, PendingIntent.FLAG_ONE_SHOT);
 
@@ -108,7 +106,7 @@ public class NotificationUtils extends ContextWrapper {
                 .setContentIntent(resultPendingIntent)
                 .setContentTitle(details.get(0))
                 .setContentText(details.get(1))
-                .setSmallIcon(R.drawable.ic_add_alarm)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(largeIcon)
                 .setAutoCancel(true)
                 .setStyle(bigText)

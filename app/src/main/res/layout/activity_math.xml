@@ -197,29 +197,34 @@
             android:textSize="24sp" />
     </LinearLayout>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/snooze"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
+        app:srcCompat="@drawable/ic_snooze"
+        android:background="@drawable/border_background"
         app:layout_constraintBottom_toBottomOf="@+id/ans"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ans"
-        app:srcCompat="@drawable/ic_snooze" />
+        android:onClick="snoozeAlarm"/>
 
-    <ImageView
+    <ImageButton
         android:id="@+id/stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/ans"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ans"
-        app:srcCompat="@drawable/ic_sound_off" />
+        app:srcCompat="@drawable/ic_sound_off"
+        android:background="@drawable/border_background"
+        android:onClick="stopAlarm"
+        />
 
     <TextView
         android:id="@+id/ans"
@@ -290,9 +295,31 @@
         android:layout_marginTop="8dp"
         android:textColor="?android:textColorSecondary"
         android:textSize="12sp"
-        android:text="Swipe left to submit answer and stop alarm"
+        android:text="Answer then tap the buttons"
         app:layout_constraintEnd_toEndOf="@+id/ans"
         app:layout_constraintStart_toStartOf="@+id/ans"
         app:layout_constraintTop_toBottomOf="@+id/ans" />
+
+    <RelativeLayout
+        android:id="@+id/hidden"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="?iconDual"
+        android:visibility="invisible">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="Alarm Stopped"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="36sp"
+            android:fontFamily="@font/light"
+            />
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

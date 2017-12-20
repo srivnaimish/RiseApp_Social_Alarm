@@ -1,17 +1,22 @@
 package com.riseapps.riseapp.view.ui.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,12 +36,14 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener 
 
     int pos = 0, n1, n2;
     MediaPlayer mediaPlayer;
+    private RelativeLayout hidden;
     private SharedPreferenceSingelton sharedPreferenceSingelton = new SharedPreferenceSingelton();
     private ArrayList<PersonalAlarm> personalAlarms = new ArrayList<>();
     private Tasks tasks = new Tasks();
     private TimeToView timeToView = new TimeToView();
     private AlarmCreator alarmCreator = new AlarmCreator();
     private TextView ans, number1, number2;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +54,7 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener 
         }*/
         super.onCreate(savedInstanceState);
 
-        int id = getIntent().getIntExtra("ID", 0);
+        id = getIntent().getIntExtra("ID", 0);
         ArrayList<PersonalAlarm> alarms = tasks.getPersonalAlarms(this);
         if (alarms != null) {
             personalAlarms = alarms;
@@ -120,6 +127,7 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener 
         ans = findViewById(R.id.ans);
         number1 = findViewById(R.id.number1);
         number2 = findViewById(R.id.number2);
+        hidden = findViewById(R.id.hidden);
         initiallizeNumbers();
 
         for (int i = 0; i < 12; i++) {
@@ -130,29 +138,6 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener 
 
         ringTone();
 
-        ans.setOnTouchListener(new OnSwipeTouchListener(MathWake.this) {
-            public void onSwipeRight() {
-
-                //Snooze
-            }
-
-            public void onSwipeLeft() {
-
-                String answer = ans.getText().toString();
-                if (answer.length() != 0 && (n1 + n2) == Integer.parseInt(answer)) {
-
-                    if (!personalAlarms.get(pos).isRepeat()) {
-                        personalAlarms.get(pos).setStatus(false);
-                        //new AlarmCreator().setNewAlarm(SimpleWake.this,personalAlarms.get(pos).getAlarmTimeInMillis(),personalAlarms.get(pos).getId());
-                    }
-                    finish();
-                } else {
-                    Toast.makeText(MathWake.this, "Wrong answer", Toast.LENGTH_SHORT).show();
-                }
-                //stop
-            }
-
-        });
     }
 
     private void initiallizeNumbers() {
@@ -243,6 +228,56 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener 
             case R.id.clear_all:
                 ans.setText("");
                 break;
+        }
+    }
+
+    public void stopAlarm(View view) {
+
+        String answer = ans.getText().toString();
+        if (answer.length() != 0 && (n1 + n2) == Integer.parseInt(answer)) {
+
+            if (!personalAlarms.get(pos).isRepeat()) {
+                personalAlarms.get(pos).setStatus(false);
+                exitActivityWithCircular(view);
+            }
+            finish();
+        } else {
+            Toast.makeText(MathWake.this, "Wrong answer", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void snoozeAlarm(View view) {
+        long time = System.currentTimeMillis() + (1000 * 60 * 5);
+        alarmCreator.setNewAlarm(this, time, id);
+        exitActivityWithCircular(view);
+    }
+
+    public void exitActivityWithCircular(View view){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            hidden.setVisibility(View.VISIBLE);
+            int centerX = (view.getLeft()+view.getRight())/2;
+            int centerY = (view.getTop()+view.getBottom()) / 2;
+
+            int startRadius = 0;
+            int endRadius = Math.max(hidden.getWidth(), hidden.getHeight());
+            Animator anim =
+                    ViewAnimationUtils.createCircularReveal(hidden, centerX, centerY, startRadius, endRadius);
+
+            anim.setDuration(200);
+            anim.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    },1200);
+                }
+            });
+            anim.start();
         }
     }
 }

@@ -75,12 +75,12 @@ public class Settings extends Fragment implements View.OnClickListener {
     String[] permissionsRequired = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     ImageView pic, method;
-    TextView name, phone;
+    TextView name,initials, phone;
     FirebaseUser firebaseUser;
     //Switch theme_switch;
     CardView method_card, rate, share;
-    RelativeLayout loading;
-    ImageButton edit_pic;
+    //RelativeLayout loading;
+    //ImageButton edit_pic;
 
 
     @Override
@@ -92,17 +92,18 @@ public class Settings extends Fragment implements View.OnClickListener {
         pic = view.findViewById(R.id.profile_pic);
         method = view.findViewById(R.id.setting_method_image);
         name = view.findViewById(R.id.name);
+        initials=view.findViewById(R.id.initials);
         phone = view.findViewById(R.id.phone);
         share = view.findViewById(R.id.setting_share);
         rate = view.findViewById(R.id.setting_rate);
         //theme_switch = view.findViewById(R.id.setting_theme_switch);
         //theme = view.findViewById(R.id.setting_theme);
         method_card = view.findViewById(R.id.setting_alarm_method);
-        edit_pic = view.findViewById(R.id.edit_pic);
-        loading=view.findViewById(R.id.loading_pic);
+        //edit_pic = view.findViewById(R.id.edit_pic);
+        //loading=view.findViewById(R.id.loading_pic);
 
         method_card.setOnClickListener(this);
-        edit_pic.setOnClickListener(this);
+        //edit_pic.setOnClickListener(this);
         share.setOnClickListener(this);
         rate.setOnClickListener(this);
         //theme.setOnClickListener(this);
@@ -118,14 +119,14 @@ public class Settings extends Fragment implements View.OnClickListener {
         String username = sharedPreferenceSingleton.getSavedString(getContext(),"Name");
         name.setText(username);
         phone.setText(firebaseUser.getPhoneNumber());
-
-        Glide.with(getContext())
+        initials.setText(new Tasks().getInitial(username));
+       /* Glide.with(getContext())
                 .load(AppConstants.getProfileImage(firebaseUser.getPhoneNumber()))
                 .dontAnimate()
                 .placeholder(R.drawable.default_user)
                 .error(R.drawable.default_user)
                 .centerCrop()
-                .into(pic);
+                .into(pic);*/
 
         return view;
     }
@@ -182,13 +183,13 @@ public class Settings extends Fragment implements View.OnClickListener {
                 restartApp();
                 break;*/
 
-            case R.id.edit_pic:
+           /* case R.id.edit_pic:
                 checkPermission();
-            break;
+            break;*/
 
         }
     }
-
+/*
     public void checkPermission() {
         int currentAPIVersion = Build.VERSION.SDK_INT;
         if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
@@ -231,7 +232,7 @@ public class Settings extends Fragment implements View.OnClickListener {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(galleryIntent, RC_GALLERY);
-    }
+    }*/
     /*
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -251,11 +252,6 @@ public class Settings extends Fragment implements View.OnClickListener {
         startActivity(i);
     }*/
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -263,7 +259,7 @@ public class Settings extends Fragment implements View.OnClickListener {
         try {
             if (requestCode == RC_GALLERY && resultCode == RESULT_OK && null != data) {
 
-                loading.setVisibility(View.VISIBLE);
+                //loading.setVisibility(View.VISIBLE);
                 // Get the Image from data
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -328,13 +324,13 @@ public class Settings extends Fragment implements View.OnClickListener {
                     assert serverResponse != null;
 //                    Log.v("Response", serverResponse.toString());
                 }
-                loading.setVisibility(View.GONE);
+                //loading.setVisibility(View.GONE);
                 //progressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<ServerResponse> call, Throwable t) {
-                loading.setVisibility(View.GONE);
+                //loading.setVisibility(View.GONE);
             }
         });
 

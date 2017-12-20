@@ -24,7 +24,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/pic"
             android:layout_width="50dp"
@@ -34,9 +33,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/default_user"/>
+            app:srcCompat="@drawable/default_user"
+            android:src="@color/colorAccent"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#e0e0e0"
+            android:transitionName="pic"
+            tools:ignore="UnusedAttribute"/>
 
-        <!--<TextView
+        <TextView
             android:id="@+id/initials"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,8 +55,9 @@
             app:layout_constraintBottom_toBottomOf="@+id/pic"
             app:layout_constraintEnd_toEndOf="@+id/pic"
             app:layout_constraintStart_toStartOf="@+id/pic"
-            app:layout_constraintTop_toTopOf="@+id/pic" />
--->
+            app:layout_constraintTop_toTopOf="@+id/pic"
+            android:transitionName="initials"
+            tools:ignore="UnusedAttribute"/>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

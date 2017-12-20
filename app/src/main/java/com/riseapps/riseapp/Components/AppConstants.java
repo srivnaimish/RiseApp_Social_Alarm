@@ -1,5 +1,8 @@
 package com.riseapps.riseapp.Components;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.Toast;
@@ -22,6 +25,8 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.graphics.Paint.ANTI_ALIAS_FLAG;
+
 /**
  * Created by naimish on 31/10/17.
  */
@@ -40,6 +45,7 @@ public class AppConstants {
     public static final int DELETE_CHAT=1;
     public static final int CLEAR_CHAT=2;
     public static final int UPDATE_SUMMARY=3;
+    public static final int UPDATE_PENDING=4;
 
     public static final int SENT_MESSAGE=0;
     public static final int RECEIVED_MESSAGE =1;
