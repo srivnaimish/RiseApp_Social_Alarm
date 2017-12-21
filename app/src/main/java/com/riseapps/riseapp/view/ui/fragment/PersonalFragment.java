@@ -91,6 +91,13 @@ public class PersonalFragment extends Fragment {
             }
         });
 
+        empty_state.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openTimePicker();
+            }
+        });
+
         return view;
     }
 

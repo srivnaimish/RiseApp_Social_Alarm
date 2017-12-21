@@ -5,9 +5,11 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,15 +27,26 @@ import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 
 import com.riseapps.riseapp.executor.ChatSync;
+import com.riseapps.riseapp.executor.Network.RequestInterface;
+import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 
+import com.riseapps.riseapp.model.Pojo.Server.Message;
+import com.riseapps.riseapp.model.Pojo.Server.MessageRequest;
+import com.riseapps.riseapp.model.Pojo.Server.ServerResponse;
 import com.riseapps.riseapp.view.ui.activity.PickContacts;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 import static com.riseapps.riseapp.Components.AppConstants.INSERT_NEW_CHAT;
+import static com.riseapps.riseapp.Components.AppConstants.REMINDER;
 import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
 
 /**
@@ -172,20 +185,58 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Too
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         if(item.getItemId()==R.id.group){
-            if (time.getText().toString().length() == 0 || date.getText().toString().length() == 0) {
-                Toast.makeText(getContext(), "Enter a valid time and date", Toast.LENGTH_SHORT).show();
-            } else if (edit_note.getText().toString().length() == 0) {
-                Toast.makeText(getContext(), "Enter a reminder_row note", Toast.LENGTH_SHORT).show();
+
+            if(Tasks.isConnectedToNetwork(getContext())) {
+                if (time.getText().toString().length() == 0 || date.getText().toString().length() == 0) {
+                    Toast.makeText(getContext(), "Enter a valid time and date", Toast.LENGTH_SHORT).show();
+                } else if (edit_note.getText().toString().length() == 0) {
+                    Toast.makeText(getContext(), "Enter a reminder_row note", Toast.LENGTH_SHORT).show();
+                }
+
+                sendReminder(((PickContacts) getActivity()).getUID(), phones, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
+
+                ChatSync chatSync = new ChatSync(selected_Contacts, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString(), SENT_MESSAGE, true, ((PickContacts) getActivity()).getMyapp().getDatabase(), INSERT_NEW_CHAT);
+                chatSync.execute();
+
+            }else {
+                Snackbar.make(edit_image,"Not connected to the internet",Snackbar.LENGTH_SHORT).show();
             }
-
-            new AppConstants().sendReminder(((PickContacts)getActivity()).getUID(), phones, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
-
-            ChatSync chatSync=new ChatSync(selected_Contacts,calendar.getTimeInMillis(),edit_note.getText().toString(),edit_image.getText().toString(),SENT_MESSAGE,true,((PickContacts)getActivity()).getMyapp().getDatabase(),INSERT_NEW_CHAT);
-            chatSync.execute();
-            getActivity().finish();
         }
         return true;
     }
 
+    public void sendReminder(String sender, ArrayList<String> Recipients, long Time, String Note, String ImageURL) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(AppConstants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
+        RequestInterface requestInterface = retrofit.create(RequestInterface.class);
+
+        MessageRequest messageRequest = new MessageRequest();
+        messageRequest.setOperation(REMINDER);
+
+        Message message = new Message(sender, Recipients, Time, Note, ImageURL);
+        messageRequest.setMessage(message);
+
+        Snackbar.make(edit_image, "Sending Task ...", Snackbar.LENGTH_LONG).show();
+
+        Call<ServerResponse> response = requestInterface.chat(messageRequest);
+        response.enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
+                ServerResponse resp = response.body();
+                assert resp != null;
+                if (resp.getResult().equalsIgnoreCase("Success")) {
+                    Toast.makeText(getActivity(), resp.getMessage(), Toast.LENGTH_SHORT).show();
+                    getActivity().finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                 Snackbar.make(edit_image, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
 }

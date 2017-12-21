@@ -115,6 +115,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         chatSummary.setChat_contact_name(name);
         chatSummary.setChat_contact_number(phone);
         chatSummary.setRead(false);
+        chatSummary.setChat_last_message(note);
         myDB.chatDao().insertSummary(chatSummary);
 
         new AlarmCreator().setNewReminder(this,time,chat_entity.getMessage_id(),name,note,image);

@@ -19,16 +19,16 @@ import retrofit2.http.Part;
  */
 
 public interface RequestInterface {
-    @POST("/RiseApp/index.php")
+    @POST("/index.php")
     Call<ServerResponse> operation(@Body LoginRequest request);
 
-    @POST("/RiseApp/index.php")
+    @POST("/index.php")
     Call<ServerResponse> chat(@Body MessageRequest request);
 
-    @POST("/RiseApp/index.php")
+    @POST("/index.php")
     Call<ContactsResponse> contacts(@Body ContactRequest request);
 
     @Multipart
-    @POST("/RiseApp/dp_client.php")
+    @POST("/dp_client.php")
     Call<ServerResponse> uploadFile(@Part MultipartBody.Part file, @Part("file") RequestBody name);
 }

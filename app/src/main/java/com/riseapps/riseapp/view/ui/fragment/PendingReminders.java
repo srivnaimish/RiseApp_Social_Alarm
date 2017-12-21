@@ -5,6 +5,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -21,6 +22,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.executor.Interface.FabListener;
+import com.riseapps.riseapp.executor.Interface.Filter;
 import com.riseapps.riseapp.executor.Interface.RemindersCallback;
 import com.riseapps.riseapp.model.DB.Chat_Entity;
 import com.riseapps.riseapp.model.DB.Chat_Entity;
@@ -32,9 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PendingReminders extends Fragment implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+public class PendingReminders extends Fragment{
 
-    private ImageButton filter;
     private RecyclerView recyclerView;
     private ReminderAdapter reminderAdapter;
     private PendingViewModel pendingViewModel;
@@ -54,11 +56,23 @@ public class PendingReminders extends Fragment implements View.OnClickListener, 
         reminderAdapter=new ReminderAdapter(getContext(),new ArrayList<Chat_Entity>());
         recyclerView.setAdapter(reminderAdapter);
 
-        filter=view.findViewById(R.id.filter);
-        filter.setOnClickListener(this);
+        ((MainActivity) getActivity()).addFilterClickListener(new Filter() {
+            @Override
+            public void filterByPending() {
+                Snackbar.make(recyclerView,"Pending Reminders",Snackbar.LENGTH_SHORT).show();
+                pendingViewModel.getTodayList(((MainActivity)getActivity()).getMyapp().getDatabase()).observeForever(observer);
+                pendingViewModel= ViewModelProviders.of(PendingReminders.this).get(PendingViewModel.class);
+                pendingViewModel.getPendingList(((MainActivity)getActivity()).getMyapp().getDatabase()).observe(PendingReminders.this, observer);
+            }
 
-        pendingViewModel= ViewModelProviders.of(this).get(PendingViewModel.class);
-        pendingViewModel.getPendingList(((MainActivity)getActivity()).getMyapp().getDatabase()).observe(PendingReminders.this, observer);
+            @Override
+            public void filterByToday() {
+                Snackbar.make(recyclerView,"Today Reminders",Snackbar.LENGTH_SHORT).show();
+                pendingViewModel.getPendingList(((MainActivity)getActivity()).getMyapp().getDatabase()).observeForever(observer);
+                pendingViewModel= ViewModelProviders.of(PendingReminders.this).get(PendingViewModel.class);
+                pendingViewModel.getTodayList(((MainActivity)getActivity()).getMyapp().getDatabase()).observe(PendingReminders.this, observer);
+            }
+        });
 
         return view;
     }
@@ -79,27 +93,6 @@ public class PendingReminders extends Fragment implements View.OnClickListener, 
         return new PendingReminders();
     }
 
-    @Override
-    public void onClick(View view) {
-        PopupMenu popup = new PopupMenu(getContext(),view);
-        popup.setOnMenuItemClickListener(this);
-        popup.inflate(R.menu.filter);
-        popup.show();
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.pending:
-                pendingViewModel.getPendingList(((MainActivity)getActivity()).getMyapp().getDatabase()).observe(PendingReminders.this, observer);
-                return true;
-            case R.id.today:
-                pendingViewModel.getTodayList(((MainActivity)getActivity()).getMyapp().getDatabase()).observe(PendingReminders.this, observer);
-                return true;
-            default:
-                return false;
-        }
-    }
 }
 
 

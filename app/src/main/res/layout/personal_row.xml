@@ -63,7 +63,7 @@
             android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:fontFamily="@font/light"
-            android:text="Repeat"
+            android:text="@string/repeat"
             android:textSize="13sp"
             app:buttonTint="?android:textColorPrimary"
             android:textColor="?android:textColorPrimary"
@@ -189,7 +189,7 @@
                 android:drawablePadding="4dp"
                 android:drawableStart="@drawable/ic_music"
                 android:fontFamily="@font/light"
-                android:text="Sound"
+                android:text="@string/sound"
                 android:textAllCaps="false"
                 android:textSize="13sp" />
 
@@ -202,7 +202,7 @@
                 android:drawablePadding="4dp"
                 android:drawableStart="@drawable/ic_vibrate"
                 android:fontFamily="@font/light"
-                android:text="Vibrate"
+                android:text="@string/vibrate"
                 android:textAllCaps="false"
                 android:textSize="13sp" />
 
@@ -215,7 +215,7 @@
                 android:drawablePadding="4dp"
                 android:drawableStart="@drawable/ic_delete"
                 android:fontFamily="@font/light"
-                android:text="Delete"
+                android:text="@string/delete"
                 android:textAllCaps="false"
                 android:textSize="13sp" />
         </LinearLayout>
@@ -237,7 +237,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:text="am"
             android:fontFamily="@font/light"
             android:textColor="?android:textColorPrimary"
             android:textStyle="bold"

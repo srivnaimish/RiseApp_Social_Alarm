@@ -24,7 +24,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:text="9"
+            android:text="@string/_9"
             android:fontFamily="@font/semi_bold"
             android:textColor="@android:color/white"
             android:textSize="24sp"
@@ -37,7 +37,7 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:background="?iconDual"
             android:layout_weight="0.25"
-            android:text="3"
+            android:text="@string/_3"
             android:fontFamily="@font/semi_bold"
             android:textColor="@android:color/white"
             android:textSize="24sp"
@@ -51,7 +51,7 @@
             android:background="?iconDual"
             android:layout_weight="0.25"
             android:textColor="@android:color/white"
-            android:text="7"
+            android:text="@string/_7"
             android:fontFamily="@font/semi_bold"
             android:textSize="24sp"
             android:layout_marginStart="1dp" />
@@ -64,7 +64,7 @@
             android:background="?iconDual"
             android:layout_weight="0.25"
             android:textColor="@android:color/white"
-            android:text="6"
+            android:text="@string/_6"
             android:fontFamily="@font/semi_bold"
             android:textSize="24sp"
             android:layout_marginStart="1dp" />
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
             android:background="?iconDual"
-            android:text="2"
+            android:text="@string/_2"
             android:fontFamily="@font/semi_bold"
             android:textColor="@android:color/white"
             android:textSize="24sp"
@@ -101,7 +101,7 @@
             android:layout_weight="0.25"
             android:background="?iconDual"
             android:textColor="@android:color/white"
-            android:text="1"
+            android:text="@string/_1"
             android:fontFamily="@font/semi_bold"
             android:textSize="24sp"
             android:layout_marginStart="1dp" />
@@ -114,7 +114,7 @@
             android:layout_weight="0.25"
             android:background="?iconDual"
             android:textColor="@android:color/white"
-            android:text="0"
+            android:text="@string/_0"
             android:fontFamily="@font/semi_bold"
             android:textSize="24sp"
             android:layout_marginStart="1dp" />
@@ -129,7 +129,7 @@
             android:textColor="@android:color/white"
             android:layout_marginStart="1dp"
             android:fontFamily="@font/semi_bold"
-            android:text="C"
+            android:text="@string/_C"
             android:textSize="24sp" />
     </LinearLayout>
 
@@ -152,7 +152,7 @@
             android:layout_weight="0.25"
             android:background="?iconDual"
             android:textColor="@android:color/white"
-            android:text="5"
+            android:text="@string/_5"
             android:fontFamily="@font/semi_bold"
             android:textSize="24sp" />
 
@@ -165,7 +165,7 @@
             android:layout_weight="0.25"
             android:background="?iconDual"
             android:textColor="@android:color/white"
-            android:text="4"
+            android:text="@string/_4"
             android:fontFamily="@font/semi_bold"
             android:textSize="24sp" />
 
@@ -178,7 +178,7 @@
             android:layout_weight="0.25"
             android:background="?iconDual"
             android:textColor="@android:color/white"
-            android:text="8"
+            android:text="@string/_8"
             android:fontFamily="@font/semi_bold"
             android:textSize="24sp" />
 
@@ -191,7 +191,7 @@
             android:layout_weight="0.25"
             android:textColor="@android:color/white"
             android:background="?iconDual"
-            android:text="Bck"
+            android:text="@string/_BCK"
             android:fontFamily="@font/semi_bold"
             android:textAllCaps="false"
             android:textSize="24sp" />
@@ -295,7 +295,7 @@
         android:layout_marginTop="8dp"
         android:textColor="?android:textColorSecondary"
         android:textSize="12sp"
-        android:text="Answer then tap the buttons"
+        android:text="@string/math_hint"
         app:layout_constraintEnd_toEndOf="@+id/ans"
         app:layout_constraintStart_toStartOf="@+id/ans"
         app:layout_constraintTop_toBottomOf="@+id/ans" />

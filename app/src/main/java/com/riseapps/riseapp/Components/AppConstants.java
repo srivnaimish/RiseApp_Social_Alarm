@@ -37,15 +37,14 @@ public class AppConstants {
     public static final int RC_RINGTONE = 101;
     public static final int RC_GALLERY = 100;
 
-    public static final int GET_CONTACTS_FROM_DB = 0;
-    public static final int RESYNC_CONTACTS = 1;
-    public static final int INSERT_CONTACTS_IN_DB= 2;
-
     public static final int INSERT_NEW_CHAT=0;
     public static final int DELETE_CHAT=1;
     public static final int CLEAR_CHAT=2;
     public static final int UPDATE_SUMMARY=3;
-    public static final int UPDATE_PENDING=4;
+    public static final int GET_PENDING_REMINDERS=4;
+    public static final int GET_TODAY_REMINDERS=5;
+    public static final int UPDATE_PENDING=6;
+
 
     public static final int SENT_MESSAGE=0;
     public static final int RECEIVED_MESSAGE =1;
@@ -60,44 +59,8 @@ public class AppConstants {
     public static final String REMINDER = "reminder";
     public static final String GET_CONTACTS = "GET_CONTACTS";
 
-/*
     public static final String BASE_URL = "http://riseapp.000webhostapp.com/";
-*/
-public static final String BASE_URL = "http://192.168.29.153/";
-
-    public void sendReminder(String sender, ArrayList<String> Recipients, long Time, String Note, String ImageURL) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AppConstants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        RequestInterface requestInterface = retrofit.create(RequestInterface.class);
-
-        MessageRequest messageRequest = new MessageRequest();
-        messageRequest.setOperation(AppConstants.REMINDER);
-
-        Message message = new Message(sender, Recipients, Time, Note, ImageURL);
-        messageRequest.setMessage(message);
-
-        Call<ServerResponse> response = requestInterface.chat(messageRequest);
-        response.enqueue(new Callback<ServerResponse>() {
-            @Override
-            public void onResponse(Call<ServerResponse> call, retrofit2.Response<ServerResponse> response) {
-                ServerResponse resp = response.body();
-                assert resp != null;
-                Log.d(REMINDER, resp.getResult());
-                if (resp.getResult().equalsIgnoreCase("Success")) {
-                    Log.d(REMINDER, resp.getMessage());
-                    //Toast.makeText(context, resp.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ServerResponse> call, Throwable t) {
-                // Snackbar.make(get, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
-            }
-        });
-    }
+/*public static final String BASE_URL = "http://192.168.29.153/";*/
 
     public void sendReminderToSingleUser(String sender, String Recipient, long Time, String Note, String ImageURL) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -114,10 +77,6 @@ public static final String BASE_URL = "http://192.168.29.153/";
         Recipients.add(Recipient);
         Message message = new Message(sender, Recipients, Time, Note, ImageURL);
         messageRequest.setMessage(message);
-
-        Gson gson = new GsonBuilder().create();
-        String json = gson.toJson(messageRequest);
-        Log.d("Request",json);
 
         Call<ServerResponse> response = requestInterface.chat(messageRequest);
         response.enqueue(new Callback<ServerResponse>() {

@@ -2,6 +2,8 @@ package com.riseapps.riseapp.executor;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.TypedValue;
 
 import com.google.gson.Gson;
@@ -65,6 +67,17 @@ public class Tasks {
         if (sharedPreferenceSingelton.getSavedInt(context, "Theme") == 1)
             return 1;
         return 0;
+    }
+
+    public static boolean isConnectedToNetwork(Context context){
+        ConnectivityManager cm =
+                (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+        return isConnected;
     }
 
 }

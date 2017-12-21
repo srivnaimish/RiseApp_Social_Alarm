@@ -56,9 +56,8 @@
         android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
         android:background="@color/colorAccent"
-        android:onClick="startVerification"
         android:padding="16dp"
-        android:text="Verify Number"
+        android:text="@string/give_permission"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textStyle="bold"
@@ -66,7 +65,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:visibility="gone"
+        android:onClick="buttonClicked"
        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:fabSize="mini"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_next"
+        app:layout_constraintBottom_toBottomOf="@id/linearLayout"
+        app:elevation="1dp"
+        android:onClick="nextPage"/>
 
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -134,7 +146,7 @@
                     android:id="@+id/edit_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Your Name"
+                    android:hint="@string/your_name"
                     android:padding="8dp"
                      />
             </android.support.design.widget.TextInputLayout>
@@ -148,7 +160,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="50dp"
                 android:onClick="doneAll"
-                android:text="Done"
+                android:text="@android:string/ok"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/usernameWrapper"

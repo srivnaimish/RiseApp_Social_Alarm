@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -88,10 +89,14 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId()==R.id.sync){
-                    loading_screen.setVisibility(View.VISIBLE);
-                    ContactsSync contactsSync = new ContactsSync(getContentResolver(),getMyapp().getDatabase());
-                    contactsSync.execute();
-                    Log.d("PickContact","Syncing");
+                    if(Tasks.isConnectedToNetwork(PickContacts.this)) {
+                        loading_screen.setVisibility(View.VISIBLE);
+                        ContactsSync contactsSync = new ContactsSync(getContentResolver(), getMyapp().getDatabase());
+                        contactsSync.execute();
+                        Log.d("PickContact", "Syncing");
+                    }else {
+                        Snackbar.make(recyclerView,"Not connected to the internet",Snackbar.LENGTH_SHORT).show();
+                    }
                 }
                 return true;
             }

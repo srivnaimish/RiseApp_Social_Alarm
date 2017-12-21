@@ -134,10 +134,10 @@
                         android:drawablePadding="8dp"
                         android:drawableStart="@drawable/ic_time"
                         android:fontFamily="@font/light"
-                        android:hint="09.00am"
+                        android:hint="@string/time_hint"
                         android:onClick="openTimePicker"
                         android:textColor="?android:textColorPrimary"
-                        android:textColorHint="?android:textColorSecondary"
+                        android:textColorHint="#757575"
                         android:textSize="13sp" />
 
                     <TextView
@@ -148,10 +148,10 @@
                         android:drawablePadding="8dp"
                         android:drawableStart="@drawable/ic_calendar"
                         android:fontFamily="@font/light"
-                        android:hint="22/11/2013"
+                        android:hint="@string/date_hint"
                         android:onClick="openDatePicker"
                         android:textColor="?android:textColorPrimary"
-                        android:textColorHint="?android:textColorSecondary"
+                        android:textColorHint="#757575"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -161,7 +161,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/light"
-                    android:hint="Image Url(Option)"
+                    android:hint="@string/image_url_option"
+                    android:textColorHint="#757575"
                     android:singleLine="true"
                     android:textSize="13sp" />
 
@@ -176,13 +177,13 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/transparent"
-                android:hint="Type a reminder"
+                android:hint="@string/note_hint"
                 android:imeOptions="actionSend|flagNoEnterAction"
                 android:inputType="textMultiLine"
                 android:maxLength="1000"
                 android:maxLines="5"
                 android:textColor="?android:textColorPrimary"
-                android:textColorHint="?android:textColorSecondary"
+                android:textColorHint="#757575"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -198,7 +199,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_margin="12dp"
-            android:onClick="sendButton">
+            >
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="40dp"
@@ -208,7 +209,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:onClick="sendButton"/>
 
             <ImageButton
                 android:layout_width="wrap_content"

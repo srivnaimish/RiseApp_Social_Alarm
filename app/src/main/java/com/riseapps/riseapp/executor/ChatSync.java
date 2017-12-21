@@ -80,6 +80,7 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
                 break;
 
             case UPDATE_PENDING:
+                updatePending();
                 break;
         }
 
@@ -127,6 +128,5 @@ public class ChatSync extends AsyncTask<Void, Void, Void> {
     private void updatePending() {
         myDB.chatDao().updatePendingStatus(message_id,true);
     }
-
 
 }

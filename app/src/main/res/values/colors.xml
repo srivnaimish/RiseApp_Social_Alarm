@@ -5,7 +5,7 @@
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="textColorSecondary">#EEEEEE</color>
     <color name="colorPrimaryFontDark">#FAFAFA</color>-->
-    <color name="colorAccent">#ff9800</color>
+    <color name="colorAccent">#0091EA</color>
     <!--<color name="colorMainBackground">#1E1E28</color>-->
 
     <color name="colorPrimary1">#FFFFFF</color>
@@ -14,13 +14,11 @@
     <color name="textColorSecondary1">#424242</color>
     <color name="colorMainBackground1">#FFFFFF</color>
 
-
-    <color name="color0">#faf3dd</color>
-    <color name="color1">#bbbac6</color>
-    <color name="color2">#1c0f13</color>
+    <color name="color1">#ffcdd2</color>
+    <color name="color2">#E1BEE7</color>
     <color name="color3">#bbada0</color>
-    <color name="color4">#32021f</color>
-    <color name="color5">#E68364</color>
+    <color name="color4">#FFE0B2</color>
+    <color name="color5">#B2EBF2</color>
 
 
 </resources>

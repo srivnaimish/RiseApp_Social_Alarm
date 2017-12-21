@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/regular"
-            android:text="Tap to schedule reminders"
+            android:text="@string/feeds_empty"
             android:textColor="?android:textColorSecondary"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -116,7 +116,7 @@ public class Settings extends Fragment implements View.OnClickListener {
         assert ((MainActivity)getActivity()) != null;
         firebaseUser = ((MainActivity)getActivity()).currentUser;
 
-        String username = sharedPreferenceSingleton.getSavedString(getContext(),"Name");
+        String username = firebaseUser.getDisplayName();
         name.setText(username);
         phone.setText(firebaseUser.getPhoneNumber());
         initials.setText(new Tasks().getInitial(username));

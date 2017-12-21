@@ -1,32 +1,26 @@
 package com.riseapps.riseapp.view.ui.activity;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ImageButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.riseapps.riseapp.R;
-import com.riseapps.riseapp.executor.SyncReciever;
+import com.riseapps.riseapp.executor.Interface.Filter;
 import com.riseapps.riseapp.view.Adapters.SectionPagerAdapter;
 import com.riseapps.riseapp.executor.ContactsSync;
 import com.riseapps.riseapp.executor.Interface.FabListener;
@@ -36,11 +30,9 @@ import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.view.ui.fragment.Settings;
 
-import java.util.Calendar;
-
 import static com.riseapps.riseapp.Components.AppConstants.RC_RINGTONE;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,PopupMenu.OnMenuItemClickListener {
 
     private static final String TAG = "SIGN IN";
     private ViewPager mViewPager;
@@ -52,6 +44,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FabListener fabListener1;
     private MyApplication myapp;
     private Toolbar toolbar;
+    private ImageButton filter;
+    private BottomNavigationView bottomNavigationView;
+    private MenuItem prevMenuItem;
+    private Filter filter_menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         myapp = (MyApplication) getApplicationContext();
 
-        TabLayout tabLayout = findViewById(R.id.tablayout);
+        //TabLayout tabLayout = findViewById(R.id.tablayout);
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
@@ -73,9 +69,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mViewPager = findViewById(R.id.viewpager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-        boolean reminder_clicked=getIntent().getBooleanExtra("Reminder Clicked",false);
-        if(!reminder_clicked)
-        mViewPager.setCurrentItem(1);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+
         toolbar = findViewById(R.id.toolbar);
 
         toolbar.setNavigationIcon(R.drawable.settings);
@@ -91,6 +86,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        filter = findViewById(R.id.filter);
+        filter.setOnClickListener(this);
+
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -100,13 +98,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onPageSelected(int position) {
                 if (position == 2) {
                     fab.setImageResource(R.drawable.ic_add_alarm);
+                    filter.setVisibility(View.GONE);
                     fab.show();
                 } else if (position == 1) {
                     fab.setImageResource(R.drawable.ic_quill);
+                    filter.setVisibility(View.GONE);
                     fab.show();
                 } else {
                     fab.hide();
+                    filter.setVisibility(View.VISIBLE);
                 }
+
+                if (prevMenuItem != null) {
+                    prevMenuItem.setChecked(false);
+                }
+                else
+                {
+                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
+                }
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
+                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
 
             }
 
@@ -116,10 +127,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        tabLayout.setupWithViewPager(mViewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_pending);
-        tabLayout.getTabAt(1).setIcon(R.drawable.tab_chat);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_time);
+        bottomNavigationView.setOnNavigationItemSelectedListener(
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.tab1:
+                                mViewPager.setCurrentItem(0);
+                                break;
+                            case R.id.tab2:
+                                mViewPager.setCurrentItem(1);
+                                break;
+                            case R.id.tab3:
+                                mViewPager.setCurrentItem(2);
+                                break;
+                        }
+                        return false;
+                    }
+                });
+
+        boolean reminder_clicked=getIntent().getBooleanExtra("Reminder Clicked",false);
+        if(!reminder_clicked)
+            mViewPager.setCurrentItem(1);
 
     }
 
@@ -144,6 +173,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     fabListener1.onFabClick();
                 }
                 break;
+            case R.id.filter:
+                PopupMenu popup = new PopupMenu(this,view);
+                popup.setOnMenuItemClickListener(this);
+                popup.inflate(R.menu.filter);
+                popup.show();
         }
     }
 
@@ -154,11 +188,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mAuth.getCurrentUser() != null) {
             currentUser = mAuth.getCurrentUser();
             myapp.setUID(currentUser.getUid());
-        }
-
-        if(sharedPreferenceSingleton.getSavedBoolean(this,"Clear")){
-            myapp.clearMemory();
-            sharedPreferenceSingleton.saveAs(this,"Cache",false);
         }
 
         if(!sharedPreferenceSingleton.getSavedBoolean(this,"Cached_Contacts")) {
@@ -190,4 +219,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onBackPressed();
     }
 
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.pending:
+                filter_menu.filterByPending();
+                return true;
+            case R.id.today:
+                filter_menu.filterByToday();
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public void addFilterClickListener(Filter filter_menu) {
+        this.filter_menu = filter_menu;
+    }
 }

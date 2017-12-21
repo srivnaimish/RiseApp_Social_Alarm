@@ -50,6 +50,4 @@
             tools:text="You can send reminders to other people by simply selecting a reminder time,date and reminder note." />
     </LinearLayout>
 
-
-
 </android.support.constraint.ConstraintLayout>

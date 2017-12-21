@@ -2,22 +2,99 @@
     <string name="app_name">RiseApp</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+
+
+    <!--Walkthrough Activity-->
+    <string name="walkthrough_heading_1">Assign tasks to others</string>
+    <string name="walkthrough_subheading_1">Remind Bob to bring the groceries at 5pm or jog Alice\'s memory to water the plants at 4pm.</string>
+    <string name="walkthrough_heading_2">Never miss any morning sessions.</string>
+    <string name="walkthrough_subheading_2">Simplest way to set and manage personal alarms.</string>
+    <string name="walkthrough_heading_3">Find your friends</string>
+    <string name="walkthrough_subheading_3">Allow RiseApp to access your contacts so you can find your friends faster.</string>
+    <string name="give_permission">Give Permission</string>
+    <string name="verify">Verify Phone Number</string>
+    <string name="permission_rational">Contacts access needed to show your RiseApp contacts</string>
+    <string name="your_name">Your Name</string>
+
+    <!--Assisstant Activity-->
+    <string name="assistant">Gotcha! Will wake you at</string>
+
+    <!--Chat Activity-->
+    <string name="time_hint">09.00am</string>
+    <string name="date_hint">01/01/2018</string>
+    <string name="image_url_option">Image Url(Optional)</string>
+    <string name="note_hint">What\'s the task?</string>
+    <string name="chat_background">Chat Background</string>
+    <string name="clear_chat">Clear Chat</string>
+
+    <!--Math Activity-->
+    <string name="_9">9</string>
+    <string name="_8">8</string>
+    <string name="_7">7</string>
+    <string name="_6">6</string>
+    <string name="_5">5</string>
+    <string name="_4">4</string>
+    <string name="_3">3</string>
+    <string name="_2">2</string>
+    <string name="_1">1</string>
+    <string name="_0">0</string>
+    <string name="_C">C</string>
+    <string name="_BCK">Bck</string>
+    <string name="math_hint">Answer then tap the buttons</string>
+
+    <!--Pick Contacts Activity-->
+    <string name="syncing_contacts">Syncing Contacts</string>
+    <string name="invite"><![CDATA[Invite family & friends to RiseApp]]></string>
+    <string name="invite_button">Invite</string>
+    <string name="refresh_contacts">Refresh Contacts</string>
+
+    <!--Simple Wake Activity-->
+    <string name="stop">Stop</string>
+    <string name="snooze">Snooze</string>
+    <string name="alarm_stopped">Alarm Stopped</string>
+
+    <!--Settings -->
+    <string name="select_wake_method">Select wake method</string>
+    <string name="support_developement">Support Development</string>
+    <string name="rate_with_5_stars">Rate with 5 stars</string>
+    <string name="invite_your_friends">Invite your friends</string>
+
+    <!--Fragment Feeds-->
+    <string name="feeds_empty">Tap to assign Tasks</string>
+    <string name="pending">Pending completion</string>
+    <string name="todays">Today\'s Reminders</string>
+
+    <!--Fragment Alarm-->
+    <string name="alarms_empty">Set up a new alarm</string>
+    <string name="repeat">Repeat</string>
     <string name="off">Off</string>
     <string name="on">On</string>
+    <string name="sound">Sound</string>
+    <string name="vibrate">Vibrate</string>
+    <string name="delete">Delete</string>
 
-    <string name="walkthrough_heading_1">Send reminders to others</string>
-    <string name="walkthrough_subheading_1">Remind Bob to bring the groceries at 5pm or jog Alice\'s memory to water the plants at 4pm.</string>
+    <!--Fragment Tasks-->
+    <string name="tasks_empty">All Completed</string>
+    <string name="completed">Completed</string>
+    <string name="task">Task</string>
 
-    <string name="walkthrough_heading_2">Add an alarm for yourself</string>
-    <string name="walkthrough_subheading_2">Simplest way to set and manage alarms.</string>
+    <!--Fragment Group Reminder-->
+    <string name="send_group_task">Send Group Task</string>
+    <string name="send">Send</string>
+    <string name="selected_contacts">Selected Contacts</string>
+    <string name="time_for_task">Time for task?</string>
+    <string name="max_1000_characters">(max 1000 characters)</string>
+    <string name="task_note">Eg- Happy birthday Henry!</string>
+    <string name="attach_a_photo_url">Attach a photo URL</string>
+    <string name="optional">(Optional)</string>
+    <string name="image_hint">Eg- https://pixabay.com/get /birthday-cake-380178_1920.jpg</string>
 
-    <string name="walkthrough_heading_3">Permission to access your contacts</string>
-    <string name="walkthrough_subheading_3">Contacts access helps us sync your RiseApp Contacts.\n</string>
-
-
-    <string name="pending">Pending</string>
-    <string name="todays">Today</string>
-
+    <!--Method Dialog-->
+    <string name="tap_dismiss">Tap Dismiss</string>
+    <string name="calculate">Calculate</string>
+    <string name="how_to_wake_you">How to wake you?</string>
+    <string name="chat">Chat</string>
+    <string name="alarms">Alarms</string>
 
 
 </resources>

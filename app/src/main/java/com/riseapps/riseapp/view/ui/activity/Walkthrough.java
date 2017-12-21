@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -27,8 +28,11 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.ResultCodes;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
@@ -59,36 +63,43 @@ public class Walkthrough extends AppCompatActivity {
     private EditText editText;
     private ImageView initial_background;
     private TextView initials;
-    private int[] buttons={R.id.b1,R.id.b2,R.id.b3};
+    private int[] buttons = {R.id.b1, R.id.b2, R.id.b3};
+    private ViewPager viewPager;
+    private Button start;
+    private int currentAPIVersion;
+    private FloatingActionButton next;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_walkthrough);
-        name_card=findViewById(R.id.cardView);
-        editText=findViewById(R.id.edit_name);
-        initial_background=findViewById(R.id.bell);
-        initials=findViewById(R.id.initials);
-        ViewPager viewPager = findViewById(R.id.viewpager);
+        name_card = findViewById(R.id.cardView);
+        editText = findViewById(R.id.edit_name);
+        initial_background = findViewById(R.id.bell);
+        initials = findViewById(R.id.initials);
+        viewPager = findViewById(R.id.viewpager);
+        start = findViewById(R.id.start);
         findViewById(buttons[0]).setSelected(true);
         viewPager.setAdapter(new CustomViewPagerAdapter());
         viewPager.setOffscreenPageLimit(2);
+        next = findViewById(R.id.next);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
             public void onPageSelected(int position) {
-                for (int i=0;i<3;i++){
+                for (int i = 0; i < 3; i++) {
                     findViewById(buttons[i]).setSelected(false);
                 }
                 findViewById(buttons[position]).setSelected(true);
-                if(position==2){
-                    checkPermission();
-                    findViewById(R.id.start).setVisibility(View.VISIBLE);
+                if (position == 2) {
+                    start.setVisibility(View.VISIBLE);
+                    next.hide();
+                } else {
+                    next.show();
                 }
             }
 
@@ -97,44 +108,55 @@ public class Walkthrough extends AppCompatActivity {
 
             }
         });
+        currentAPIVersion = Build.VERSION.SDK_INT;
+
+        if (currentAPIVersion < android.os.Build.VERSION_CODES.M) {
+            start.setText(getString(R.string.verify));
+        }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    public void buttonClicked(View view) {      //Step 1
+        if (Tasks.isConnectedToNetwork(this)) {
+            if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
+                checkPermission();
+            } else {
+                startVerification();
+            }
+        } else
+            Snackbar.make(viewPager, "Not connected to the internet", Snackbar.LENGTH_SHORT).show();
     }
 
     public void checkPermission() {
-        int currentAPIVersion = Build.VERSION.SDK_INT;
-        if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissionsRequired[0])) {
-                    Snackbar.make(findViewById(android.R.id.content),
-                            "Contacts access needed to show your RiseApp contacts",
-                            Snackbar.LENGTH_INDEFINITE).setAction("ENABLE",
-                            new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    ActivityCompat.requestPermissions(Walkthrough.this,
-                                            permissionsRequired,
-                                            REQUEST_PERMISSION);
-                                }
-                            }).show();
-                } else {
-                    ActivityCompat.requestPermissions(this, permissionsRequired, REQUEST_PERMISSION);
-                }
+
+        if (ContextCompat.checkSelfPermission(this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permissionsRequired[0])) {
+                Snackbar.make(findViewById(android.R.id.content),
+                        R.string.permission_rational,
+                        Snackbar.LENGTH_INDEFINITE).setAction("ENABLE",
+                        new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                ActivityCompat.requestPermissions(Walkthrough.this,
+                                        permissionsRequired,
+                                        REQUEST_PERMISSION);
+                            }
+                        }).show();
+            } else {
+                ActivityCompat.requestPermissions(this, permissionsRequired, REQUEST_PERMISSION);
             }
+        } else {
+            startVerification();
         }
-    }
+    }         //Step 2
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull final String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_PERMISSION:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //gotoMain();
+                    startVerification();
                 } else {
-                    /*Snackbar.make(viewPager, R.string.permission_rationale,
+                    Snackbar.make(viewPager, R.string.permission_rational,
                             Snackbar.LENGTH_INDEFINITE)
                             .setAction(android.R.string.ok, new View.OnClickListener() {
                                 @Override
@@ -143,13 +165,14 @@ public class Walkthrough extends AppCompatActivity {
                                             permissionsRequired,
                                             REQUEST_PERMISSION);
                                 }
-                            }).show();*/
+                            }).show();
                 }
                 break;
         }
     }
 
-    public void startVerification(View view) {
+    //Step 3
+    public void startVerification() {
         mAuth = FirebaseAuth.getInstance();
         startActivityForResult(
                 AuthUI.getInstance()
@@ -163,6 +186,7 @@ public class Walkthrough extends AppCompatActivity {
                 RC_SIGN_IN);
     }
 
+    //Step 4
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -172,17 +196,21 @@ public class Walkthrough extends AppCompatActivity {
             if (resultCode == ResultCodes.OK) {
                 currentUser = mAuth.getCurrentUser();
                 FirebaseMessaging.getInstance().subscribeToTopic(currentUser.getUid());
-                viewCardView();
+                if (currentUser.getDisplayName() == null)
+                    viewCardView();
+                else
+                    //Toast.makeText(this, ""+currentUser.getDisplayName(), Toast.LENGTH_SHORT).show();
+                    loginUserOnServer();
                 return;
             } else {
                 // Sign in failed
                 if (response == null) {
                     // User pressed back button
-                    Log.e("Login", "Login canceled by User");
+                    Toast.makeText(this, "Login Canceled", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (response.getErrorCode() == ErrorCodes.NO_NETWORK) {
-                    Log.e("Login", "No Internet Connection");
+                    Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (response.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
@@ -194,23 +222,38 @@ public class Walkthrough extends AppCompatActivity {
         }
     }
 
-    private void viewCardView(){
+    //Step 5
+    private void viewCardView() {
         name_card.setVisibility(View.VISIBLE);
         editText.requestFocus();
     }
 
-    public void doneAll(View view) {
-        if(editText.getText().toString().equalsIgnoreCase("")){
+    //Step 6
+    public void doneAll(final View view) {
+        if (editText.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(this, "Please enter your name", Toast.LENGTH_SHORT).show();
-        }else {
-            initials.setText(new Tasks().getInitial(editText.getText().toString()));
-            initial_background.startAnimation(AnimationUtils.loadAnimation(this,R.anim.selection));
-            initial_background.setVisibility(View.VISIBLE);
-            view.setClickable(false);
-            loginUserOnServer();
+        } else {
+            final String Name = editText.getText().toString();
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(Name)
+                    .build();
+            currentUser.updateProfile(profileUpdates)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            initials.setText(new Tasks().getInitial(Name));
+                            initial_background.startAnimation(AnimationUtils.loadAnimation(Walkthrough.this, R.anim.selection));
+                            initial_background.setVisibility(View.VISIBLE);
+                            view.setClickable(false);
+                            loginUserOnServer();
+                        }
+                    });
+
+            //;
         }
     }
 
+    //Step 7
     private void loginUserOnServer() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AppConstants.BASE_URL)
@@ -221,7 +264,7 @@ public class Walkthrough extends AppCompatActivity {
 
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setOperation(AppConstants.LOGIN);
-        User user = new User(currentUser.getUid(),editText.getText().toString(), currentUser.getPhoneNumber());
+        User user = new User(currentUser.getUid(), currentUser.getDisplayName(), currentUser.getPhoneNumber());
         loginRequest.setUser(user);
 
         Call<ServerResponse> response = requestInterface.operation(loginRequest);
@@ -241,16 +284,22 @@ public class Walkthrough extends AppCompatActivity {
         });
     }
 
+    //Step 8
     public void gotoMain() {
         editText.clearFocus();
         sharedPreferenceSingleton.saveAs(this, "Logged", true);
-        sharedPreferenceSingleton.saveAs(this,"Name",editText.getText().toString());
         startActivity(new Intent(this, MainActivity.class));
-        overridePendingTransition(R.anim.view_enter,R.anim.view_exit);
+        overridePendingTransition(R.anim.view_enter, R.anim.view_exit);
         finish();
     }
 
-    private class CustomViewPagerAdapter extends PagerAdapter{
+    //Step 9
+    public void nextPage(View view) {
+        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+    }
+
+
+    private class CustomViewPagerAdapter extends PagerAdapter {
 
         @Override
         public int getCount() {
@@ -259,24 +308,24 @@ public class Walkthrough extends AppCompatActivity {
 
         @Override
         public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view == ((View)object);
+            return view == ((View) object);
         }
 
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             View view = getLayoutInflater().inflate(R.layout.pageritem, container, false);
-            ImageView displayImage = (ImageView)view.findViewById(R.id.image);
-            TextView heading = (TextView)view.findViewById(R.id.heading);
-            TextView subheading = (TextView)view.findViewById(R.id.subheading);
-            switch (position){
+            ImageView displayImage = (ImageView) view.findViewById(R.id.image);
+            TextView heading = (TextView) view.findViewById(R.id.heading);
+            TextView subheading = (TextView) view.findViewById(R.id.subheading);
+            switch (position) {
                 case 0:
                     displayImage.setImageResource(R.drawable.ic_walkthrough1);
                     heading.setText(getString(R.string.walkthrough_heading_1));
                     subheading.setText(getString(R.string.walkthrough_subheading_1));
                     break;
                 case 1:
-                    displayImage.setImageResource(R.drawable.ic_time);
+                    displayImage.setImageResource(R.drawable.ic_walkthrough2);
                     heading.setText(getString(R.string.walkthrough_heading_2));
                     subheading.setText(getString(R.string.walkthrough_subheading_2));
                     break;

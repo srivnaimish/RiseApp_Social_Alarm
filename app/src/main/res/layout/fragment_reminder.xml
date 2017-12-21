@@ -27,33 +27,21 @@
         android:orientation="vertical"
         app:layout_constraintVertical_bias="0.4">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0"
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:srcCompat="@drawable/ic_check"
+            android:tint="@color/colorAccent"
             android:layout_gravity="center_horizontal"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="60sp" />
+            />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="pending reminders"
-            android:textStyle=""
+            android:text="@string/tasks_empty"
             android:textColor="?android:textColorSecondary"
             android:textSize="15sp" />
     </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/filter"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_filter"
-        android:background="@drawable/ripple"/>
 
 </android.support.constraint.ConstraintLayout>

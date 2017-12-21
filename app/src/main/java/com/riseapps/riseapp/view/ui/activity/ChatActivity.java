@@ -4,9 +4,11 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -185,29 +188,26 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             hiddenCardView.setVisibility(View.VISIBLE);
             return;
         }
-        if (time.getText().toString().length() == 0 || date.getText().toString().length() == 0) {
-            Toast.makeText(ChatActivity.this, "Enter a valid time and date", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (edit_note.getText().toString().length() == 0) {
-            Toast.makeText(ChatActivity.this, "Enter a reminder_row note", Toast.LENGTH_SHORT).show();
-            return;
+        if(Tasks.isConnectedToNetwork(this)) {
+            if (time.getText().toString().length() == 0 || date.getText().toString().length() == 0) {
+                Toast.makeText(ChatActivity.this, "Enter a valid time and date", Toast.LENGTH_SHORT).show();
+                return;
+            } else if (edit_note.getText().toString().length() == 0) {
+                Toast.makeText(ChatActivity.this, "Enter a reminder_row note", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            new AppConstants().sendReminderToSingleUser(myApplication.getUID(), chat_id, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
+
+            ArrayList<Contact_Entity> contact_entities = new ArrayList<>();
+            contact_entities.add(new Contact_Entity(nameString, chat_id, true));
+            ChatSync chatSync = new ChatSync(contact_entities, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString(), SENT_MESSAGE, true, myApplication.getDatabase(), INSERT_NEW_CHAT);
+            chatSync.execute();
+
+            hideKeyboard();
+        }else {
+            Snackbar.make(chat_background,"Not connected to the internet",Snackbar.LENGTH_SHORT).show();
         }
-
-        new AppConstants().sendReminderToSingleUser(myApplication.getUID(), chat_id, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
-
-        ArrayList<Contact_Entity> contact_entities=new ArrayList<>();
-        contact_entities.add(new Contact_Entity(nameString,chat_id,true));
-        ChatSync chatSync=new ChatSync(contact_entities,calendar.getTimeInMillis(),edit_note.getText().toString(),edit_image.getText().toString(),SENT_MESSAGE,true,myApplication.getDatabase(),INSERT_NEW_CHAT);
-        chatSync.execute();
-
-        Chat_Entity chat_entity=new Chat_Entity();
-        chat_entity.setTime(calendar.getTimeInMillis());
-        chat_entity.setNote(edit_note.getText().toString());
-        chat_entity.setImage(edit_image.getText().toString());
-
-        hiddenCardView.setVisibility(View.GONE);
-        edit_note.setText("");
-        edit_note.clearFocus();
     }
 
     @Override
@@ -283,6 +283,19 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    public void hideKeyboard(){
+        hiddenCardView.setVisibility(View.GONE);
+        edit_note.setText("");
+
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            edit_note.clearFocus();
+        }
+
     }
 
 
