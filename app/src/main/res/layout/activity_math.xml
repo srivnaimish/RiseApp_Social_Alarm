@@ -209,7 +209,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/ans"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ans"
-        android:onClick="snoozeAlarm"/>
+        android:onClick="snoozeAlarm" />
 
     <ImageButton
         android:id="@+id/stop"
@@ -223,8 +223,7 @@
         app:layout_constraintTop_toTopOf="@+id/ans"
         app:srcCompat="@drawable/ic_sound_off"
         android:background="@drawable/border_background"
-        android:onClick="stopAlarm"
-        />
+        android:onClick="stopAlarm" />
 
     <TextView
         android:id="@+id/ans"
@@ -310,6 +309,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="?iconDual"
         android:visibility="invisible">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -318,8 +318,7 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:textSize="36sp"
-            android:fontFamily="@font/light"
-            />
+            android:fontFamily="@font/light" />
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

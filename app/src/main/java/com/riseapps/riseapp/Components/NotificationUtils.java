@@ -83,7 +83,7 @@ public class NotificationUtils extends ContextWrapper {
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 2, i, PendingIntent.FLAG_ONE_SHOT);
         return new Notification.Builder(getApplicationContext())
                 .setContentIntent(resultPendingIntent)
-                .setContentTitle("You have new reminders")
+                .setContentTitle("You have new tasks")
                 .setContentText(title)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(largeIcon)
@@ -99,8 +99,7 @@ public class NotificationUtils extends ContextWrapper {
         Notification.BigTextStyle bigText=new Notification.BigTextStyle();
         bigText.bigText(details.get(1));
         bigText.setBigContentTitle(details.get(0));
-        if (details.get(2) != null)
-            bigText.setSummaryText("See Image");
+        bigText.setSummaryText("See Utils");
 
         return new Notification.Builder(getApplicationContext())
                 .setContentIntent(resultPendingIntent)

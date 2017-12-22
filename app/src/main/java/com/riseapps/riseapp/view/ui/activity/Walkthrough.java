@@ -38,7 +38,7 @@ import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Network.RequestInterface;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
-import com.riseapps.riseapp.executor.Tasks;
+import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.model.Pojo.Server.LoginRequest;
 import com.riseapps.riseapp.model.Pojo.Server.ServerResponse;
 import com.riseapps.riseapp.model.Pojo.Server.User;
@@ -116,7 +116,7 @@ public class Walkthrough extends AppCompatActivity {
     }
 
     public void buttonClicked(View view) {      //Step 1
-        if (Tasks.isConnectedToNetwork(this)) {
+        if (Utils.isConnectedToNetwork(this)) {
             if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
                 checkPermission();
             } else {
@@ -241,7 +241,7 @@ public class Walkthrough extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            initials.setText(new Tasks().getInitial(Name));
+                            initials.setText(new Utils().getInitial(Name));
                             initial_background.startAnimation(AnimationUtils.loadAnimation(Walkthrough.this, R.anim.selection));
                             initial_background.setVisibility(View.VISIBLE);
                             view.setClickable(false);

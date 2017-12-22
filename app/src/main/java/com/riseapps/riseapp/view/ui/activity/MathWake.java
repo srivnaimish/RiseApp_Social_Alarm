@@ -23,9 +23,8 @@ import android.widget.Toast;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.AlarmCreator;
-import com.riseapps.riseapp.executor.OnSwipeTouchListener;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
-import com.riseapps.riseapp.executor.Tasks;
+import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.Pojo.PersonalAlarm;
 
@@ -39,7 +38,7 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener 
     private RelativeLayout hidden;
     private SharedPreferenceSingelton sharedPreferenceSingelton = new SharedPreferenceSingelton();
     private ArrayList<PersonalAlarm> personalAlarms = new ArrayList<>();
-    private Tasks tasks = new Tasks();
+    private Utils utils = new Utils();
     private TimeToView timeToView = new TimeToView();
     private AlarmCreator alarmCreator = new AlarmCreator();
     private TextView ans, number1, number2;
@@ -47,7 +46,7 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*if (tasks.getCurrentTheme(this) == 0) {
+        /*if (utils.getCurrentTheme(this) == 0) {
             setTheme(R.style.AppTheme2);
         } else {
             setTheme(R.style.AppTheme);
@@ -55,7 +54,7 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
 
         id = getIntent().getIntExtra("ID", 0);
-        ArrayList<PersonalAlarm> alarms = tasks.getPersonalAlarms(this);
+        ArrayList<PersonalAlarm> alarms = utils.getPersonalAlarms(this);
         if (alarms != null) {
             personalAlarms = alarms;
         }
@@ -103,7 +102,7 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener 
     protected void onDestroy() {
         mediaPlayer.stop();
         mediaPlayer.release();
-        tasks.savePersonalAlarms(this, personalAlarms);
+        utils.savePersonalAlarms(this, personalAlarms);
         if (personalAlarms.get(pos).isVibrate()) {
             assert ((Vibrator) getSystemService(VIBRATOR_SERVICE)) != null;
             ((Vibrator) getSystemService(VIBRATOR_SERVICE)).cancel();
@@ -141,8 +140,8 @@ public class MathWake extends AppCompatActivity implements View.OnClickListener 
     }
 
     private void initiallizeNumbers() {
-        n1 = tasks.getRandomInteger();
-        n2 = tasks.getRandomInteger();
+        n1 = utils.getRandomInteger();
+        n2 = utils.getRandomInteger();
         number1.setText(String.valueOf(n1));
         number2.setText(String.valueOf(n2));
     }

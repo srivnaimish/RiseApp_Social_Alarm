@@ -2,23 +2,17 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "e61dc79a9770044adc4f470019b39cc2",
+    "identityHash": "d1f693bc8a626430cc5e82d25048676a",
     "entities": [
       {
         "tableName": "Contact_Entity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`contact_number` TEXT NOT NULL, `contact_initials` TEXT, `contact_name` TEXT, `contact_selection` INTEGER NOT NULL, PRIMARY KEY(`contact_number`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`contact_number` TEXT NOT NULL, `contact_name` TEXT, `contact_selection` INTEGER NOT NULL, PRIMARY KEY(`contact_number`))",
         "fields": [
           {
             "fieldPath": "number",
             "columnName": "contact_number",
             "affinity": "TEXT",
             "notNull": true
-          },
-          {
-            "fieldPath": "initials",
-            "columnName": "contact_initials",
-            "affinity": "TEXT",
-            "notNull": false
           },
           {
             "fieldPath": "name",
@@ -44,7 +38,7 @@
       },
       {
         "tableName": "Chat_Entity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`message_id` INTEGER NOT NULL, `chat_id` TEXT, `chat_contact_name` TEXT, `chat_time` INTEGER NOT NULL, `chat_note` TEXT, `chat_image` TEXT, `sent_or_recieved` INTEGER NOT NULL, `read` INTEGER NOT NULL, PRIMARY KEY(`message_id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`message_id` INTEGER NOT NULL, `chat_id` TEXT, `chat_contact_name` TEXT, `chat_time` INTEGER NOT NULL, `chat_note` TEXT, `sent_or_recieved` INTEGER NOT NULL, `read` INTEGER NOT NULL, PRIMARY KEY(`message_id`))",
         "fields": [
           {
             "fieldPath": "message_id",
@@ -77,12 +71,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "image",
-            "columnName": "chat_image",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "sent_or_recieved",
             "columnName": "sent_or_recieved",
             "affinity": "INTEGER",
@@ -106,7 +94,7 @@
       },
       {
         "tableName": "ChatSummary",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`chat_contact_number` TEXT NOT NULL, `chat_contact_name` TEXT, `read_messages` INTEGER NOT NULL, PRIMARY KEY(`chat_contact_number`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`chat_contact_number` TEXT NOT NULL, `chat_contact_name` TEXT, `read_messages` INTEGER NOT NULL, `last_message` TEXT, PRIMARY KEY(`chat_contact_number`))",
         "fields": [
           {
             "fieldPath": "chat_contact_number",
@@ -125,6 +113,12 @@
             "columnName": "read_messages",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "chat_last_message",
+            "columnName": "last_message",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -139,7 +133,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e61dc79a9770044adc4f470019b39cc2\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"d1f693bc8a626430cc5e82d25048676a\")"
     ]
   }
 }

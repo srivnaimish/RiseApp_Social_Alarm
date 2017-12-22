@@ -5,8 +5,7 @@
     android:layout_height="match_parent"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     tools:context=".view.ui.fragment.Settings"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    >
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,7 +55,7 @@
 
         </android.support.v7.widget.CardView>
 
-         <android.support.v7.widget.CardView
+        <android.support.v7.widget.CardView
             android:id="@+id/setting_support"
             android:layout_width="match_parent"
             android:layout_height="75dp"
@@ -79,7 +78,7 @@
                     android:layout_height="40dp"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="16dp"
-                    app:srcCompat="@drawable/ic_make_a_donation"/>
+                    app:srcCompat="@drawable/ic_make_a_donation" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -95,47 +94,47 @@
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>
-       <!-- <android.support.v7.widget.CardView
-            android:id="@+id/setting_theme"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_marginTop="2dp
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?selectableItemBackgroundBorderless"
-            card_view:cardCornerRadius="2dp
-            card_view:cardElevation="0dp"
-            card_view:cardBackgroundColor="?card_color">
+        <!-- <android.support.v7.widget.CardView
+             android:id="@+id/setting_theme"
+             android:layout_width="match_parent"
+             android:layout_height="75dp"
+             android:layout_marginTop="2dp
+             android:clickable="true"
+             android:focusable="true"
+             android:foreground="?selectableItemBackgroundBorderless"
+             card_view:cardCornerRadius="2dp
+             card_view:cardElevation="0dp"
+             card_view:cardBackgroundColor="?card_color">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_gravity="center">
 
-                <Switch
-                    android:id="@+id/setting_theme_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:enabled="true"
-                    android:thumb="@drawable/custom_switch_thumb"
-                    android:track="@drawable/switch_track_custom"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="12dp" />
+                 <Switch
+                     android:id="@+id/setting_theme_switch"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:enabled="true"
+                     android:thumb="@drawable/custom_switch_thumb"
+                     android:track="@drawable/switch_track_custom"
+                     android:layout_alignParentStart="true"
+                     android:layout_marginStart="12dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Switch theme"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="15sp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="16dp"
-                    android:fontFamily="@font/regular"
-                    android:layout_toEndOf="@id/setting_theme_switch" />
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="Switch theme"
+                     android:textColor="?android:textColorPrimary"
+                     android:textSize="15sp"
+                     android:layout_centerVertical="true"
+                     android:layout_marginStart="16dp"
+                     android:fontFamily="@font/regular"
+                     android:layout_toEndOf="@id/setting_theme_switch" />
 
-            </RelativeLayout>
+             </RelativeLayout>
 
-        </android.support.v7.widget.CardView>-->
+         </android.support.v7.widget.CardView>-->
 
         <android.support.v7.widget.CardView
             android:id="@+id/setting_rate"
@@ -200,8 +199,7 @@
                     android:layout_height="40dp"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="16dp"
-                    app:srcCompat="@drawable/ic_invite"
-                    />
+                    app:srcCompat="@drawable/ic_invite" />
 
                 <TextView
                     android:layout_width="wrap_content"

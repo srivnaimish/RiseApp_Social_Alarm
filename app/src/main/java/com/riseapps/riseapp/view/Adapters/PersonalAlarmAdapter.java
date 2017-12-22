@@ -6,7 +6,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,7 @@ import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.AlarmCreator;
 import com.riseapps.riseapp.executor.Interface.RingtonePicker;
-import com.riseapps.riseapp.executor.Tasks;
+import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.Pojo.PersonalAlarm;
 import com.riseapps.riseapp.view.ui.activity.MainActivity;
@@ -39,7 +38,7 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
     private Context c;
     private TimeToView timeToView;
     private AlarmCreator alarmCreator;
-    private Tasks task = new Tasks();
+    private Utils task = new Utils();
     private LinearLayout empty_state;
 
     public PersonalAlarmAdapter(Context context, ArrayList<PersonalAlarm> alarms, LinearLayout empty_state) {

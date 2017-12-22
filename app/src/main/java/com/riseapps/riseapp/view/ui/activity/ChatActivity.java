@@ -17,6 +17,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -27,15 +28,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.viewModel.ChatViewModel;
 import com.riseapps.riseapp.view.Adapters.ChatAdapter;
 import com.riseapps.riseapp.executor.ChatSync;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
-import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.DB.Chat_Entity;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
@@ -52,8 +51,9 @@ import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
 public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener{
 
     private BottomSheetBehavior behavior;
-    private EditText  edit_note, edit_image;
-    private TextView time, date;
+    private EditText  edit_note;
+    //private TextView time, date;
+    private ImageView time_set,date_set;
     private Calendar calendar;
     private RecyclerView recyclerView;
     private ChatAdapter chatAdapter;
@@ -61,7 +61,7 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     private ChatViewModel chatViewModel;
     //private ArrayList<Chat_Entity> chatList=new ArrayList<>();
     private LinearLayout hiddenCardView;
-    private Tasks tasks=new Tasks();
+    private Utils utils =new Utils();
     private MyApplication myApplication;
     private String nameString;
 
@@ -70,7 +70,7 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*if (tasks.getCurrentTheme(this) == 0) {
+        /*if (utils.getCurrentTheme(this) == 0) {
             setTheme(R.style.AppTheme2);
         } else {
             setTheme(R.style.AppTheme);
@@ -86,10 +86,11 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         TextView name = findViewById(R.id.chat_title);
         recyclerView=findViewById(R.id.chat_messages);
 
-        hiddenCardView=findViewById(R.id.card_dialog);
-        time=findViewById(R.id.time_pick);
-        date=findViewById(R.id.date_pick);
-        edit_image=findViewById(R.id.edit_image);
+        time_set=findViewById(R.id.time_set);
+        date_set=findViewById(R.id.date_set);
+        //hiddenCardView=findViewById(R.id.card_dialog);
+        /*time=findViewById(R.id.time_pick);
+        date=findViewById(R.id.date_pick);*/
         edit_note=findViewById(R.id.edit_note);
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
@@ -110,7 +111,7 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                 .placeholder(R.drawable.default_user)
                 .centerCrop()
                 .into(profile_pic);*/
-        initials.setText(tasks.getInitial(nameString));
+        initials.setText(utils.getInitial(nameString));
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,7 +120,6 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             }
         });
 
-        toolbar.setTitle("Chat");
         toolbar.inflateMenu(R.menu.chat_menu);
         toolbar.setOnMenuItemClickListener(this);
 
@@ -139,7 +139,7 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         public void onChanged(@Nullable List<Chat_Entity> chat_entities) {
             chatAdapter.addItems(chat_entities);
             if(chat_entities.size()!=0)
-            recyclerView.scrollToPosition(chat_entities.size()-1);
+                recyclerView.smoothScrollToPosition(chat_entities.size()-1);
         }
     };
 
@@ -153,7 +153,9 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
                 calendar.set(Calendar.MINUTE, selectedMinute);
-                time.setText(new TimeToView().getTimeAsText(selectedHour, selectedMinute));
+                time_set.setVisibility(View.VISIBLE);
+                time_set.startAnimation(AnimationUtils.loadAnimation(ChatActivity.this, R.anim.selection));
+                //time.setText(new TimeToView().getTimeAsText(selectedHour, selectedMinute));
             }
         }, hour, minute, true);
 
@@ -172,7 +174,9 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.YEAR, pickedyear);
-                date.setText(String.valueOf(dayOfMonth + "//" + (monthOfYear + 1) + "//" + pickedyear));
+                date_set.setVisibility(View.VISIBLE);
+                date_set.startAnimation(AnimationUtils.loadAnimation(ChatActivity.this, R.anim.selection));
+                //date.setText(String.valueOf(dayOfMonth + "//" + (monthOfYear + 1) + "//" + pickedyear));
             }
         };
 
@@ -184,24 +188,20 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     }
 
     public void sendButton(View view){
-        if(hiddenCardView.getVisibility()==View.GONE){
-            hiddenCardView.setVisibility(View.VISIBLE);
-            return;
-        }
-        if(Tasks.isConnectedToNetwork(this)) {
-            if (time.getText().toString().length() == 0 || date.getText().toString().length() == 0) {
-                Toast.makeText(ChatActivity.this, "Enter a valid time and date", Toast.LENGTH_SHORT).show();
+        if(Utils.isConnectedToNetwork(this)) {
+            if (time_set.getVisibility()==View.INVISIBLE|| date_set.getVisibility()==View.INVISIBLE) {
+                Snackbar.make(recyclerView,"Pick task time and date",Snackbar.LENGTH_SHORT).show();
                 return;
             } else if (edit_note.getText().toString().length() == 0) {
-                Toast.makeText(ChatActivity.this, "Enter a reminder_row note", Toast.LENGTH_SHORT).show();
+                Snackbar.make(recyclerView,"Please enter a task",Snackbar.LENGTH_SHORT).show();
                 return;
             }
 
-            new AppConstants().sendReminderToSingleUser(myApplication.getUID(), chat_id, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
+            new AppConstants().sendReminderToSingleUser(myApplication.getUID(), chat_id, calendar.getTimeInMillis(), edit_note.getText().toString());
 
             ArrayList<Contact_Entity> contact_entities = new ArrayList<>();
             contact_entities.add(new Contact_Entity(nameString, chat_id, true));
-            ChatSync chatSync = new ChatSync(contact_entities, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString(), SENT_MESSAGE, true, myApplication.getDatabase(), INSERT_NEW_CHAT);
+            ChatSync chatSync = new ChatSync(contact_entities, calendar.getTimeInMillis(), edit_note.getText().toString(), SENT_MESSAGE, true, myApplication.getDatabase(), INSERT_NEW_CHAT);
             chatSync.execute();
 
             hideKeyboard();
@@ -286,9 +286,9 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
     }
 
     public void hideKeyboard(){
-        hiddenCardView.setVisibility(View.GONE);
         edit_note.setText("");
-
+        time_set.setVisibility(View.INVISIBLE);
+        date_set.setVisibility(View.INVISIBLE);
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);

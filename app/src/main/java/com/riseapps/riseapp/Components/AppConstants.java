@@ -62,7 +62,7 @@ public class AppConstants {
     public static final String BASE_URL = "http://riseapp.000webhostapp.com/";
 /*public static final String BASE_URL = "http://192.168.29.153/";*/
 
-    public void sendReminderToSingleUser(String sender, String Recipient, long Time, String Note, String ImageURL) {
+    public void sendReminderToSingleUser(String sender, String Recipient, long Time, String Note) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AppConstants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -75,7 +75,7 @@ public class AppConstants {
 
         ArrayList<String> Recipients=new ArrayList<>();
         Recipients.add(Recipient);
-        Message message = new Message(sender, Recipients, Time, Note, ImageURL);
+        Message message = new Message(sender, Recipients, Time, Note);
         messageRequest.setMessage(message);
 
         Call<ServerResponse> response = requestInterface.chat(messageRequest);

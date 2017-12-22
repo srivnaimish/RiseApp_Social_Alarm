@@ -3,49 +3,32 @@ package com.riseapps.riseapp.view.ui.fragment;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
-import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.signature.StringSignature;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Network.RequestInterface;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
-import com.riseapps.riseapp.executor.Tasks;
+import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.model.Pojo.Server.ServerResponse;
 import com.riseapps.riseapp.view.ui.activity.MainActivity;
-import com.riseapps.riseapp.view.ui.activity.Walkthrough;
 
 import java.io.File;
 
@@ -109,7 +92,7 @@ public class Settings extends Fragment implements View.OnClickListener {
         //theme.setOnClickListener(this);
        // theme_switch.setOnCheckedChangeListener(this);
 
-        /*if (tasks.getCurrentTheme(getContext()) == 1) {
+        /*if (utils.getCurrentTheme(getContext()) == 1) {
             theme_switch.setChecked(true);
         }*/
 
@@ -119,7 +102,7 @@ public class Settings extends Fragment implements View.OnClickListener {
         String username = firebaseUser.getDisplayName();
         name.setText(username);
         phone.setText(firebaseUser.getPhoneNumber());
-        initials.setText(new Tasks().getInitial(username));
+        initials.setText(new Utils().getInitial(username));
        /* Glide.with(getContext())
                 .load(AppConstants.getProfileImage(firebaseUser.getPhoneNumber()))
                 .dontAnimate()

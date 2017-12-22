@@ -11,14 +11,12 @@ public class Message {
     private ArrayList<String> Recipients;
     private long Time;
     private String Note;
-    private String ImageURL;
 
-    public Message(String Sender, ArrayList<String> Recipients, long Time, String Note, String ImageURL) {
+    public Message(String Sender, ArrayList<String> Recipients, long Time, String Note) {
         this.Sender = Sender;
         this.Recipients = Recipients;
         this.Time = Time;
         this.Note = Note;
-        this.ImageURL = ImageURL;
     }
 
     public String getSender() {
@@ -53,11 +51,4 @@ public class Message {
         Note = note;
     }
 
-    public String getImageURL() {
-        return ImageURL;
-    }
-
-    public void setImageURL(String ImageURL) {
-        this.ImageURL = ImageURL;
-    }
 }

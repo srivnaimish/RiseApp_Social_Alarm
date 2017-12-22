@@ -38,7 +38,7 @@
             app:civ_border_width="2dp"
             app:civ_border_color="#e0e0e0"
             android:transitionName="pic"
-            tools:ignore="UnusedAttribute"/>
+            tools:ignore="UnusedAttribute" />
 
         <TextView
             android:id="@+id/initials"
@@ -57,7 +57,8 @@
             app:layout_constraintStart_toStartOf="@+id/pic"
             app:layout_constraintTop_toTopOf="@+id/pic"
             android:transitionName="initials"
-            tools:ignore="UnusedAttribute"/>
+            tools:ignore="UnusedAttribute" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,6 +69,7 @@
             android:layout_marginStart="12dp"
             android:layout_marginTop="8dp"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
@@ -75,7 +77,8 @@
                 tools:text="Naimish Srivastava"
                 android:fontFamily="@font/regular"
                 android:textStyle="bold"
-                android:textColor="?android:textColorPrimary"/>
+                android:textColor="?android:textColorPrimary" />
+
             <TextView
                 android:id="@+id/phone"
                 android:layout_width="wrap_content"
@@ -83,7 +86,7 @@
                 tools:text="+918272478273"
                 android:fontFamily="@font/regular"
                 android:layout_marginTop="4dp"
-                android:textColor="?android:textColorSecondary"/>
+                android:textColor="?android:textColorSecondary" />
         </LinearLayout>
 
 
@@ -94,7 +97,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/pic"
             app:layout_constraintEnd_toEndOf="@+id/pic"
             app:srcCompat="@drawable/ic_selected"
-            android:background="@drawable/selected"/>
+            android:background="@drawable/selected" />
 
 
     </android.support.constraint.ConstraintLayout>

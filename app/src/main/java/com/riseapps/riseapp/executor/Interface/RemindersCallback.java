@@ -10,5 +10,6 @@ import java.util.List;
  */
 
 public interface RemindersCallback {
-    public void onRemindersFetch(List<Chat_Entity> reminderList);
+    public void onPendingFetch(ArrayList<Chat_Entity> pendingList);
+    public void onTodaysFetch(ArrayList<Chat_Entity> todaysList);
 }

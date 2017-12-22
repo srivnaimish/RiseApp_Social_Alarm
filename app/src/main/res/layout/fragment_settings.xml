@@ -36,7 +36,7 @@
                     app:layout_collapseParallaxMultiplier="0.4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/initials"
@@ -55,29 +55,28 @@
                     app:layout_constraintTop_toTopOf="@+id/profile_pic"
                     tools:text="N" />
 
-               <!-- <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="45dp"
-                    app:layout_collapseParallaxMultiplier="0.4"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:id="@+id/loading_pic"
-                    android:visibility="gone">
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:src="#000"
-                        android:alpha="0.5"/>
-                    <ProgressBar
+                <!-- <RelativeLayout
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="45dp"
+                     app:layout_collapseParallaxMultiplier="0.4"
+                     app:layout_constraintEnd_toEndOf="parent"
+                     app:layout_constraintStart_toStartOf="parent"
+                     app:layout_constraintTop_toTopOf="parent"
+                     android:id="@+id/loading_pic"
+                     android:visibility="gone">
+                     <de.hdodenhof.circleimageview.CircleImageView
+                         android:layout_width="100dp"
+                         android:layout_height="100dp"
+                         android:src="#000"
+                         android:alpha="0.5"/>
+                     <ProgressBar
 
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"/>
-                </RelativeLayout>-->
-
+                         android:layout_width="30dp"
+                         android:layout_height="30dp"
+                         android:layout_centerHorizontal="true"
+                         android:layout_centerVertical="true"/>
+                 </RelativeLayout>-->
 
 
                 <!--<ImageButton

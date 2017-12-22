@@ -1,6 +1,8 @@
 package com.riseapps.riseapp.view.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,18 +88,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 sentMessageViewHolder.note.setText(sent_note);
                 sentMessageViewHolder.time.setText(sent_timeInString);
                 sentMessageViewHolder.date.setText(sent_dateInString);
-
-                if(sent_chat.getImage().equalsIgnoreCase("")){
-                    sentMessageViewHolder.imageView.setVisibility(View.GONE);
-                }else {
-                    Glide.with(context)
-                            .load(sent_chat.getImage())
-                            .dontAnimate()
-                            .error(R.drawable.placeholder_image)
-                            .into(sentMessageViewHolder.imageView)
-                            ;
-                }
-
                 sentMessageViewHolder.chat_entity=sent_chat;
 
                 break;
@@ -123,16 +113,6 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 receivedMessageViewHolder.note.setText(received_note);
                 receivedMessageViewHolder.time.setText(received_timeInString);
                 receivedMessageViewHolder.date.setText(received_dateInString);
-                if(received_chat.getImage().equalsIgnoreCase("")){
-                    receivedMessageViewHolder.imageView.setVisibility(View.GONE);
-                }else {
-                    Glide.with(context)
-                            .load(received_chat.getImage())
-                            .dontAnimate()
-                            .error(R.drawable.placeholder_image)
-                            .centerCrop()
-                            .into(receivedMessageViewHolder.imageView);
-                }
                 receivedMessageViewHolder.chat_entity=received_chat;
 
                 break;
@@ -149,38 +129,55 @@ public class ChatAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    class SentMessageViewHolder extends RecyclerView.ViewHolder{
+    class SentMessageViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
         private Chat_Entity chat_entity;
-        private Context context;
-        private ImageView imageView;
+        private CardView cardView;
         private TextView note;
         private TextView time;
         private TextView date;
 
         public SentMessageViewHolder(Context context, View itemView) {
             super(itemView);
-            this.context = context;
-            imageView=itemView.findViewById(R.id.image);
             note=itemView.findViewById(R.id.note);
             time=itemView.findViewById(R.id.time);
             date=itemView.findViewById(R.id.date);
+            cardView=itemView.findViewById(R.id.sent_card);
+            cardView.setOnLongClickListener(this);
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            shareTaskOnOther(chat_entity.getNote());
+            return true;
         }
     }
 
-    class ReceivedMessageViewHolder extends RecyclerView.ViewHolder{
+    class ReceivedMessageViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
         private Chat_Entity chat_entity;
-        private Context context;
-        private ImageView imageView;
+        private CardView cardView;
         private TextView note;
         private TextView time;
         private TextView date;
         public ReceivedMessageViewHolder(Context context, View itemView) {
             super(itemView);
-            this.context = context;
-            imageView=itemView.findViewById(R.id.image);
             note=itemView.findViewById(R.id.note);
             time=itemView.findViewById(R.id.time);
             date=itemView.findViewById(R.id.date);
+            cardView=itemView.findViewById(R.id.received_card);
+            cardView.setOnLongClickListener(this);
         }
+
+        @Override
+        public boolean onLongClick(View view) {
+            shareTaskOnOther(chat_entity.getNote());
+            return true;
+        }
+    }
+
+    public void shareTaskOnOther(String task){
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.putExtra(Intent.EXTRA_TEXT, task);
+        context.startActivity(Intent.createChooser(share, "Share Task via.."));
     }
 }

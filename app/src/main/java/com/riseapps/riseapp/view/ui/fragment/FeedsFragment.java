@@ -20,6 +20,7 @@ import com.riseapps.riseapp.model.DB.ChatSummary;
 import com.riseapps.riseapp.view.ui.activity.MainActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -59,6 +60,7 @@ public class FeedsFragment extends Fragment {
     Observer<List<ChatSummary>> observer=new Observer<List<ChatSummary>>() {
         @Override
         public void onChanged(@Nullable List<ChatSummary> summaryList) {
+            Collections.reverse(summaryList);
             feedsAdapter.addItems(summaryList);
             if(summaryList.size()>0) {
                 empty_state.setVisibility(View.GONE);

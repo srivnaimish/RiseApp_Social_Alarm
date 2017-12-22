@@ -9,11 +9,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,7 +28,7 @@ import com.riseapps.riseapp.R;
 
 import com.riseapps.riseapp.executor.ChatSync;
 import com.riseapps.riseapp.executor.Network.RequestInterface;
-import com.riseapps.riseapp.executor.Tasks;
+import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 
@@ -53,16 +53,17 @@ import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
  * Created by naimish on 4/11/17.
  */
 
-public class ShareReminder extends Fragment implements View.OnClickListener, Toolbar.OnMenuItemClickListener {
+public class ShareReminder extends Fragment implements View.OnClickListener {
 
     /*ImageButton closeFragment, send;*/
     FlexboxLayout linearLayout;
-    EditText  edit_note, edit_image;
+    EditText  edit_note;
     TextView time, date;
     ArrayList<String> phones = new ArrayList<>();
     private Calendar calendar;
     ArrayList<Contact_Entity> selected_Contacts;
     Toolbar toolbar;
+    Button send;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,8 +72,6 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Too
 
         toolbar=view.findViewById(R.id.toolbar);
 
-        toolbar.inflateMenu(R.menu.group);
-        toolbar.setOnMenuItemClickListener(this);
         toolbar.setNavigationIcon(R.drawable.ic_close);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,12 +82,14 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Too
         linearLayout = view.findViewById(R.id.linearLayout);
 
         edit_note = view.findViewById(R.id.edit_note);
-        edit_image = view.findViewById(R.id.edit_image);
         time = view.findViewById(R.id.time_pick);
         date = view.findViewById(R.id.date_pick);
 
+        send=view.findViewById(R.id.send);
+
         time.setOnClickListener(this);
         date.setOnClickListener(this);
+        send.setOnClickListener(this);
 
         selected_Contacts=((PickContacts)getActivity()).getSelectedContacts();
         addTextStrips();
@@ -114,6 +115,26 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Too
 
             case R.id.date_pick:
                 openDatePicker();
+                break;
+
+            case R.id.send:
+                if(Utils.isConnectedToNetwork(getContext())) {
+                    if (time.getText().toString().length() == 0 || date.getText().toString().length() == 0) {
+                        Snackbar.make(edit_note,"Pick a time and date",Snackbar.LENGTH_SHORT).show();
+                        return;
+                    } else if (edit_note.getText().toString().length() == 0) {
+                        Snackbar.make(edit_note,"Enter a task",Snackbar.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    sendReminder(((PickContacts) getActivity()).getUID(), phones, calendar.getTimeInMillis(), edit_note.getText().toString());
+
+                    ChatSync chatSync = new ChatSync(selected_Contacts, calendar.getTimeInMillis(), edit_note.getText().toString(), SENT_MESSAGE, true, ((PickContacts) getActivity()).getMyapp().getDatabase(), INSERT_NEW_CHAT);
+                    chatSync.execute();
+
+                }else {
+                    Snackbar.make(edit_note,"Not connected to the internet",Snackbar.LENGTH_SHORT).show();
+                }
                 break;
 
         }
@@ -181,31 +202,7 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Too
 
     }
 
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        if(item.getItemId()==R.id.group){
-
-            if(Tasks.isConnectedToNetwork(getContext())) {
-                if (time.getText().toString().length() == 0 || date.getText().toString().length() == 0) {
-                    Toast.makeText(getContext(), "Enter a valid time and date", Toast.LENGTH_SHORT).show();
-                } else if (edit_note.getText().toString().length() == 0) {
-                    Toast.makeText(getContext(), "Enter a reminder_row note", Toast.LENGTH_SHORT).show();
-                }
-
-                sendReminder(((PickContacts) getActivity()).getUID(), phones, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString());
-
-                ChatSync chatSync = new ChatSync(selected_Contacts, calendar.getTimeInMillis(), edit_note.getText().toString(), edit_image.getText().toString(), SENT_MESSAGE, true, ((PickContacts) getActivity()).getMyapp().getDatabase(), INSERT_NEW_CHAT);
-                chatSync.execute();
-
-            }else {
-                Snackbar.make(edit_image,"Not connected to the internet",Snackbar.LENGTH_SHORT).show();
-            }
-        }
-        return true;
-    }
-
-    public void sendReminder(String sender, ArrayList<String> Recipients, long Time, String Note, String ImageURL) {
+    public void sendReminder(String sender, ArrayList<String> Recipients, long Time, String Note) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AppConstants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -216,10 +213,10 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Too
         MessageRequest messageRequest = new MessageRequest();
         messageRequest.setOperation(REMINDER);
 
-        Message message = new Message(sender, Recipients, Time, Note, ImageURL);
+        Message message = new Message(sender, Recipients, Time, Note);
         messageRequest.setMessage(message);
 
-        Snackbar.make(edit_image, "Sending Task ...", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(edit_note, "Sending Task ...", Snackbar.LENGTH_LONG).show();
 
         Call<ServerResponse> response = requestInterface.chat(messageRequest);
         response.enqueue(new Callback<ServerResponse>() {
@@ -235,7 +232,7 @@ public class ShareReminder extends Fragment implements View.OnClickListener, Too
 
             @Override
             public void onFailure(Call<ServerResponse> call, Throwable t) {
-                 Snackbar.make(edit_image, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
+                 Snackbar.make(edit_note, t.getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
             }
         });
     }

@@ -6,8 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".view.ui.activity.SimpleWake">
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="250dp"
@@ -24,11 +23,12 @@
         android:layout_marginStart="64dp"
         android:layout_marginEnd="64dp"
         app:layout_constraintVertical_bias="0.3">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            >
+            android:gravity="center">
+
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
@@ -45,16 +45,16 @@
 
     </android.support.v7.widget.CardView>
 
-<!--
-    <ImageView
-        android:id="@+id/drag_button"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/view"
-        app:srcCompat="@drawable/ic_no_alarm" />-->
+    <!--
+        <ImageView
+            android:id="@+id/drag_button"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view"
+            app:srcCompat="@drawable/ic_no_alarm" />-->
 
 
     <ImageButton
@@ -72,7 +72,7 @@
         app:srcCompat="@drawable/ic_snooze"
         android:background="@drawable/border_background"
         app:layout_constraintHorizontal_chainStyle="spread"
-        android:onClick="snoozeAlarm"/>
+        android:onClick="snoozeAlarm" />
 
     <ImageButton
         android:id="@+id/stop"
@@ -87,8 +87,7 @@
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintEnd_toStartOf="@id/snooze"
         app:srcCompat="@drawable/ic_sound_off"
-        android:onClick="stopAlarm"
-        />
+        android:onClick="stopAlarm" />
 
     <TextView
         android:id="@+id/textView8"
@@ -99,8 +98,7 @@
         android:textColor="?android:textColorPrimary"
         app:layout_constraintEnd_toEndOf="@+id/stop"
         app:layout_constraintStart_toStartOf="@+id/stop"
-        app:layout_constraintTop_toBottomOf="@+id/stop"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/stop" />
 
     <TextView
         android:id="@+id/textView9"
@@ -123,6 +121,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="?iconDual"
         android:visibility="invisible">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -131,8 +130,7 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:textSize="36sp"
-            android:fontFamily="@font/light"
-            />
+            android:fontFamily="@font/light" />
     </RelativeLayout>
 
 

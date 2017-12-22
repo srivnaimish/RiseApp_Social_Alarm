@@ -20,8 +20,6 @@ public class Chat_Entity {
     private long time;
     @ColumnInfo(name = "chat_note")
     private String note;
-    @ColumnInfo(name = "chat_image")
-    private String image;
     @ColumnInfo(name = "sent_or_recieved")
     private int sent_or_recieved;
     @ColumnInfo(name = "read")
@@ -53,14 +51,6 @@ public class Chat_Entity {
 
     public void setNote(String note) {
         this.note = note;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public String getChat_id() {

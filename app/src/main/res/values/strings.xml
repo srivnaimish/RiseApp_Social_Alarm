@@ -73,7 +73,7 @@
     <string name="vibrate">Vibrate</string>
     <string name="delete">Delete</string>
 
-    <!--Fragment Tasks-->
+    <!--FragmUtilsasks-->
     <string name="tasks_empty">All Completed</string>
     <string name="completed">Completed</string>
     <string name="task">Task</string>

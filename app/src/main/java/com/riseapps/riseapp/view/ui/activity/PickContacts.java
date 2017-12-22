@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
@@ -16,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -27,7 +25,7 @@ import com.riseapps.riseapp.view.Adapters.ContactsAdapter;
 import com.riseapps.riseapp.executor.ContactsSync;
 import com.riseapps.riseapp.executor.Interface.ContactSelection;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
-import com.riseapps.riseapp.executor.Tasks;
+import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.view.ui.fragment.ShareReminder;
@@ -42,7 +40,7 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
     private RecyclerView recyclerView;
     private ContactsAdapter contactsAdapter;
     private int CONTACT_LOADER = 1;
-    private Tasks tasks = new Tasks();
+    private Utils utils = new Utils();
     private ArrayList<Integer> selected_positions = new ArrayList<>();
     //private TextView selected_count;
     private ContactsViewModel contactsViewModel;
@@ -59,7 +57,7 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       /* if (tasks.getCurrentTheme(this) == 0) {
+       /* if (utils.getCurrentTheme(this) == 0) {
             setTheme(R.style.AppTheme2);
         } else {
             setTheme(R.style.AppTheme);
@@ -89,7 +87,7 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 if(item.getItemId()==R.id.sync){
-                    if(Tasks.isConnectedToNetwork(PickContacts.this)) {
+                    if(Utils.isConnectedToNetwork(PickContacts.this)) {
                         loading_screen.setVisibility(View.VISIBLE);
                         ContactsSync contactsSync = new ContactsSync(getContentResolver(), getMyapp().getDatabase());
                         contactsSync.execute();

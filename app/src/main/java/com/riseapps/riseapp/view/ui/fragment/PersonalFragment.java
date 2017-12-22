@@ -16,11 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.TimePicker;
 
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.view.Adapters.PersonalAlarmAdapter;
 import com.riseapps.riseapp.executor.AlarmCreator;
 
 import com.riseapps.riseapp.executor.Interface.FabListener;
-import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.Pojo.PersonalAlarm;
 import com.riseapps.riseapp.view.ui.activity.MainActivity;
@@ -33,7 +33,7 @@ public class PersonalFragment extends Fragment {
     ArrayList<PersonalAlarm> personalAlarms = new ArrayList<>();
     RecyclerView recyclerView;
     PersonalAlarmAdapter alarmsAdapter;
-    Tasks tasks = new Tasks();
+    Utils utils = new Utils();
     AlarmCreator alarmCreator = new AlarmCreator();
     private LinearLayout empty_state;
     TimeToView timeToView = new TimeToView();
@@ -56,7 +56,7 @@ public class PersonalFragment extends Fragment {
                 LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
         empty_state = view.findViewById(R.id.empty_state);
-        ArrayList<PersonalAlarm> alarms = tasks.getPersonalAlarms(getContext());
+        ArrayList<PersonalAlarm> alarms = utils.getPersonalAlarms(getContext());
         if (alarms != null) {
             personalAlarms = alarms;
         }

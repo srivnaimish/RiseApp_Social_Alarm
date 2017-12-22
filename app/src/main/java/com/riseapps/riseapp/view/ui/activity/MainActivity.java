@@ -21,12 +21,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.Interface.Filter;
+import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.view.Adapters.SectionPagerAdapter;
 import com.riseapps.riseapp.executor.ContactsSync;
 import com.riseapps.riseapp.executor.Interface.FabListener;
 import com.riseapps.riseapp.executor.Interface.RingtonePicker;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
-import com.riseapps.riseapp.executor.Tasks;
 import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.view.ui.fragment.Settings;
 
@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public FirebaseUser currentUser;
     public FloatingActionButton fab;
     private SharedPreferenceSingelton sharedPreferenceSingleton = new SharedPreferenceSingelton();
-    private Tasks tasks = new Tasks();
+    private Utils utils = new Utils();
     private FabListener fabListener1;
     private MyApplication myapp;
     private Toolbar toolbar;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*if (tasks.getCurrentTheme(this) == 0) {
+        /*if (utils.getCurrentTheme(this) == 0) {
             setTheme(R.style.AppTheme2);
         } else {
             setTheme(R.style.AppTheme);

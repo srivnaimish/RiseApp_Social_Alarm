@@ -3,9 +3,6 @@ package com.riseapps.riseapp.view.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,16 +13,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.ChatSync;
 import com.riseapps.riseapp.executor.Interface.ContactSelection;
-import com.riseapps.riseapp.executor.Tasks;
+import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.model.DB.Contact_Entity;
 import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.view.ui.activity.ChatActivity;
+import com.riseapps.riseapp.view.ui.activity.PickContacts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +34,7 @@ public class ContactsAdapter extends RecyclerView.Adapter {
     private Context c;
     private ContactSelection contactSelection;
     private int count=0;
-    private Tasks tasks=new Tasks();
+    private Utils utils =new Utils();
     private int colorSelected = Color.LTGRAY;
     private int colorNormal = Color.WHITE;
 
@@ -63,7 +58,7 @@ public class ContactsAdapter extends RecyclerView.Adapter {
         String name=contact.getName();
         contactsViewHolder.name.setText(name);
         contactsViewHolder.phone.setText(contact.getNumber());
-        contactsViewHolder.initials.setText(tasks.getInitial(name));
+        contactsViewHolder.initials.setText(utils.getInitial(name));
         if (contact.isSelection())
             contactsViewHolder.status.setVisibility(View.VISIBLE);
         else
@@ -135,6 +130,8 @@ public class ContactsAdapter extends RecyclerView.Adapter {
                     intent.putExtra("chat_id",phone.getText().toString());
                     intent.putExtra("contact_name",name.getText().toString());
                     c.startActivity(intent);
+                    ((PickContacts) c).finish();
+
                 }
             }
         }

@@ -16,18 +16,14 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.AlarmCreator;
-import com.riseapps.riseapp.executor.OnSwipeTouchListener;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
-import com.riseapps.riseapp.executor.Tasks;
+import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.Pojo.PersonalAlarm;
 
@@ -42,7 +38,7 @@ public class SimpleWake extends AppCompatActivity {
     private SharedPreferenceSingelton sharedPreferenceSingelton = new SharedPreferenceSingelton();
     private ArrayList<PersonalAlarm> personalAlarms = new ArrayList<>();
     private TextView time;
-    private Tasks tasks = new Tasks();
+    private Utils utils = new Utils();
     private TimeToView timeToView = new TimeToView();
     private AlarmCreator alarmCreator = new AlarmCreator();
     private int id;
@@ -50,7 +46,7 @@ public class SimpleWake extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*if (tasks.getCurrentTheme(this) == 0) {
+        /*if (utils.getCurrentTheme(this) == 0) {
             setTheme(R.style.AppTheme2);
         } else {
             setTheme(R.style.AppTheme);
@@ -58,7 +54,7 @@ public class SimpleWake extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         id = getIntent().getIntExtra("ID", 0);
-        ArrayList<PersonalAlarm> alarms = tasks.getPersonalAlarms(this);
+        ArrayList<PersonalAlarm> alarms = utils.getPersonalAlarms(this);
         if (alarms != null) {
             personalAlarms = alarms;
         }
@@ -109,7 +105,7 @@ public class SimpleWake extends AppCompatActivity {
     protected void onDestroy() {
         mediaPlayer.stop();
         mediaPlayer.release();
-        tasks.savePersonalAlarms(this, personalAlarms);
+        utils.savePersonalAlarms(this, personalAlarms);
         if (personalAlarms.get(pos).isVibrate()) {
             assert ((Vibrator) getSystemService(VIBRATOR_SERVICE)) != null;
             ((Vibrator) getSystemService(VIBRATOR_SERVICE)).cancel();

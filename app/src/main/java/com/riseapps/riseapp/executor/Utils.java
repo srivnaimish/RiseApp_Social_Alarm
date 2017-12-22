@@ -19,7 +19,7 @@ import java.util.Random;
  * Created by naimish on 2/11/17.
  */
 
-public class Tasks {
+public class Utils {
 
     private SharedPreferenceSingelton sharedPreferenceSingelton = new SharedPreferenceSingelton();
 

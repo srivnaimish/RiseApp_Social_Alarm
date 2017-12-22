@@ -57,12 +57,11 @@ public class AlarmCreator {
         alarmManager.cancel(pi);
     }
 
-    public void setNewReminder(Context context, long alarmTimeInMillis, int id,String sender,String note,String image) {
+    public void setNewReminder(Context context, long alarmTimeInMillis, int id,String sender,String note) {
         ArrayList<String> details=new ArrayList<>();
 
         details.add(sender);
         details.add(note);
-        details.add(image);
 
         Intent intent = new Intent(context, AlarmReciever.class);
         intent.putExtra("Type",1);

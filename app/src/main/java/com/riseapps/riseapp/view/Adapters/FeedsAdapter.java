@@ -13,14 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.ChatSync;
-import com.riseapps.riseapp.executor.Tasks;
+import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.model.DB.ChatSummary;
-import com.riseapps.riseapp.model.DB.Chat_Entity;
 import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.view.ui.activity.ChatActivity;
 
@@ -35,7 +31,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int PERSONAL_ALARM = 0;
     private Context context;
     private ArrayList<ChatSummary> summaryList;
-    private Tasks tasks = new Tasks();
+    private Utils utils = new Utils();
 
     public FeedsAdapter(Context context, ArrayList<ChatSummary> summaryList) {
         this.context = context;
@@ -60,7 +56,7 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             feedsViewHolder.name.setTypeface(feedsViewHolder.name.getTypeface(), Typeface.BOLD);
         }
 
-        feedsViewHolder.initials.setText(tasks.getInitial(name));
+        feedsViewHolder.initials.setText(utils.getInitial(name));
 
         /*Glide.with(context)
                 .load(AppConstants.getProfileImage(chatSummary.getChat_contact_number()))
@@ -73,9 +69,6 @@ public class FeedsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         feedsViewHolder.mssg.setText(chatSummary.getChat_last_message());
         feedsViewHolder.chatSummary=chatSummary;
 
-        if(position==summaryList.size()-1){
-            feedsViewHolder.view.setVisibility(View.GONE);
-        }
     }
 
     public void deleteItem(int position){

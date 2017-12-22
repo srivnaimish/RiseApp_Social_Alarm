@@ -2,7 +2,6 @@ package com.riseapps.riseapp.view.Adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.ChatSync;
-import com.riseapps.riseapp.executor.Tasks;
+import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.DB.Chat_Entity;
 import com.riseapps.riseapp.model.MyApplication;
@@ -23,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static com.riseapps.riseapp.Components.AppConstants.RECEIVED_MESSAGE;
-import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
 import static com.riseapps.riseapp.Components.AppConstants.UPDATE_PENDING;
 
 /**
@@ -36,7 +32,7 @@ public class ReminderAdapter extends RecyclerView.Adapter {
     private ArrayList<Chat_Entity> reminderList;
     private Context context;
     private TimeToView timeToView=new TimeToView();
-    private Tasks tasks=new Tasks();
+    private Utils utils =new Utils();
 
 
     public ReminderAdapter(Context context, ArrayList<Chat_Entity> reminderList){
@@ -71,23 +67,11 @@ public class ReminderAdapter extends RecyclerView.Adapter {
         String received_dateInString=received_calendar.get(Calendar.DAY_OF_MONTH)+"-"+(received_calendar.get(Calendar.MONTH)+1)+"-"+received_calendar.get(Calendar.YEAR);
 
         String name=reminder.getContact_name();
-        reminderViewHolder.initials.setText(tasks.getInitial(name));
+        reminderViewHolder.initials.setText(utils.getInitial(name));
         reminderViewHolder.name.setText(name);
         reminderViewHolder.note.setText(note);
         reminderViewHolder.time.setText(time);
         reminderViewHolder.date.setText(received_dateInString);
-
-        Log.d("Image",""+reminder.getImage());
-        if(reminder.getImage().equalsIgnoreCase("")){
-            reminderViewHolder.imageView.setVisibility(View.GONE);
-        }else {
-            Glide.with(context)
-                    .load(reminder.getImage())
-                    .dontAnimate()
-                    .error(R.drawable.placeholder_image)
-                    .centerCrop()
-                    .into(reminderViewHolder.imageView);
-        }
         reminderViewHolder.chat_entity=reminder;
 
     }
@@ -104,6 +88,7 @@ public class ReminderAdapter extends RecyclerView.Adapter {
 
     public void addItems(List<Chat_Entity> reminderList) {
         this.reminderList = (ArrayList<Chat_Entity>) reminderList;
+        Toast.makeText(context, ""+reminderList.size(), Toast.LENGTH_SHORT).show();
         notifyDataSetChanged();
     }
 

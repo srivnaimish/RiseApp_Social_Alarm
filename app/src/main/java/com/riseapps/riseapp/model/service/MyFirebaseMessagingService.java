@@ -74,14 +74,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String sender_phone = data.get("Sender Phone");
             long time = Long.parseLong(data.get("Time"));
             String note = data.get("Note");
-            String image = data.get("Image");
 
-            insertChatMessage(sender_no, sender_name, sender_phone, time, note, image);
+            insertChatMessage(sender_no, sender_name, sender_phone, time, note);
         //}
 
     }
 
-    private void insertChatMessage(int sender_no, String sender_name, String phone, long time, String note, String image) {
+    private void insertChatMessage(int sender_no, String sender_name, String phone, long time, String note) {
         MyDB myDB = ((MyApplication) getApplicationContext()).getDatabase();
 
         String name;
@@ -106,7 +105,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         chat_entity.setContact_name(name);
         chat_entity.setTime(time);
         chat_entity.setNote(note);
-        chat_entity.setImage(image);
         chat_entity.setSent_or_recieved(RECEIVED_MESSAGE);
         chat_entity.setRead(false);
         myDB.chatDao().insertChat(chat_entity);
@@ -118,7 +116,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         chatSummary.setChat_last_message(note);
         myDB.chatDao().insertSummary(chatSummary);
 
-        new AlarmCreator().setNewReminder(this,time,chat_entity.getMessage_id(),name,note,image);
+        new AlarmCreator().setNewReminder(this,time,chat_entity.getMessage_id(),name,note);
 
     }
 

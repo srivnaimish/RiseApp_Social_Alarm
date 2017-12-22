@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?colorPrimary">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/reminders"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layoutAnimation="@anim/layout_animation_from_bottom"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/filter"/>
 
     <LinearLayout
         android:id="@+id/empty_state"
@@ -28,20 +18,31 @@
         app:layout_constraintVertical_bias="0.4">
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            app:srcCompat="@drawable/ic_check"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/fui_done_check_mark"
             android:tint="@color/colorAccent"
-            android:layout_gravity="center_horizontal"
-            />
+            android:layout_gravity="center" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/tasks_empty"
+            android:text="All Completed"
+            android:layout_gravity="center"
+            android:fontFamily="@font/regular"
             android:textColor="?android:textColorSecondary"
+            android:layout_marginTop="16dp"
             android:textSize="15sp" />
     </LinearLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/reminders"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

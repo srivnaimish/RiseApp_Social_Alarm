@@ -28,7 +28,13 @@ public interface ChatDao {
     void insertSummary(ChatSummary chatSummary);
 
     @Query("DELETE FROM chat_entity WHERE chat_id=:chat_id")
-    public void deleteChat(String chat_id);
+    public void clearChat(String chat_id);
+
+  /*  @Query("DELETE FROM ChatSummary WHERE chat_contact_number=:chat_contact_number")
+    public void clearSummary(String chat_id);*/
+
+    @Query("UPDATE chatsummary SET last_message = :value  WHERE chat_contact_number = :chat_contact_number")
+    public void clearSummary(String chat_contact_number,String value);
 
     @Query("DELETE FROM ChatSummary WHERE chat_contact_number=:chat_contact_number")
     public void deleteSummary(String chat_contact_number);
@@ -41,11 +47,11 @@ public interface ChatDao {
 
     @Query("SELECT * FROM chat_entity " +
             "WHERE read=:read AND chat_time<:currentTime ORDER BY chat_time DESC")
-    LiveData<List<Chat_Entity>> getPendingReminders(boolean read,long currentTime);
+    List<Chat_Entity> getPendingReminders(boolean read,long currentTime);
 
     @Query("SELECT * FROM chat_entity " +
             "WHERE read=:read AND chat_time<=:endTime AND chat_time>=:startTime ORDER BY chat_time ASC")
-    LiveData<List<Chat_Entity>> getTodaysReminders(boolean read,long startTime,long endTime);
+    List<Chat_Entity> getTodaysReminders(boolean read,long startTime,long endTime);
 
     @Query("UPDATE chat_entity SET read = :value  WHERE message_id = :message_id")
     void updatePendingStatus(int message_id,boolean value);

@@ -61,8 +61,7 @@ public class AlarmReciever extends BroadcastReceiver {
             NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
             bigText.bigText(details.get(1));
             bigText.setBigContentTitle(details.get(0));
-            if (details.get(2) != null)
-                bigText.setSummaryText("See Image");
+            bigText.setSummaryText("See Utils");
 
             Intent i = new Intent(context, MainActivity.class);
             i.putExtra("Reminder Clicked",true);
@@ -74,8 +73,8 @@ public class AlarmReciever extends BroadcastReceiver {
             mBuilder.setPriority(Notification.PRIORITY_HIGH);
             mBuilder.setGroupSummary(true);
             mBuilder.setAutoCancel(true);
-            mBuilder.setContentTitle(details.get(0)+" said...");
-            mBuilder.setContentText("Read the full Reminder");
+            mBuilder.setContentTitle("Complete "+details.get(0)+"\'s task");
+            mBuilder.setContentText("Read the full Task");
             mBuilder.setOngoing(false);
             mBuilder.setSound(defaultSoundUri);
             mBuilder.setSmallIcon(R.drawable.ic_notification);

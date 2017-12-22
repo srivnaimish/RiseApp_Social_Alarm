@@ -36,7 +36,7 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
     private ContentResolver contentResolver;
     private ArrayList<Contact_Entity> riseappContacts;     //Fetch all feeds
     private ArrayList<ContactFetch> allContactsList;
-    private Tasks tasks=new Tasks();
+    private Utils utils =new Utils();
 
     public ContactsSync(ContentResolver contentResolver, MyDB myDB) {
         this.myDB=myDB;
