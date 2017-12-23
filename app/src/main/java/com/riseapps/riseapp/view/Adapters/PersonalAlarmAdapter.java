@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,34 +62,35 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
         PersonalAlarm alarm = alarms.get(position);
         ((PersonalAlarmHolder) holder).alarm = alarm;
 
+        PersonalAlarmHolder personalAlarmHolder=(PersonalAlarmHolder) holder;
+
         Calendar calendar = alarm.getCalendar();
 
         int hour = calendar.get(Calendar.HOUR);
         int minutes = calendar.get(Calendar.MINUTE);
         int am_pm=calendar.get(Calendar.AM_PM);
         String time=timeToView.getTimeAsText(hour,minutes);
-        ((PersonalAlarmHolder) holder).time.setText(time);
+        personalAlarmHolder.time.setText(time);
         if(am_pm == Calendar.AM)
-            ((PersonalAlarmHolder) holder).am_pm.setText("am");
+            personalAlarmHolder.am_pm.setText("am");
         else
-            ((PersonalAlarmHolder) holder).am_pm.setText("pm");
+            personalAlarmHolder.am_pm.setText("pm");
 
-        ((PersonalAlarmHolder) holder).day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
         if (alarm.isVibrate()) {
-            ((PersonalAlarmHolder) holder).vibrate.setText(R.string.on);
+            personalAlarmHolder.vibrate.setText(R.string.on);
         } else
-            ((PersonalAlarmHolder) holder).vibrate.setText(R.string.off);
+            personalAlarmHolder.vibrate.setText(R.string.off);
 
         if (alarm.isStatus())
-            ((PersonalAlarmHolder) holder).aSwitch.setChecked(true);
+            personalAlarmHolder.aSwitch.setChecked(true);
 
         if (alarm.isRepeat()) {
-            ((PersonalAlarmHolder) holder).repeat.setChecked(true);
+            personalAlarmHolder.repeat.setChecked(true);
         }
 
-        ((PersonalAlarmHolder) holder).days.setVisibility(View.GONE);
-        ((PersonalAlarmHolder) holder).bottom.setVisibility(View.GONE);
-        ((PersonalAlarmHolder) holder).up.setVisibility(View.GONE);
+        personalAlarmHolder.days.setVisibility(View.GONE);
+        personalAlarmHolder.bottom.setVisibility(View.GONE);
+        personalAlarmHolder.up.setVisibility(View.GONE);
 
 
     }
@@ -113,7 +116,7 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
         CardView alarmCard;
 
 
-        TextView time, day,am_pm;
+        TextView time, am_pm;
         Switch aSwitch;
         CheckBox repeat;
         Button[] repeat_days = new Button[7];
@@ -129,7 +132,6 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
             super(v);
             this.ctx = context;
             time = (TextView) v.findViewById(R.id.time);
-            day = v.findViewById(R.id.next_trigger_day);
             am_pm=v.findViewById(R.id.am_pm);
             aSwitch = v.findViewById(R.id.aSwitch);
             repeat = v.findViewById(R.id.repeat);
@@ -141,7 +143,6 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
 
             aSwitch.setOnCheckedChangeListener(this);
 
-            days = v.findViewById(R.id.days);
             bottom = v.findViewById(R.id.bottom);
 
             sound = v.findViewById(R.id.sound);
@@ -220,85 +221,106 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
 
                 case R.id.sun:
                     repeat_days[0].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
-                    day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[0]) {
-                        repeat_days[0].setBackgroundResource(R.drawable.day_off);
+                        repeat_days[0].setSelected(false);
+                        repeat_days[0].setTextColor(ContextCompat.getColor(c,R.color.textColorPrimary1));
                         alarm.getRepeatDays()[0] = false;
+                        Log.d("sun","off");
                     } else {
-                        repeat_days[0].setBackgroundResource(R.drawable.day_on);
+                        repeat_days[0].setSelected(true);
+                        repeat_days[0].setTextColor(ContextCompat.getColor(c,android.R.color.white));
                         alarm.getRepeatDays()[0] = true;
+                        Log.d("sun","on");
                     }
                     task.savePersonalAlarms(ctx, alarms);
                     break;
                 case R.id.mon:
                     repeat_days[1].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
-                    day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[1]) {
-                        repeat_days[1].setBackgroundResource(R.drawable.day_off);
+                        repeat_days[1].setSelected(false);
+                        repeat_days[1].setTextColor(ContextCompat.getColor(c,R.color.textColorPrimary1));
                         alarm.getRepeatDays()[1] = false;
+                        Log.d("mon","off");
                     } else {
-                        repeat_days[1].setBackgroundResource(R.drawable.day_on);
+                        repeat_days[1].setSelected(true);
+                        repeat_days[1].setTextColor(ContextCompat.getColor(c,android.R.color.white));
                         alarm.getRepeatDays()[1] = true;
+                        Log.d("mon","on");
                     }
                     task.savePersonalAlarms(ctx, alarms);
                     break;
                 case R.id.tue:
                     repeat_days[2].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
-                    day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[2]) {
-                        repeat_days[2].setBackgroundResource(R.drawable.day_off);
+                        repeat_days[2].setSelected(false);
+                        repeat_days[2].setTextColor(ContextCompat.getColor(c,R.color.textColorPrimary1));
                         alarm.getRepeatDays()[2] = false;
+                        Log.d("tue","off");
                     } else {
-                        repeat_days[2].setBackgroundResource(R.drawable.day_on);
+                        repeat_days[2].setSelected(true);
+                        repeat_days[2].setTextColor(ContextCompat.getColor(c,android.R.color.white));
                         alarm.getRepeatDays()[2] = true;
+                        Log.d("tue","on");
                     }
                     task.savePersonalAlarms(ctx, alarms);
                     break;
                 case R.id.wed:
                     repeat_days[3].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
-                    day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[3]) {
-                        repeat_days[3].setBackgroundResource(R.drawable.day_off);
+                        repeat_days[3].setSelected(false);
+                        repeat_days[3].setTextColor(ContextCompat.getColor(c,R.color.textColorPrimary1));
                         alarm.getRepeatDays()[3] = false;
+                        Log.d("wed","off");
                     } else {
-                        repeat_days[3].setBackgroundResource(R.drawable.day_on);
+                        repeat_days[3].setSelected(true);
+                        repeat_days[3].setTextColor(ContextCompat.getColor(c,android.R.color.white));
                         alarm.getRepeatDays()[3] = true;
+                        Log.d("wed","on");
                     }
                     task.savePersonalAlarms(ctx, alarms);
                     break;
                 case R.id.thu:
                     repeat_days[4].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
-                    day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[4]) {
-                        repeat_days[4].setBackgroundResource(R.drawable.day_off);
+                        repeat_days[4].setSelected(false);
+                        repeat_days[4].setTextColor(ContextCompat.getColor(c,R.color.textColorPrimary1));
                         alarm.getRepeatDays()[4] = false;
+                        Log.d("thu","off");
                     } else {
-                        repeat_days[4].setBackgroundResource(R.drawable.day_on);
+                        repeat_days[4].setSelected(true);
+                        repeat_days[4].setTextColor(ContextCompat.getColor(c,android.R.color.white));
                         alarm.getRepeatDays()[4] = true;
+                        Log.d("thu","on");
                     }
                     task.savePersonalAlarms(ctx, alarms);
                     break;
                 case R.id.fri:
                     repeat_days[5].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
-                    day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[5]) {
-                        repeat_days[5].setBackgroundResource(R.drawable.day_off);
+                        repeat_days[5].setSelected(false);
+                        repeat_days[5].setTextColor(ContextCompat.getColor(c,R.color.textColorPrimary1));
                         alarm.getRepeatDays()[5] = false;
+                        Log.d("fr","off");
                     } else {
-                        repeat_days[5].setBackgroundResource(R.drawable.day_on);
+                        repeat_days[5].setSelected(true);
+                        repeat_days[5].setTextColor(ContextCompat.getColor(c,android.R.color.white));
                         alarm.getRepeatDays()[5] = true;
+                        Log.d("fr","on");
                     }
                     task.savePersonalAlarms(ctx, alarms);
                     break;
                 case R.id.sat:
                     repeat_days[6].startAnimation(AnimationUtils.loadAnimation(ctx, R.anim.day));
-                    day.setText(timeToView.getNextTriggerDay(alarm.getAlarmTimeInMillis(), alarm.getRepeatDays(), alarm.isRepeat()));
                     if (alarm.getRepeatDays()[6]) {
-                        repeat_days[6].setBackgroundResource(R.drawable.day_off);
+                        repeat_days[6].setSelected(false);
+                        repeat_days[6].setTextColor(ContextCompat.getColor(c,R.color.textColorPrimary1));
                         alarm.getRepeatDays()[6] = false;
+                        Log.d("sat","off");
                     } else {
-                        repeat_days[6].setBackgroundResource(R.drawable.day_on);
+                        repeat_days[6].setSelected(true);
+                        repeat_days[6].setTextColor(ContextCompat.getColor(c,android.R.color.white));
                         alarm.getRepeatDays()[6] = true;
+                        Log.d("sat","on");
                     }
                     task.savePersonalAlarms(ctx, alarms);
                     break;
@@ -327,12 +349,14 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
 
                             for (int i = 0; i < 7; i++) {
                                 alarm.getRepeatDays()[i] = true;
-                                this.repeat_days[i].setBackgroundResource(R.drawable.day_on);
+                                this.repeat_days[i].setSelected(true);
+                                this.repeat_days[i].setTextColor(ContextCompat.getColor(c,android.R.color.white));
                             }
                         } else {
                             for (int i = 0; i < 7; i++) {
                                 if (repeat_days[i]) {
-                                    this.repeat_days[i].setBackgroundResource(R.drawable.day_on);
+                                    this.repeat_days[i].setSelected(true);
+                                    this.repeat_days[i].setTextColor(ContextCompat.getColor(c,android.R.color.white));
                                 }
                             }
                         }
@@ -345,7 +369,6 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                 case R.id.aSwitch:
 
                     if (b) {
-                        //Toast.makeText(ctx, "Checked", Toast.LENGTH_SHORT).show();
 
                         Calendar savedCalendar = alarm.getCalendar();
 
@@ -358,7 +381,6 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
                             alarmTimeInMillis = alarmTimeInMillis + (1000 * 60 * 60 * 24);
 
                         alarm.setAlarmTimeInMillis(alarmTimeInMillis);
-                        day.setText(timeToView.getNextTriggerDay(alarmTimeInMillis, alarm.getRepeatDays(), alarm.isRepeat()));
 
                         alarmCreator.setNewAlarm(ctx, alarmTimeInMillis, alarm.getId());
                         alarm.setStatus(true);

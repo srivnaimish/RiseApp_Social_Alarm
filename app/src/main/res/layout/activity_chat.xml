@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
                 android:background="@android:color/transparent"
                 android:hint="@string/note_hint"
@@ -141,13 +141,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/time_set"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_time" />
+                app:srcCompat="@drawable/ic_time"
+                android:tint="#9E9E9E"/>
 
             <ImageView
                 android:id="@+id/time_set"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_marginEnd="10dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="6dp"
                 app:layout_constraintEnd_toStartOf="@+id/date_pick"
                 app:layout_constraintTop_toTopOf="@+id/time_pick"
                 app:srcCompat="@drawable/ic_selected"
@@ -162,13 +163,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/date_set"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_calendar" />
+                app:srcCompat="@drawable/ic_calendar"
+                android:tint="#9E9E9E"/>
 
             <ImageView
                 android:id="@+id/date_set"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_marginEnd="12dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/date_pick"
                 app:srcCompat="@drawable/ic_selected"
@@ -187,7 +189,6 @@
             android:layout_marginStart="8dp"
             android:onClick="sendButton"
             android:scaleType="center"
-            app:backgroundTint="?android:textColorPrimary"
             app:elevation="0dp"
             app:fabSize="mini"
             app:srcCompat="@drawable/ic_send" />

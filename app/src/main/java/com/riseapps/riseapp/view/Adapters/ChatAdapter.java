@@ -85,7 +85,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
                 String sent_dateInString=sent_calendar.get(Calendar.DAY_OF_MONTH)+"-"+(sent_calendar.get(Calendar.MONTH)+1)+"-"+sent_calendar.get(Calendar.YEAR);
 
-                sentMessageViewHolder.note.setText(sent_note);
+                sentMessageViewHolder.note.setText(processNote(sent_note));
                 sentMessageViewHolder.time.setText(sent_timeInString);
                 sentMessageViewHolder.date.setText(sent_dateInString);
                 sentMessageViewHolder.chat_entity=sent_chat;
@@ -110,7 +110,9 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
                 String received_dateInString=received_calendar.get(Calendar.DAY_OF_MONTH)+"-"+(received_calendar.get(Calendar.MONTH)+1)+"-"+received_calendar.get(Calendar.YEAR);
 
-                receivedMessageViewHolder.note.setText(received_note);
+
+
+                receivedMessageViewHolder.note.setText(processNote(received_note));
                 receivedMessageViewHolder.time.setText(received_timeInString);
                 receivedMessageViewHolder.date.setText(received_dateInString);
                 receivedMessageViewHolder.chat_entity=received_chat;
@@ -179,5 +181,21 @@ public class ChatAdapter extends RecyclerView.Adapter {
         share.setType("text/plain");
         share.putExtra(Intent.EXTRA_TEXT, task);
         context.startActivity(Intent.createChooser(share, "Share Task via.."));
+    }
+
+    private String processNote(String note) {
+        String[] points=note.split("\\s*\\r?\\n\\s*");
+        if(points.length==1){
+            return note;
+        }else {
+            StringBuilder noteBuilder = new StringBuilder();
+            int i;
+            for(i=0;i<points.length-1;i++){
+                noteBuilder.append(i + 1).append(". ").append(points[i]).append("\n");
+            }
+            noteBuilder.append(i + 1).append(". ").append(points[i]);
+            note = noteBuilder.toString();
+        }
+        return note;
     }
 }

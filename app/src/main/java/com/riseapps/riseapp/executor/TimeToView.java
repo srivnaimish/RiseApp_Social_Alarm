@@ -34,12 +34,12 @@ public class TimeToView {
         return calendar.get(Calendar.DAY_OF_WEEK) - 1;
     }
 
-    public String getNextTriggerDay(long milliseconds, boolean[] repeatDays, boolean repeat) {
+    /*public String getNextTriggerDay(long milliseconds, boolean[] repeatDays, boolean repeat) {
         StringBuilder day = new StringBuilder();
         if (repeat) {
             for (int i = 0; i < 7; i++) {
                 if (repeatDays[i]) {
-                    day.append(" ").append(AppConstants.weekdays[i]);
+                    day.append(AppConstants.weekdays[i]).append(" ");
                 }
             }
         } else {
@@ -56,5 +56,5 @@ public class TimeToView {
                 return "Tomorrow";
         }
         return day.toString();
-    }
+    }*/
 }

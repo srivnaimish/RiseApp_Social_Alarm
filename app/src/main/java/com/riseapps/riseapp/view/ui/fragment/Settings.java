@@ -111,6 +111,8 @@ public class Settings extends Fragment implements View.OnClickListener {
                 .centerCrop()
                 .into(pic);*/
 
+       //TODO In APP Purchase
+
         return view;
     }
 

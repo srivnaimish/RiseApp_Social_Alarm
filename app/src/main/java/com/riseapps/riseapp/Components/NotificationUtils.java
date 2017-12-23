@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.view.ui.activity.ChatActivity;
 import com.riseapps.riseapp.view.ui.activity.MainActivity;
 
 import java.util.ArrayList;
@@ -77,14 +78,15 @@ public class NotificationUtils extends ContextWrapper {
         return mManager;
     }
 
-    public Notification.Builder getChannelNotification(String title, Bitmap largeIcon) {
-        Intent i = new Intent(this, MainActivity.class);
+    public Notification.Builder getChannelNotification(String name, Bitmap largeIcon,String number) {
+        Intent i = new Intent(this, ChatActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.putExtra("chat_id",number);
+        i.putExtra("contact_name",name);
         PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 2, i, PendingIntent.FLAG_ONE_SHOT);
         return new Notification.Builder(getApplicationContext())
                 .setContentIntent(resultPendingIntent)
-                .setContentTitle("You have new tasks")
-                .setContentText(title)
+                .setContentTitle(name+" sent you a task")
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(largeIcon)
                 .setAutoCancel(true)

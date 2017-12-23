@@ -49,7 +49,7 @@ public class AppConstants {
     public static final int SENT_MESSAGE=0;
     public static final int RECEIVED_MESSAGE =1;
 
-    public static final String[] weekdays = {"Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"};
+    //public static final String[] weekdays = {"Su","Mo", "Tu", "We", "Th", "Fr", "Sa"};
 
     public static final int[] daysButtons = {R.id.sun, R.id.mon, R.id.tue, R.id.wed, R.id.thu, R.id.fri, R.id.sat};
 

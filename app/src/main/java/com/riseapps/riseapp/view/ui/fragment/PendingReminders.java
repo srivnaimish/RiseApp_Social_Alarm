@@ -4,6 +4,7 @@ package com.riseapps.riseapp.view.ui.fragment;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -44,7 +45,10 @@ public class PendingReminders extends Fragment implements RemindersCallback{
         empty_state=view.findViewById(R.id.empty_state);
         recyclerView=view.findViewById(R.id.reminders);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                LinearLayoutManager.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        //TODO:Better performance
 
         ChatSync chatSync=new ChatSync(((MainActivity) getActivity()).getMyapp().getDatabase(),GET_PENDING_REMINDERS,this);
         chatSync.execute();

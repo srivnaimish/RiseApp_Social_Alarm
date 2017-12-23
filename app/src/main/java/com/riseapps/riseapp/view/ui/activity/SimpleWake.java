@@ -173,6 +173,7 @@ public class SimpleWake extends AppCompatActivity {
     }
 
     public void snoozeAlarm(View view) {
+        //TODO: REPAIR SNOOZE
         long time = System.currentTimeMillis() + (1000 * 60 * 5);
         alarmCreator.setNewAlarm(this, time, id);
         exitActivityWithCircular(view);

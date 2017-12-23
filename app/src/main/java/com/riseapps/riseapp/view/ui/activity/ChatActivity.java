@@ -12,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -67,6 +68,10 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
 
     private CoordinatorLayout chat_background;
     private SharedPreferenceSingelton sharedPreferenceSingelton=new SharedPreferenceSingelton();
+
+    /*static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +163,7 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                 //time.setText(new TimeToView().getTimeAsText(selectedHour, selectedMinute));
             }
         }, hour, minute, true);
-
+        mTimePicker.setTitle("Pick Task Time");
         mTimePicker.show();
     }
 
@@ -181,7 +186,7 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
         };
 
         DatePickerDialog dpDialog = new DatePickerDialog(ChatActivity.this, listener, year, month, day);
-
+        dpDialog.setTitle("Pick Task Date");
         dpDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         dpDialog.show();
 

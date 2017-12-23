@@ -32,6 +32,7 @@ import com.riseapps.riseapp.model.DB.MyDB;
 import com.riseapps.riseapp.model.MyApplication;
 import com.riseapps.riseapp.model.Pojo.ContactFetch;
 import com.riseapps.riseapp.Components.NotificationUtils;
+import com.riseapps.riseapp.view.ui.activity.ChatActivity;
 import com.riseapps.riseapp.view.ui.activity.MainActivity;
 
 import java.util.List;
@@ -95,9 +96,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             ContactFetch contactFetched= myDB.contactDao().getContact(phone);
             name=contactFetched.getContact_name();
         }
-        if(!appInForeGround()){
-            sendNotification(sender_no,name+" sent you a Reminder");
-        }
 
         Chat_Entity chat_entity = new Chat_Entity();
         chat_entity.setMessage_id((int) System.currentTimeMillis());
@@ -116,21 +114,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         chatSummary.setChat_last_message(note);
         myDB.chatDao().insertSummary(chatSummary);
 
+        if(!appInForeGround()){
+            sendNotification(sender_no,name,phone);
+        }
+
         new AlarmCreator().setNewReminder(this,time,chat_entity.getMessage_id(),name,note);
 
     }
 
-    private void sendNotification(int notification_id, String title) {
+    private void sendNotification(int notification_id, String name,String number) {
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
         if (Build.VERSION.SDK_INT >= 26) {
             NotificationUtils mNotificationUtils = new NotificationUtils(this,0);
             Notification.Builder nb = mNotificationUtils.
-                    getChannelNotification(title, largeIcon);
+                    getChannelNotification(name, largeIcon,number);
             mNotificationUtils.getManager().notify(notification_id, nb.build());
         } else {
 
-            Intent i = new Intent(this, MainActivity.class);
+            Intent i = new Intent(this, ChatActivity.class);
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            i.putExtra("chat_id",number);
+            i.putExtra("contact_name",name);
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this);
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 2, i, PendingIntent.FLAG_ONE_SHOT);
@@ -138,8 +142,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mBuilder.setPriority(Notification.PRIORITY_HIGH);
             mBuilder.setGroupSummary(true);
             mBuilder.setAutoCancel(true);
-            mBuilder.setContentTitle("You have new reminders");
-            mBuilder.setContentText(title);
+            mBuilder.setContentTitle(name+" sent you a task");
             mBuilder.setOngoing(false);
             mBuilder.setSound(defaultSoundUri);
             mBuilder.setSmallIcon(R.drawable.ic_notification);
