@@ -59,9 +59,13 @@ public class AlarmReciever extends BroadcastReceiver {
         } else {
 
             NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
-            bigText.bigText(details.get(1));
-            bigText.setBigContentTitle(details.get(0));
-            bigText.setSummaryText("See Utils");
+            bigText.bigText(details.get(0));
+            bigText.setBigContentTitle(details.get(1));
+            bigText.setSummaryText("Complete the Task");
+
+            Intent intent=new Intent(context,DoneReceiver.class);
+            intent.putExtra("Message_ID",details.get(2));
+            PendingIntent actionIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
 
             Intent i = new Intent(context, MainActivity.class);
             i.putExtra("Reminder Clicked",true);
@@ -74,13 +78,13 @@ public class AlarmReciever extends BroadcastReceiver {
             mBuilder.setGroupSummary(true);
             mBuilder.setAutoCancel(true);
             mBuilder.setContentTitle("Complete "+details.get(0)+"\'s task");
-            mBuilder.setContentText("Read the full Task");
             mBuilder.setOngoing(false);
             mBuilder.setSound(defaultSoundUri);
             mBuilder.setSmallIcon(R.drawable.ic_notification);
             mBuilder.setLargeIcon(largeIcon);
             mBuilder.setStyle(bigText);
             mBuilder.setVibrate(new long[]{80, 80});
+            mBuilder.addAction(R.drawable.fui_done_check_mark,"Task Done",actionIntent);
             NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             if (mNotificationManager != null) {

@@ -62,6 +62,7 @@ public class AlarmCreator {
 
         details.add(sender);
         details.add(note);
+        details.add(id+"");
 
         Intent intent = new Intent(context, AlarmReciever.class);
         intent.putExtra("Type",1);

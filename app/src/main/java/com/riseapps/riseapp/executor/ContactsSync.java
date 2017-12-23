@@ -36,13 +36,13 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
     private ContentResolver contentResolver;
     private ArrayList<Contact_Entity> riseappContacts;     //Fetch all feeds
     private ArrayList<ContactFetch> allContactsList;
-    private Utils utils =new Utils();
+    private Utils utils = new Utils();
 
     public ContactsSync(ContentResolver contentResolver, MyDB myDB) {
-        this.myDB=myDB;
-        this.contentResolver=contentResolver;
-        allContactsList=new ArrayList<>();
-        riseappContacts=new ArrayList<>();
+        this.myDB = myDB;
+        this.contentResolver = contentResolver;
+        allContactsList = new ArrayList<>();
+        riseappContacts = new ArrayList<>();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
                 ContactsContract.CommonDataKinds.Phone.NUMBER
         };
 
-        ArrayList<String> numberList=new ArrayList<>();
+        ArrayList<String> numberList = new ArrayList<>();
 
         Cursor data = contentResolver.query(CONTENT_URI, PROJECTION, null, null, sortOrder);
         while (data.moveToNext()) {
@@ -70,14 +70,14 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
             numberList.add(number);     //get number list to send to server for verification
         }
         data.close();
-
         myDB.contactDao().clearContacts();
 
-        getRiseAppContacts(numberList);
+        if (allContactsList.size() != 0)
+            getRiseAppContacts(numberList);
 
-        }
+    }
 
-    private void getRiseAppContacts(ArrayList<String> numberList){   //get RiseApp Contacts from Server
+    private void getRiseAppContacts(ArrayList<String> numberList) {   //get RiseApp Contacts from Server
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AppConstants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -85,25 +85,24 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
 
         RequestInterface requestInterface = retrofit.create(RequestInterface.class);
 
-        ContactRequest contactRequest=new ContactRequest();
+        ContactRequest contactRequest = new ContactRequest();
         contactRequest.setOperation(GET_CONTACTS);
         contactRequest.setPhones(numberList);
 
         Gson gson = new Gson();
         String json = gson.toJson(contactRequest);
-        Log.d("contacts",json);
         Call<ContactsResponse> response = requestInterface.contacts(contactRequest);
         response.enqueue(new Callback<ContactsResponse>() {
             @Override
             public void onResponse(Call<ContactsResponse> call, retrofit2.Response<ContactsResponse> response) {
                 ContactsResponse resp = response.body();
                 assert resp != null;
-                if(resp.getMessage().equalsIgnoreCase("Fetched")){
-                    String[] myContacts=resp.getResult();
-                    for(int i=0;i<myContacts.length;i++){
-                        if(myContacts[i]!=null && !myContacts[i].equalsIgnoreCase(" ")){
-                            String[] details=myContacts[i].split("\\s+");
-                            Contact_Entity contact_entity=new Contact_Entity(
+                if (resp.getMessage().equalsIgnoreCase("Fetched")) {
+                    String[] myContacts = resp.getResult();
+                    for (int i = 0; i < myContacts.length; i++) {
+                        if (myContacts[i] != null && !myContacts[i].equalsIgnoreCase(" ")) {
+                            String[] details = myContacts[i].split("\\s+");
+                            Contact_Entity contact_entity = new Contact_Entity(
                                     allContactsList.get(i).getContact_name(),
                                     details[0],
                                     false);
@@ -111,14 +110,14 @@ public class ContactsSync extends AsyncTask<Void, Void, Void> {
                             FirebaseMessaging.getInstance().subscribeToTopic(details[1]);
                         }
                     }
-                    if(ContactsSync.this.getStatus()==Status.FINISHED) {
+                    if (ContactsSync.this.getStatus() == Status.FINISHED) {
                         AsyncTask.execute(new Runnable() {
                             @Override
                             public void run() {
                                 myDB.contactDao().insertFeed(riseappContacts);
                             }
                         });
-                    }else {
+                    } else {
                         myDB.contactDao().insertFeed(riseappContacts);
                     }
                 }

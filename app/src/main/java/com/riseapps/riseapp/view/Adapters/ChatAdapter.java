@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.riseapps.riseapp.R;
@@ -111,6 +112,9 @@ public class ChatAdapter extends RecyclerView.Adapter {
                 String received_dateInString=received_calendar.get(Calendar.DAY_OF_MONTH)+"-"+(received_calendar.get(Calendar.MONTH)+1)+"-"+received_calendar.get(Calendar.YEAR);
 
 
+                if(received_chat.isRead()){
+                    receivedMessageViewHolder.done.setVisibility(View.VISIBLE);
+                }
 
                 receivedMessageViewHolder.note.setText(processNote(received_note));
                 receivedMessageViewHolder.time.setText(received_timeInString);
@@ -154,25 +158,33 @@ public class ChatAdapter extends RecyclerView.Adapter {
         }
     }
 
-    class ReceivedMessageViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener{
+    class ReceivedMessageViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
         private Chat_Entity chat_entity;
         private CardView cardView;
         private TextView note;
         private TextView time;
         private TextView date;
+        private ImageView done;
         public ReceivedMessageViewHolder(Context context, View itemView) {
             super(itemView);
             note=itemView.findViewById(R.id.note);
             time=itemView.findViewById(R.id.time);
             date=itemView.findViewById(R.id.date);
             cardView=itemView.findViewById(R.id.received_card);
+            done=itemView.findViewById(R.id.done);
             cardView.setOnLongClickListener(this);
+            done.setOnClickListener(this);
         }
 
         @Override
         public boolean onLongClick(View view) {
             shareTaskOnOther(chat_entity.getNote());
             return true;
+        }
+
+        @Override
+        public void onClick(View view) {
+            Toast.makeText(context, "This task is completed", Toast.LENGTH_SHORT).show();
         }
     }
 

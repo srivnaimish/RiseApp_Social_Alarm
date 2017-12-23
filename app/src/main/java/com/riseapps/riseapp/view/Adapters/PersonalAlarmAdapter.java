@@ -144,7 +144,7 @@ public class PersonalAlarmAdapter extends RecyclerView.Adapter {
             aSwitch.setOnCheckedChangeListener(this);
 
             bottom = v.findViewById(R.id.bottom);
-
+            days = v.findViewById(R.id.days);
             sound = v.findViewById(R.id.sound);
             vibrate = v.findViewById(R.id.vibrate);
             delete = v.findViewById(R.id.delete);

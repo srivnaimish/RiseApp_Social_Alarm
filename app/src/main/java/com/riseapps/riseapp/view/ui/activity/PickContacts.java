@@ -91,6 +91,7 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
                         loading_screen.setVisibility(View.VISIBLE);
                         ContactsSync contactsSync = new ContactsSync(getContentResolver(), getMyapp().getDatabase());
                         contactsSync.execute();
+                        empty_state.setVisibility(View.GONE);
                         Log.d("PickContact", "Syncing");
                     }else {
                         Snackbar.make(recyclerView,"Not connected to the internet",Snackbar.LENGTH_SHORT).show();
@@ -120,6 +121,8 @@ public class PickContacts extends AppCompatActivity implements ContactSelection,
             loading_screen.setVisibility(View.GONE);
             if (contact_entities.size()>0){
                 empty_state.setVisibility(View.GONE);
+            }else {
+                empty_state.setVisibility(View.VISIBLE);
             }
             selected_positions.clear();
             toolbar_title.setText("Select Contacts");
