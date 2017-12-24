@@ -94,7 +94,7 @@
             android:layout_height="match_parent"
             android:layout_above="@id/card"
             android:layout_below="@id/view"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:layoutAnimation="@anim/layout_animation_from_bottom" />
 
 

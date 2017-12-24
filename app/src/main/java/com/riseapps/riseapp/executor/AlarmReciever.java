@@ -12,6 +12,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.riseapps.riseapp.Components.NotificationUtils;
 import com.riseapps.riseapp.R;
@@ -20,6 +21,8 @@ import com.riseapps.riseapp.view.ui.activity.MathWake;
 import com.riseapps.riseapp.view.ui.activity.SimpleWake;
 
 import java.util.ArrayList;
+
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
 /**
  * Created by naimish on 2/11/17.
@@ -59,13 +62,13 @@ public class AlarmReciever extends BroadcastReceiver {
         } else {
 
             NotificationCompat.BigTextStyle bigText = new NotificationCompat.BigTextStyle();
-            bigText.bigText(details.get(0));
-            bigText.setBigContentTitle(details.get(1));
+            bigText.bigText(details.get(1));
+            bigText.setBigContentTitle(details.get(0));
             bigText.setSummaryText("Complete the Task");
 
             Intent intent=new Intent(context,DoneReceiver.class);
             intent.putExtra("Message_ID",details.get(2));
-            PendingIntent actionIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), intent, 0);
+            PendingIntent actionIntent = PendingIntent.getBroadcast(context, Integer.parseInt(details.get(2)), intent, FLAG_UPDATE_CURRENT);
 
             Intent i = new Intent(context, MainActivity.class);
             i.putExtra("Reminder Clicked",true);
@@ -84,11 +87,11 @@ public class AlarmReciever extends BroadcastReceiver {
             mBuilder.setLargeIcon(largeIcon);
             mBuilder.setStyle(bigText);
             mBuilder.setVibrate(new long[]{80, 80});
-            mBuilder.addAction(R.drawable.fui_done_check_mark,"Task Done",actionIntent);
+            mBuilder.addAction(R.drawable.ic_done,"Completed",actionIntent);
             NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             if (mNotificationManager != null) {
-                mNotificationManager.notify(0, mBuilder.build());
+                mNotificationManager.notify(Integer.parseInt(details.get(2)), mBuilder.build());
             }
         }
     }

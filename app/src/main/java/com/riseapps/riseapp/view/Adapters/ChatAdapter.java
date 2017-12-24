@@ -1,7 +1,11 @@
 package com.riseapps.riseapp.view.Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,10 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.executor.AlarmCreator;
 import com.riseapps.riseapp.executor.TimeToView;
 import com.riseapps.riseapp.model.DB.Chat_Entity;
+import com.riseapps.riseapp.model.MyApplication;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -135,7 +140,11 @@ public class ChatAdapter extends RecyclerView.Adapter {
         notifyDataSetChanged();
     }
 
-    class SentMessageViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener {
+    public ArrayList<Chat_Entity> getItems(){
+        return chatList;
+    }
+
+    class SentMessageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Chat_Entity chat_entity;
         private CardView cardView;
         private TextView note;
@@ -148,19 +157,18 @@ public class ChatAdapter extends RecyclerView.Adapter {
             time=itemView.findViewById(R.id.time);
             date=itemView.findViewById(R.id.date);
             cardView=itemView.findViewById(R.id.sent_card);
-            cardView.setOnLongClickListener(this);
+            cardView.setOnClickListener(this);
         }
 
         @Override
-        public boolean onLongClick(View view) {
+        public void onClick(View view) {
             shareTaskOnOther(chat_entity.getNote());
-            return true;
         }
     }
 
     class ReceivedMessageViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener {
         private Chat_Entity chat_entity;
-        private CardView cardView;
+        private ConstraintLayout constraintLayout;
         private TextView note;
         private TextView time;
         private TextView date;
@@ -170,22 +178,52 @@ public class ChatAdapter extends RecyclerView.Adapter {
             note=itemView.findViewById(R.id.note);
             time=itemView.findViewById(R.id.time);
             date=itemView.findViewById(R.id.date);
-            cardView=itemView.findViewById(R.id.received_card);
+            constraintLayout=itemView.findViewById(R.id.received_card);
             done=itemView.findViewById(R.id.done);
-            cardView.setOnLongClickListener(this);
             done.setOnClickListener(this);
+            constraintLayout.setOnClickListener(this);
+            constraintLayout.setOnLongClickListener(this);
         }
 
         @Override
         public boolean onLongClick(View view) {
-            shareTaskOnOther(chat_entity.getNote());
+            final AlertDialog.Builder alert = new AlertDialog.Builder(context);
+            alert.setMessage("This action will delete the reminder for this task");
+            alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                    new AlarmCreator().setAlarmOff(context,chat_entity.getMessage_id());
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((MyApplication)context.getApplicationContext()).getDatabase().chatDao().deleteChatTask(chat_entity.getMessage_id());
+                        }
+                    });
+                    deleteItem(getAdapterPosition());
+                }
+            });
+            alert.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            alert.show();
             return true;
         }
 
         @Override
         public void onClick(View view) {
+            if(view.getId()==R.id.done)
             Toast.makeText(context, "This task is completed", Toast.LENGTH_SHORT).show();
+            else
+                shareTaskOnOther(chat_entity.getNote());
         }
+    }
+
+    private void deleteItem(int adapterPosition) {
+        chatList.remove(adapterPosition);
+        notifyDataSetChanged();
     }
 
     public void shareTaskOnOther(String task){

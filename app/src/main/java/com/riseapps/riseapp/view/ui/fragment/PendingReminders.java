@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.ChatSync;
@@ -79,7 +78,7 @@ public class PendingReminders extends Fragment implements RemindersCallback{
     @Override
     public void onPendingFetch(ArrayList<Chat_Entity> pendingList) {
         if(pendingList.size()>0) {
-            reminderAdapter=new ReminderAdapter(getContext(),pendingList);
+            reminderAdapter=new ReminderAdapter(getContext(),pendingList,empty_state);
             recyclerView.setAdapter(reminderAdapter);
             empty_state.setVisibility(View.GONE);
         }else {
@@ -90,7 +89,7 @@ public class PendingReminders extends Fragment implements RemindersCallback{
     @Override
     public void onTodaysFetch(ArrayList<Chat_Entity> todaysList) {
         if(todaysList.size()>0) {
-            reminderAdapter=new ReminderAdapter(getContext(),todaysList);
+            reminderAdapter=new ReminderAdapter(getContext(),todaysList, empty_state);
             recyclerView.setAdapter(reminderAdapter);
             empty_state.setVisibility(View.GONE);
         }else {

@@ -5,10 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.riseapps.riseapp.R;
 import com.riseapps.riseapp.executor.ChatSync;
@@ -19,7 +19,6 @@ import com.riseapps.riseapp.model.MyApplication;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import static com.riseapps.riseapp.Components.AppConstants.UPDATE_PENDING;
 
@@ -33,11 +32,13 @@ public class ReminderAdapter extends RecyclerView.Adapter {
     private Context context;
     private TimeToView timeToView=new TimeToView();
     private Utils utils =new Utils();
+    private LinearLayout empty_state;
 
 
-    public ReminderAdapter(Context context, ArrayList<Chat_Entity> reminderList){
+    public ReminderAdapter(Context context, ArrayList<Chat_Entity> reminderList, LinearLayout empty_state){
         this.context=context;
         this.reminderList=reminderList;
+        this.empty_state=empty_state;
     }
 
     @Override
@@ -78,18 +79,15 @@ public class ReminderAdapter extends RecyclerView.Adapter {
 
     public void deleteItem(int position){
         reminderList.remove(position);
-        notifyDataSetChanged();
+        notifyItemRemoved(position);
+        if (reminderList.size()==0){
+            empty_state.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public int getItemCount() {
         return reminderList.size();
-    }
-
-    public void addItems(List<Chat_Entity> reminderList) {
-        this.reminderList = (ArrayList<Chat_Entity>) reminderList;
-        Toast.makeText(context, ""+reminderList.size(), Toast.LENGTH_SHORT).show();
-        notifyDataSetChanged();
     }
 
     class ReminderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -101,7 +99,7 @@ public class ReminderAdapter extends RecyclerView.Adapter {
         private TextView note;
         private TextView time;
         private TextView date;
-        private Button done;
+        private ImageButton done;
 
         public ReminderViewHolder(Context context, View itemView) {
             super(itemView);
@@ -121,6 +119,7 @@ public class ReminderAdapter extends RecyclerView.Adapter {
         public void onClick(View view) {
             ChatSync chatSync=new ChatSync(chat_entity.getMessage_id(),((MyApplication)context.getApplicationContext()).getDatabase(),UPDATE_PENDING);
             chatSync.execute();
+            done.setImageResource(R.drawable.ic_selected);
             deleteItem(getAdapterPosition());
         }
     }

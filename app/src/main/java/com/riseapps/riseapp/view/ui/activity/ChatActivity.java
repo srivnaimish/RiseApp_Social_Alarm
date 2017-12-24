@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.riseapps.riseapp.Components.AppConstants;
 import com.riseapps.riseapp.R;
+import com.riseapps.riseapp.executor.AlarmCreator;
 import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.viewModel.ChatViewModel;
 import com.riseapps.riseapp.view.Adapters.ChatAdapter;
@@ -47,6 +48,7 @@ import java.util.List;
 
 import static com.riseapps.riseapp.Components.AppConstants.CLEAR_CHAT;
 import static com.riseapps.riseapp.Components.AppConstants.INSERT_NEW_CHAT;
+import static com.riseapps.riseapp.Components.AppConstants.RECEIVED_MESSAGE;
 import static com.riseapps.riseapp.Components.AppConstants.SENT_MESSAGE;
 
 public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuItemClickListener{
@@ -222,6 +224,11 @@ public class ChatActivity extends AppCompatActivity implements Toolbar.OnMenuIte
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
             case R.id.clear:
+                for (Chat_Entity chat_entity:chatAdapter.getItems()){
+                    if(chat_entity.getSent_or_recieved()==RECEIVED_MESSAGE && !chat_entity.isRead()){
+                        new AlarmCreator().setAlarmOff(ChatActivity.this,chat_entity.getMessage_id());
+                    }
+                }
                 ChatSync chatSync=new ChatSync(chat_id,((MyApplication)getApplicationContext()).getDatabase(),CLEAR_CHAT);
                 chatSync.execute();
                 break;

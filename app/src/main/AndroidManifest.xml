@@ -56,10 +56,7 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".executor.DoneReceiver"
-            android:enabled="false"
-            android:exported="false"></receiver>
+        <receiver android:name=".executor.DoneReceiver"/>
     </application>
 
 </manifest>

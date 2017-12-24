@@ -19,13 +19,13 @@ import retrofit2.http.Part;
  */
 
 public interface RequestInterface {
-    @POST("/index.php")
+    @POST("/RiseApp/index.php")
     Call<ServerResponse> operation(@Body LoginRequest request);
 
-    @POST("/index.php")
+    @POST("/RiseApp/index.php")
     Call<ServerResponse> chat(@Body MessageRequest request);
 
-    @POST("/index.php")
+    @POST("/RiseApp/index.php")
     Call<ContactsResponse> contacts(@Body ContactRequest request);
 
     @Multipart
