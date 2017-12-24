@@ -33,8 +33,8 @@
 
                 <ImageView
                     android:id="@+id/setting_method_image"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="16dp"
                     app:srcCompat="@drawable/ic_swipe" />
@@ -49,6 +49,61 @@
                     android:fontFamily="@font/regular"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="15sp" />
+
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/setting_volume"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginTop="1dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackgroundBorderless"
+            card_view:cardCornerRadius="2dp"
+            card_view:cardElevation="0dp"
+            card_view:cardBackgroundColor="?android:colorBackground">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/setting_volume_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="16dp"
+                    app:srcCompat="@drawable/ic_music"
+                    android:textSize="15sp"
+                    android:layout_centerVertical="true"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toEndOf="@id/setting_volume_image"
+                    android:orientation="vertical"
+                    android:layout_centerVertical="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Alarm Volume : 7"
+                        android:textColor="?android:textColorPrimary"/>
+                    <android.support.v7.widget.AppCompatSeekBar
+                        style="@style/Widget.AppCompat.SeekBar.Discrete"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max="7"
+                        android:text="@string/support_developement"
+                        android:layout_marginTop="8dp"/>
+                </LinearLayout>
 
 
             </RelativeLayout>
@@ -74,8 +129,8 @@
 
                 <ImageView
                     android:id="@+id/setting_support_image"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="16dp"
                     app:srcCompat="@drawable/ic_make_a_donation" />
@@ -135,6 +190,45 @@
              </RelativeLayout>
 
          </android.support.v7.widget.CardView>-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/setting_privacy"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginTop="1dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?selectableItemBackgroundBorderless"
+            card_view:cardCornerRadius="2dp"
+            card_view:cardElevation="0dp"
+            card_view:cardBackgroundColor="?android:colorBackground">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:id="@+id/setting_privacy_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="16dp"
+                    app:srcCompat="@drawable/ic_pages" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/privacy_policy"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="15sp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="24dp"
+                    android:fontFamily="@font/regular"
+                    android:layout_toEndOf="@id/setting_privacy_image" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/setting_rate"
@@ -155,8 +249,8 @@
 
                 <ImageView
                     android:id="@+id/setting_rate_image"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="16dp"
                     app:srcCompat="@drawable/ic_star" />
@@ -195,8 +289,8 @@
 
                 <ImageView
                     android:id="@+id/setting_share_image"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="16dp"
                     app:srcCompat="@drawable/ic_invite" />

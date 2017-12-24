@@ -56,6 +56,7 @@
     <!--Settings -->
     <string name="select_wake_method">Select wake method</string>
     <string name="support_developement">Support Development</string>
+    <string name="privacy_policy">Privacy Policy</string>
     <string name="rate_with_5_stars">Rate with 5 stars</string>
     <string name="invite_your_friends">Invite your friends</string>
 
@@ -95,6 +96,7 @@
     <string name="how_to_wake_you">How to wake you?</string>
     <string name="chat">Chat</string>
     <string name="alarms">Alarms</string>
+
 
 
 </resources>

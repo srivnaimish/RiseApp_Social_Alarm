@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,10 @@ import com.riseapps.riseapp.executor.Utils;
 import com.riseapps.riseapp.model.Pojo.Server.ServerResponse;
 import com.riseapps.riseapp.view.ui.activity.MainActivity;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -61,7 +65,7 @@ public class Settings extends Fragment implements View.OnClickListener {
     TextView name,initials, phone;
     FirebaseUser firebaseUser;
     //Switch theme_switch;
-    CardView method_card, rate, share;
+    CardView method_card, rate, share,privacy_policy;
     //RelativeLayout loading;
     //ImageButton edit_pic;
 
@@ -81,11 +85,13 @@ public class Settings extends Fragment implements View.OnClickListener {
         rate = view.findViewById(R.id.setting_rate);
         //theme_switch = view.findViewById(R.id.setting_theme_switch);
         //theme = view.findViewById(R.id.setting_theme);
+        privacy_policy=view.findViewById(R.id.setting_privacy);
         method_card = view.findViewById(R.id.setting_alarm_method);
         //edit_pic = view.findViewById(R.id.edit_pic);
         //loading=view.findViewById(R.id.loading_pic);
 
         method_card.setOnClickListener(this);
+        privacy_policy.setOnClickListener(this);
         //edit_pic.setOnClickListener(this);
         share.setOnClickListener(this);
         rate.setOnClickListener(this);
@@ -154,6 +160,14 @@ public class Settings extends Fragment implements View.OnClickListener {
 
                 break;
 
+            case R.id.setting_privacy:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(AppConstants.POLICY_URL));
+                startActivity(browserIntent);
+                break;
+
+            case R.id.setting_support:
+                break;
+
             case R.id.setting_rate:
                 break;
             case R.id.setting_share:
@@ -174,6 +188,7 @@ public class Settings extends Fragment implements View.OnClickListener {
 
         }
     }
+
 /*
     public void checkPermission() {
         int currentAPIVersion = Build.VERSION.SDK_INT;
