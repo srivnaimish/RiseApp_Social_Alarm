@@ -60,8 +60,8 @@ public class AppConstants {
     public static final String GET_CONTACTS = "GET_CONTACTS";
 
     /*public static final String BASE_URL = "http://riseapp.000webhostapp.com/";*/
-    public static final String BASE_URL = "http://192.168.29.153/";
-    public static final String POLICY_URL = "";
+    public static final String BASE_URL = "https://riseapps.xyz/";
+    public static final String POLICY_URL = "https://riseapps.xyz/privacy.html";
 
     public void sendReminderToSingleUser(String sender, String Recipient, long Time, String Note) {
         Retrofit retrofit = new Retrofit.Builder()

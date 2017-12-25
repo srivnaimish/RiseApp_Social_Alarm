@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/lobster"
+        android:text="@string/app_name"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="32sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Thanks for using RiseApp.Hope you are able to get the best out of it. "
+        android:textColor="?android:textColorPrimary"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/support"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/support_developement"
+        android:textAllCaps="false"
+        android:padding="24dp"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+
+
+</LinearLayout>

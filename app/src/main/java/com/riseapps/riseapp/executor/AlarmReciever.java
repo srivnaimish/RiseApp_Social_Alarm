@@ -87,7 +87,7 @@ public class AlarmReciever extends BroadcastReceiver {
             mBuilder.setLargeIcon(largeIcon);
             mBuilder.setStyle(bigText);
             mBuilder.setVibrate(new long[]{80, 80});
-            mBuilder.addAction(R.drawable.ic_done,"Completed",actionIntent);
+            mBuilder.addAction(R.drawable.ic_notification,"Completed",actionIntent);
             NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
             if (mNotificationManager != null) {

@@ -3,7 +3,6 @@ package com.riseapps.riseapp.model;
 import android.arch.persistence.room.Room;
 import android.support.multidex.MultiDexApplication;
 
-import com.bumptech.glide.Glide;
 import com.riseapps.riseapp.executor.SharedPreferenceSingelton;
 import com.riseapps.riseapp.model.DB.MyDB;
 
@@ -34,7 +33,4 @@ public class MyApplication extends MultiDexApplication {
         this.UID = UID;
     }
 
-    public void clearMemory(){
-        Glide.get(this).getBitmapPool();
-    }
 }
